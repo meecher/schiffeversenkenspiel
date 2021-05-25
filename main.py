@@ -1,5 +1,6 @@
 from cursebox import *
 with Cursebox() as cb:
+#testwindow
     width, height = cb.width, cb.height
     greeting = "Hello, World!"
     # Center text on the screen
