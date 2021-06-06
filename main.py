@@ -1,8 +1,9 @@
 ''' The game Schiffeversenken. '''
 
-import cursebox as cb
-import random
-import time
+import random, time
+from cursebox import *
+from cursebox.constants import EVENT_BACKSPACE, EVENT_ENTER
+
 
 __author__ = "1359831, Ruschmaritsch, 1357985, Ullmann"
 __credits__ = ""
@@ -14,40 +15,34 @@ def options():
 def init_game(playerdefine):
     print("hi")
 
-def clear_screen():
-    ''' clean the terminal output
-    source: https://stackoverflow.com/questions/2084508/clear-terminal-in-python '''
-    print(chr(27) + "[2J" + chr(27)+"[H")
+def beginn_screen(width, height):
+    with Cursebox() as cb:  
+        comp = "Computer"
+        mp = "2 Spieler"
+        cb.put(x=(width - len(comp)) / 2,
+            y=height / 2, text=comp,
+            fg=colors.black, bg=colors.white)
+        cb.put(x=(width - len(mp)) / 2,
+            y=height / 2, text=mp,
+            fg=colors.black, bg=colors.white)
 
-def main():
+def main(): 
     ''' Starts the game '''
-    #testwindow
-    #width, height = cb.width, cb.height
-    #greeting = "Hello, World!"
-    # Center text on the screen
-    #cb.put(x=(width - len(greeting)) / 2,
-    #y=height / 2, text=greeting,
-    #fg=colors.black, bg=colors.white)
-    # Wait for any keypress
-    #cb.poll_event()
-
-    #Oldcode
-    num = 0
-    playerdefine = ""
-    s = ""
-    while s != "S":
-        s = input(" (S)tart \n (O)ptions \n").upper()
-        if s == 'O':
-            options()
-    playerdefine = input("(Z)weispieler oder (A)lleine?: ")
-    # Checks if the input of the player is above 1 otherwise the game doesn't start.
-    if(playerdefine > 1):
-        init_game(playerdefine)
-    # Repeats the rounds until there is only one player left which then wins.
+    with Cursebox() as cb:  
+        width, height = cb.width, cb.height
+        greeting = "Schiffeversenken"
+        # Center text on the screen
+        cb.put(x=(width - len(greeting)) / 2,
+            y=height / 2, text=greeting,
+            fg=colors.black, bg=colors.white)
+        # Wait for any keypress
+        event = cb.poll_event()
+        if event == EVENT_ENTER:
+            cb.clear()
+            beginn_screen(width, height)
     
 
 
 if __name__ == "__main__":
     main()
     input()
-
