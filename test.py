@@ -8,3 +8,5 @@ with Cursebox() as cb:
             fg=colors.black, bg=colors.white)
      # Wait for any keypress
      cb.poll_event()
+
+
