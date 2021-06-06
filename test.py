@@ -7,6 +7,8 @@ with Cursebox() as cb:
             y=height / 2, text=greeting,
             fg=colors.black, bg=colors.white)
      # Wait for any keypress
-     cb.poll_event()
+     x = cb.poll_event()
+
+print(x)
 
 

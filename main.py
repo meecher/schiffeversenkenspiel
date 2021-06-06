@@ -1,6 +1,7 @@
 ''' The game Schiffeversenken. '''
 
 import random, time
+import keyboard
 from cursebox import *
 from cursebox.constants import EVENT_BACKSPACE, EVENT_DOWN, EVENT_ENTER, EVENT_ESC, EVENT_LEFT, EVENT_RIGHT, EVENT_UP
 
@@ -32,36 +33,28 @@ def beginn_screen(width, height):
         x = 1
         cb.clear()
         cb.put(x=(width - len(comp)) / 2 + 10,
-        y=height / 2, text=comp, fg=colors.black, bg=colors.white)
+        y=height / 2, text=comp, fg=colors.white, bg=colors.black)
         cb.put(x=(width - len(mp)) / 2 - 10,
         y=height / 2, text=mp, fg=colors.black, bg=colors.white)
     
         cb.refresh()
 
         while x > 0:
-            event = cb.poll_event()
-            if event == EVENT_BACKSPACE:
+            if keyboard.is_pressed('n'):
+                cb.clear()
+                cb.put(x=(width - len(comp)) / 2 + 10,
+                y=height / 2, text=comp, fg=colors.white, bg=colors.black)
+                cb.put(x=(width - len(mp)) / 2 - 10,
+                y=height / 2, text=mp, fg=colors.black, bg=colors.white)
+                cb.refresh()
+            elif keyboard.is_pressed('m'):
                 cb.clear()
                 cb.put(x=(width - len(comp)) / 2 + 10,
                 y=height / 2, text=comp, fg=colors.black, bg=colors.white)
                 cb.put(x=(width - len(mp)) / 2 - 10,
-                y=height / 2, text=mp, fg=colors.black, bg=colors.black)
+                y=height / 2, text=mp, fg=colors.white, bg=colors.black)
                 cb.refresh()
-            elif event == EVENT_LEFT:
-                cb.clear()
-                cb.put(x=(width - len(comp)) / 2 + 10,
-                y=height / 2, text=comp, fg=colors.black, bg=colors.black)
-                cb.put(x=(width - len(mp)) / 2 - 10,
-                y=height / 2, text=mp, fg=colors.black, bg=colors.white)
-                cb.refresh()
-            #if event == EVENT_UP:
-            #    y+1
-            #if event == EVENT_DOWN:
-            #    y-1
-            #if event == EVENT_ENTER:
-                #break
-
-
+          
 def main(): 
     ''' Starts the game '''
     with Cursebox() as cb:  
