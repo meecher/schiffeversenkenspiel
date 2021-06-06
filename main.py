@@ -30,30 +30,35 @@ def beginn_screen(width, height):
     with Cursebox() as cb:  
         comp = "Computer"
         mp = "2 Spieler"
-        x = 1
+        currselction = ""
         cb.clear()
         cb.put(x=(width - len(comp)) / 2 + 10,
         y=height / 2, text=comp, fg=colors.white, bg=colors.black)
         cb.put(x=(width - len(mp)) / 2 - 10,
         y=height / 2, text=mp, fg=colors.black, bg=colors.white)
-    
         cb.refresh()
 
-        while x > 0:
-            if keyboard.is_pressed('n'):
+        while True:
+        #Highlights current selected item
+            if keyboard.is_pressed('left arrow') or keyboard.is_pressed('a'):
+            #Left side highlight
                 cb.clear()
+                currselction = "left"
                 cb.put(x=(width - len(comp)) / 2 + 10,
                 y=height / 2, text=comp, fg=colors.white, bg=colors.black)
                 cb.put(x=(width - len(mp)) / 2 - 10,
                 y=height / 2, text=mp, fg=colors.black, bg=colors.white)
                 cb.refresh()
-            elif keyboard.is_pressed('m'):
+            elif keyboard.is_pressed('right arrow') or keyboard.is_pressed('d'):
+            #Right side highlight
                 cb.clear()
+                currselction = "right"
                 cb.put(x=(width - len(comp)) / 2 + 10,
                 y=height / 2, text=comp, fg=colors.black, bg=colors.white)
                 cb.put(x=(width - len(mp)) / 2 - 10,
                 y=height / 2, text=mp, fg=colors.white, bg=colors.black)
                 cb.refresh()
+                
           
 def main(): 
     ''' Starts the game '''
