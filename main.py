@@ -33,7 +33,44 @@ def beginn_screen(stdscr):
     while True:
     #Highlights current selected item
         curinput = stdscr.get_wch()
-        if curinput == 'a' or curinput == curses.KEY_LEFT:    
+        if curinput == curses.KEY_MOUSE:
+            _, x, y, _, bstate = curses.getmouse()
+            if bstate & curses.BUTTON1_PRESSED:
+                pressed = True
+            elif bstate & curses.BUTTON1_RELEASED:
+                pressed = False
+        if curinput == curses.KEY_MOUSE:
+            _, x, y, _, _ = curses.getmouse()            
+            if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(comp) // 2 + 10),(curses.COLS // 2 - len(comp) // 2 + 10)+8):
+                stdscr.erase()
+                stdscr.refresh()
+                stdscr.addstr(curses.LINES // 2,
+                curses.COLS // 2 - len(comp) // 2 + 10,
+                comp, curses.A_BLINK)
+                stdscr.addstr(curses.LINES // 2,
+                curses.COLS // 2 - len(mp) // 2 - 10,
+                mp, curses.A_REVERSE) 
+                stdscr.refresh()
+                currselction = "comp"
+                stdscr.erase()
+                stdscr.refresh()
+                init_game(stdscr, currselction)
+            elif y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(mp) // 2 - 10),(curses.COLS // 2 - len(mp) // 2 - 10)+8):
+                stdscr.erase()
+                stdscr.refresh()
+                stdscr.addstr(curses.LINES // 2,
+                curses.COLS // 2 - len(comp) // 2 + 10,
+                comp, curses.A_REVERSE)
+                stdscr.addstr(curses.LINES // 2,
+                curses.COLS // 2 - len(mp) // 2 - 10,
+                mp, curses.A_BLINK) 
+                stdscr.refresh()
+                currselction = "mp"
+                stdscr.erase()
+                stdscr.refresh()
+                init_game(stdscr, currselction)    
+
+        elif curinput == 'a' or curinput == curses.KEY_LEFT or curinput == curses.getmouse():    
         #Left side highlight (mulitplayer)
             stdscr.erase()
             stdscr.refresh()
@@ -72,13 +109,19 @@ def c_main(stdscr):
 
     pressed = False
     x, y = 0, 0
-    while True: 
 
+    while True: 
         stdscr.addstr(curses.LINES // 2,
         curses.COLS // 2 - len(beginning) // 2,
         beginning, curses.A_REVERSE)
+
         if pressed:
-            stdscr.addstr(y,x, "x")
+            if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(beginning) // 2 + 10)-10,(curses.COLS // 2 - len(beginning) // 2 + 10)+7): 
+                stdscr.erase()
+                stdscr.refresh()
+                beginn_screen(stdscr)
+            #places x at mouse pos
+            #stdscr.addstr(y,x, "x")
 
         c = stdscr.get_wch()
         if c == 'q':
@@ -93,7 +136,6 @@ def c_main(stdscr):
                 pressed = True
             elif bstate & curses.BUTTON1_RELEASED:
                 pressed = False
-            #stdscr.addstr(1, 0, 'mouse')
         else:  
             raise AssertionError(c)
  
