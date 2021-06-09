@@ -95,7 +95,13 @@ def beginn_screen(stdscr):
             init_game(stdscr, currselction) 
 
         if curinput == curses.KEY_MOUSE:
-            x,y,bstate = mouse_state()
+            #x,y,bstate = mouse_state()
+            _, x, y, _, bstate = curses.getmouse()
+            if bstate & curses.BUTTON1_PRESSED:
+                pressed = True
+            elif bstate & curses.BUTTON1_RELEASED:
+                pressed = False
+            return x, y, bstate
 
 def mouse_state():
     _, x, y, _, bstate = curses.getmouse()
