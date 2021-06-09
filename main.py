@@ -1,7 +1,6 @@
 ''' The game Schiffeversenken. '''
 
 import random, time
-#import keyboard
 import curses
 
 __author__ = "1359831, Ruschmaritsch, 1357985, Ullmann"
@@ -38,9 +37,8 @@ def beginn_screen(stdscr):
     stdscr.refresh()
 
     while True:
-    #Highlights current selected item
+    # Highlights current selected item
         curinput = stdscr.get_wch()            
-
         if curinput == 'a' or curinput == curses.KEY_LEFT or pressed:    
         # Left side highlight (mulitplayer)
             if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(comp) // 2 + 10),(curses.COLS // 2 - len(comp) // 2 + 10)+8):
@@ -66,7 +64,7 @@ def beginn_screen(stdscr):
                     init_game(stdscr, currselction)
 
         elif curinput == 'd' or curinput == curses.KEY_RIGHT or pressed:
-        #Right side highlight (computer)
+        # Right side highlight (computer)
             if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(mp) // 2 - 10),(curses.COLS // 2 - len(mp) // 2 - 10)+8):
             # Checks if mouse coordinates align with the right button
                 check_press = True
@@ -90,18 +88,13 @@ def beginn_screen(stdscr):
                     init_game(stdscr, currselction) 
             
         elif curinput == '\n':    
-        #Enter for selection; starts new function with selected gamemode
+        # Enter for selection; starts new function with selected gamemode
             stdscr.erase()
             stdscr.refresh()
             init_game(stdscr, currselction) 
 
         if curinput == curses.KEY_MOUSE:
             x,y,bstate = mouse_press()
-            # _, x, y, _, bstate = curses.getmouse()
-            # if bstate & curses.BUTTON1_PRESSED:
-            #     pressed = True
-            # elif bstate & curses.BUTTON1_RELEASED:
-            #     pressed = False
 
 def mouse_press():
     _, x, y, _, bstate = curses.getmouse()
@@ -132,8 +125,6 @@ def c_main(stdscr):
                 stdscr.erase()
                 stdscr.refresh()
                 beginn_screen(stdscr)
-            #places x at mouse pos
-            #stdscr.addstr(y,x, "x")
 
         curinput = stdscr.get_wch()
         if curinput == 'q':
