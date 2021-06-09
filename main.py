@@ -16,12 +16,13 @@ def init_game(stdscr, mode):
     mode, curses.A_BLINK)
     stdscr.refresh()
     curinput = stdscr.get_wch() 
-    time.sleep(10)
 
 
 def beginn_screen(stdscr): 
     ''' Let's the player select the game mode '''
     stdscr.keypad(1)
+    curses.mousemask(-1)
+    
     comp = "Computer"
     mp = "2 Spieler"
     currselction = "mp"
@@ -29,25 +30,26 @@ def beginn_screen(stdscr):
     check_press = False
     mouse_press = False
     x, y = 0, 0
-    stdscr.addstr(curses.LINES // 2,
-    curses.COLS // 2 - len(comp) // 2 + 10,
-    comp, curses.A_BLINK)
+
     stdscr.addstr(curses.LINES // 2,
     curses.COLS // 2 - len(mp) // 2 - 10,
     mp, curses.A_REVERSE) 
+    stdscr.addstr(curses.LINES // 2,
+    curses.COLS // 2 - len(comp) // 2 + 10,
+    comp, curses.A_BLINK)
     stdscr.refresh()
 
     while True:
     # Highlights current selected item
-        curinput = stdscr.get_wch()            
+        curinput = stdscr.get_wch()          
         if curinput == 'a' or curinput == curses.KEY_LEFT or pressed:    
         # Left side highlight (mulitplayer)
-            if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(comp) // 2 + 10),(curses.COLS // 2 - len(comp) // 2 + 10)+8):
+            if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(comp) // 2 + 10),(curses.COLS // 2 - len(comp) // 2 - 10)+8):
             # Checks if mouse coordinates align with the left button
                 check_press = True
                 mouse_press = True   
             elif curinput == 'a' or curinput == curses.KEY_LEFT:
-                check_press = True   
+                check_press = True  
             if check_press == True:
                 stdscr.erase()
                 stdscr.refresh()
@@ -59,14 +61,15 @@ def beginn_screen(stdscr):
                 mp, curses.A_REVERSE) 
                 stdscr.refresh()
                 currselction = "mp"
-                if mouse_press == True:
+                if mouse_press == True:       
                     stdscr.erase()
                     stdscr.refresh()
                     init_game(stdscr, currselction)
 
+
         elif curinput == 'd' or curinput == curses.KEY_RIGHT or pressed:
         # Right side highlight (computer)
-            if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(mp) // 2 - 10),(curses.COLS // 2 - len(mp) // 2 - 10)+8):
+            if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(mp) // 2 - 10),(curses.COLS // 2 - len(mp) // 2 + 10)+8):
             # Checks if mouse coordinates align with the right button
                 check_press = True
                 mouse_press = True 
@@ -101,14 +104,13 @@ def beginn_screen(stdscr):
                 pressed = True
             elif bstate & curses.BUTTON1_RELEASED:
                 pressed = False
-            return x, y, bstate
 
 def mouse_state():
     _, x, y, _, bstate = curses.getmouse()
     if bstate & curses.BUTTON1_PRESSED:
         pressed = True
     elif bstate & curses.BUTTON1_RELEASED:
-        pressed = False
+       pressed = False
     return x, y, bstate
 
 def c_main(stdscr): 
