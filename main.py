@@ -16,6 +16,7 @@ def init_game(stdscr, mode):
     mode, curses.A_BLINK)
     stdscr.refresh()
     curinput = stdscr.get_wch() 
+    time.sleep(10)
 
 
 def beginn_screen(stdscr): 
@@ -68,7 +69,7 @@ def beginn_screen(stdscr):
             if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(mp) // 2 - 10),(curses.COLS // 2 - len(mp) // 2 - 10)+8):
             # Checks if mouse coordinates align with the right button
                 check_press = True
-                check_mousepress = True
+                mouse_press = True 
             elif curinput == 'd' or curinput == curses.KEY_RIGHT:
                 check_press = True
             if check_press == True:
