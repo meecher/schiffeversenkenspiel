@@ -74,7 +74,6 @@ def beginn_screen(stdscr):
             if check_press == True:
                 stdscr.erase()
                 stdscr.refresh()
-                print(1)
                 stdscr.addstr(curses.LINES // 2,
                 curses.COLS // 2 - len(comp) // 2 + 10,
                 comp, curses.A_REVERSE)
