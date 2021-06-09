@@ -1,7 +1,6 @@
 ''' The game Schiffeversenken. '''
 
 import random, time
-from re import escape
 #import keyboard
 import curses
 
