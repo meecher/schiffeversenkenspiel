@@ -15,6 +15,7 @@ class ship:
 
 
 def options():
+    ''' Currently not in use '''
     print("hi")
 
 def init_game(stdscr, mode):
