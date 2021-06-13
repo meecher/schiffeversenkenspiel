@@ -50,7 +50,7 @@ def beginn_screen(stdscr):
 
     while True:
     # Highlights current selected item; waits for input
-        curinput = stdscr.get_wch() 
+        curinput = stdscr.get_wch()
                  
         if curinput == 'a' or curinput == curses.KEY_LEFT or pressed:    
         # Checks for key or mouse press on the left side (multiplayer)
