@@ -18,7 +18,7 @@ def create_matchfield(ySize, xSize, screen):
     #global matchfield1
     #matchfield1 = np.zeros((ySize, xSize))
     matchfield1 = np.zeros((ySize, xSize))
-    set_ships(0,0,1,matchfield1,screen)
+    set_ships(0,0,matchfield1,1,screen)
     #atchfield1_visual = str(matchfield1)
     #screen.addstr(0,0,str(matchfield1_visual))
     #print(matchfield1)
@@ -27,50 +27,42 @@ def create_matchfield(ySize, xSize, screen):
     #matchfield2 = np.zeros((ySize, xSize))
 
 def update_matchfield(yPos, xPos, matchfield, player, screen):
-    matchfield1_visual = str(matchfield)
+    matchfield_visual = str(matchfield)
     screen.clear()
-    screen.addstr(0,0,str(matchfield))
+    screen.addstr(0,0,str(matchfield_visual))
     screen.refresh()
-    return
+    return 0
     #set_ships(yPos, xPos, matchfield, player, screen)
 
 def set_ships(yPos, xPos, matchfield, player, screen):
    # global matchfield1
+    screen.keypad(1)
+    curses.mousemask(-1)
 
-    key = ''
-    #while key != ord('q'):
-    while True:
-        key = screen.getch()
-        print(key)
-        if key == curses.KEY_RIGHT:
-            print("right")
+    update_matchfield(yPos, xPos, matchfield, player, screen)
+    curinput= ""
+    while curinput != ord('q'):
+        curinput = screen.get_wch()
+        if curinput == 'd' or curinput == curses.KEY_RIGHT:
             matchfield[yPos, xPos] = 0
             xPos += 1
             matchfield[yPos, xPos] = 1
-            update_matchfield(matchfield,screen)
-        #screen.addstr(0, 0, str(matchfield))
-        #screen.refresh()
-        if key == curses.KEY_DOWN:
-            print("down")
+            update_matchfield(0, 0, matchfield, player, screen)
+        if curinput == 's' or curinput == curses.KEY_DOWN:
             matchfield[yPos, xPos] = 0
             yPos += 1
             matchfield[yPos, xPos] = 1
-            update_matchfield(matchfield,screen)
-        #screen.refresh()
-        if key == curses.KEY_LEFT:
-            print("left")
+            update_matchfield(0, 0, matchfield, player, screen)
+        if curinput == 'a' or curinput == curses.KEY_LEFT:
             matchfield[yPos, xPos] = 0
             xPos -= 1
             matchfield[yPos, xPos] = 1
-            update_matchfield(matchfield,screen)
-        #screen.refresh()
-        if key == curses.KEY_UP:
-            print("up")
+            update_matchfield(0, 0, matchfield, player, screen)
+        if curinput == 'w' or curinput == curses.KEY_UP:
             matchfield[yPos, xPos] = 0
             yPos -= 1
             matchfield[yPos, xPos] = 1
-            update_matchfield(matchfield,screen)
-        #screen.refresh()
+            update_matchfield(0, 0, matchfield, player, screen)
 
 def options():
     ''' Currently not in use '''
@@ -171,7 +163,7 @@ def beginn_screen(screen):
                     screen.refresh()
                     init_game(screen, currselction) 
             
-        elif curinput == '\n':    
+        if curinput == '\n':    
         # Enter for selection; starts new function with selected gamemode
             screen.erase()
             screen.refresh()
