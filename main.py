@@ -1,5 +1,4 @@
 ''' The game Schiffeversenken. '''
-
 import random, time
 import numpy as np
 import curses
@@ -9,61 +8,124 @@ __credits__ = ""
 __email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de"
 
 
-class ship:
+class Ship:
     ''' Blueprint for the ship objects '''
-    def __init__(self, size, rotation, position):
+    def __init__(self, size):
         self.size = size
 
 def create_matchfield(ySize, xSize, screen):
-    #global matchfield1
-    #matchfield1 = np.zeros((ySize, xSize))
-    matchfield1 = np.zeros((ySize, xSize))
-    set_ships(0,0,matchfield1,1,screen)
-    #atchfield1_visual = str(matchfield1)
-    #screen.addstr(0,0,str(matchfield1_visual))
-    #print(matchfield1)
-    #global matchfield2
-    #screen.addstr(0,0,np.zeros((ySize, xSize))
-    #matchfield2 = np.zeros((ySize, xSize))
+    matchfield = np.zeros((ySize, xSize))
+    set_ships(0,0,matchfield,1,screen)
 
-def update_matchfield(yPos, xPos, matchfield, player, screen):
+
+def update_matchfield(yPos, xPos, matchfield, screen):
     matchfield_visual = str(matchfield)
     screen.clear()
-    screen.addstr(0,0,str(matchfield_visual))
+    screen.addstr(0,0,matchfield_visual)
     screen.refresh()
-    return 0
-    #set_ships(yPos, xPos, matchfield, player, screen)
 
-def set_ships(yPos, xPos, matchfield, player, screen):
-   # global matchfield1
+# def overlap_check(y,x, rotation, screen):
+#     i = x
+#     while i <= size:
+#         if i == 1:
+#             screen.addstr(0,0,"Invalid location")
+#             break
+#         else:
+#             return 1
+
+def userinput(screen):
+    input_key = ""
+    curinput = ""
     screen.keypad(1)
     curses.mousemask(-1)
 
-    update_matchfield(yPos, xPos, matchfield, player, screen)
-    curinput= ""
-    while curinput != ord('q'):
-        curinput = screen.get_wch()
-        if curinput == 'd' or curinput == curses.KEY_RIGHT:
-            matchfield[yPos, xPos] = 0
-            xPos += 1
-            matchfield[yPos, xPos] = 1
-            update_matchfield(0, 0, matchfield, player, screen)
-        if curinput == 's' or curinput == curses.KEY_DOWN:
-            matchfield[yPos, xPos] = 0
-            yPos += 1
-            matchfield[yPos, xPos] = 1
-            update_matchfield(0, 0, matchfield, player, screen)
-        if curinput == 'a' or curinput == curses.KEY_LEFT:
-            matchfield[yPos, xPos] = 0
-            xPos -= 1
-            matchfield[yPos, xPos] = 1
-            update_matchfield(0, 0, matchfield, player, screen)
-        if curinput == 'w' or curinput == curses.KEY_UP:
-            matchfield[yPos, xPos] = 0
-            yPos -= 1
-            matchfield[yPos, xPos] = 1
-            update_matchfield(0, 0, matchfield, player, screen)
+    curinput = screen.get_wch()
+    
+    if curinput == 'd' or curinput == curses.KEY_RIGHT:
+        input_key = "right"
+    elif curinput == 's' or curinput == curses.KEY_DOWN:
+        input_key = "down"
+    elif curinput == 'a' or curinput == curses.KEY_LEFT:
+        input_key = "left"
+    elif curinput == 'w' or curinput == curses.KEY_UP:
+        input_key = "up"
+    elif curinput == '\n':
+        input_key = "enter"
+    elif curinput == curses.KEY_MOUSE:
+        input_key = "mouse"
+    else: 
+        input_key = curinput
+    return input_key
 
+
+def set_ships(yPos, xPos, matchfield, player, screen):
+    curinput = ""
+    game_y_pos = 10
+    game_x_pos = 0
+    ship_5 = Ship(5)
+    ship_4 = Ship(4)
+    ship_3 = Ship(3)
+    ship_2 = Ship(2)
+    ship_list = [ship_5, ship_4, ship_3, ship_2]
+    
+
+    screen.keypad(1)
+    curses.mousemask(-1)
+
+    matchfield[yPos, xPos] = 1
+    update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
+    
+    #Ship select men
+    # height, width = s.getmaxyx()
+    # curses.newwin(nlines, ncols, begin_y, begin_x)
+    # menu = ["Schlachtschiff(5)", "Kreuzer(4)", "Zerstörer(3)", "U-Boot(2)"]
+    
+    # for idx, element in enumerate(menu):
+    #     y = height // 2 + idx
+    #     x = width // 2 - len(element) // 2
+    #     s.addstr(y, x, element)
+    #     s.refresh()
+
+    # while True:
+    #     curinput = userinput(screen)
+    #     if curinput == 'down'
+    #---------------------------------------------------------------------------------------------------------------------------------
+        
+    for i in ship_list:
+        size = i.size
+
+        while curinput != ord('q'):
+        # Position of ship
+            curinput = userinput(screen)
+            if curinput == 'right':
+                matchfield[yPos, xPos] = 0
+                xPos += 1
+                matchfield[yPos, xPos] = 1
+                update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
+            elif curinput == 'down':
+                matchfield[yPos, xPos] = 0
+                yPos += 1
+                matchfield[yPos, xPos] = 1
+                update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
+            elif curinput == 'left':
+                matchfield[yPos, xPos] = 0
+                xPos -= 1
+                matchfield[yPos, xPos] = 1
+                update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
+            elif curinput == 'up':
+                matchfield[yPos, xPos] = 0
+                yPos -= 1
+                matchfield[yPos, xPos] = 1
+                update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
+            # if curinput == 'enter':
+            #     for x in range(ship.size):
+            #         #display fields
+            #         matchfield[yPos, xPos] = 1
+
+            #         curinput = screen.get_wch()
+            #     if curinput == 'r':
+            #         return 1
+                
 def options():
     ''' Currently not in use '''
     print("hi")
@@ -75,8 +137,6 @@ def init_game(screen, mode):
     #mode, curses.A_BLINK)
     screen.refresh()
     create_matchfield(10,10,screen)
-
-
 
 def beginn_screen(screen): 
     ''' Let's the player select the game mode '''
@@ -101,10 +161,11 @@ def beginn_screen(screen):
 
     while True:
     # Highlights current selected item; waits for input
-        curinput = screen.get_wch() 
+        curinput = userinput(screen)
                  
-        if curinput == 'a' or curinput == curses.KEY_LEFT or pressed:    
+        if curinput == 'left' or curinput == 'mouse':    
         # Checks for key or mouse press on the left side (multiplayer)
+            x,y = mouse_pos()
             if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(mp) // 2)-len(mp),(curses.COLS // 2 - len(mp) // 2)):
             # Checks if mouse coordinates align with the left button
                 check_press = True
@@ -112,7 +173,7 @@ def beginn_screen(screen):
             else:
                 check_press = False
                 mouse_press = False   
-            if curinput == 'a' or curinput == curses.KEY_LEFT:
+            if curinput == 'left':
             # Sets the check true if desired key is pressed 
                 check_press = True  
             if check_press == True:
@@ -133,8 +194,9 @@ def beginn_screen(screen):
                     screen.refresh()
                     init_game(screen, currselction)
 
-        if curinput == 'd' or curinput == curses.KEY_RIGHT or pressed:
+        if curinput == 'right' or curinput == 'mouse': 
         # Checks for key or mouse press on the right side (singleplayer)
+            x,y = mouse_pos()
             if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(comp) // 2 + 10),(curses.COLS // 2 - len(comp) // 2)+18):
             # Checks if mouse coordinates align with the right button
                 check_press = True
@@ -142,7 +204,7 @@ def beginn_screen(screen):
             else:
                 check_press = False
                 mouse_press = False
-            if curinput == 'd' or curinput == curses.KEY_RIGHT:
+            if curinput == 'right':
             # Sets the check true if desired key is pressed 
                 check_press = True
             if check_press == True:
@@ -163,26 +225,16 @@ def beginn_screen(screen):
                     screen.refresh()
                     init_game(screen, currselction) 
             
-        if curinput == '\n':    
+        if curinput == "enter":    
         # Enter for selection; starts new function with selected gamemode
-            screen.erase()
+            screen.clear()
             screen.refresh()
             init_game(screen, currselction) 
 
-        if curinput == curses.KEY_MOUSE:
-        # Handles mouse input
-            x, y, bstate = mouse_state()
-            if bstate & curses.BUTTON1_PRESSED:
-            # Handles mouse pressed state
-                pressed = True
-            elif bstate & curses.BUTTON1_RELEASED:
-            # Handles mouse released state
-                pressed = False
-
-def mouse_state():
+def mouse_pos():
     ''' Catches current mouse state '''
-    _, x, y, _, bstate = curses.getmouse()
-    return x, y, bstate
+    _, x, y, _, _ = curses.getmouse()
+    return x, y
 
 def c_main(screen): 
     ''' Starts the game '''
@@ -195,41 +247,55 @@ def c_main(screen):
     pressed = False
     x, y = 0, 0
 
+    screen.addstr(curses.LINES // 2,
+    curses.COLS // 2 - len(beginning) // 2,
+    beginning, curses.A_REVERSE)
+
     while True: 
     # Waits for input
-        screen.addstr(curses.LINES // 2,
-        curses.COLS // 2 - len(beginning) // 2,
-        beginning, curses.A_REVERSE)
+        curinput = userinput(screen)
 
-        if pressed:
+        if curinput == "mouse":
         # Checks if mouse is pressed
+            x,y = mouse_pos()
             if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(beginning) // 2 + 10)-10,(curses.COLS // 2 - len(beginning) // 2 + 10)+7): 
             # Checks if desired coordinates are pressed for the main menu button
                 screen.erase()
                 screen.refresh()
                 beginn_screen(screen)
-
-        curinput = screen.get_wch()
-        if curinput == 'q':
-        # Quits programm when the key q is pressed
-            return 0
-        elif curinput == '\n':
+        elif curinput == "enter":
         # Starts game if enter is pressed
             screen.erase()
             screen.refresh()
             beginn_screen(screen)
-        elif curinput == curses.KEY_MOUSE:
-        # Handles mouse input
-            x, y, bstate = mouse_state()
-            if bstate & curses.BUTTON1_PRESSED:
-            # Handles mouse pressed state
-                pressed = True
-            elif bstate & curses.BUTTON1_RELEASED:
-            # Handles mouse released state
-                pressed = False
-        else:  
-            raise AssertionError(curinput)
+        #if curinput == "q":
+        # Quits programm when the key q is pressed
+        #else:  
+        #    raise AssertionError(curinput)
  
+def userinput(screen):
+    input_key = ""
+    curinput = ""
+    screen.keypad(1)
+    curses.mousemask(-1)
+
+    curinput = screen.get_wch()
+    
+    if curinput == 'd' or curinput == curses.KEY_RIGHT:
+        input_key = "right"
+    elif curinput == 's' or curinput == curses.KEY_DOWN:
+        input_key = "down"
+    elif curinput == 'a' or curinput == curses.KEY_LEFT:
+        input_key = "left"
+    elif curinput == 'w' or curinput == curses.KEY_UP:
+        input_key = "up"
+    elif curinput == '\n':
+        input_key = "enter"
+    elif curinput == curses.KEY_MOUSE:
+        input_key = "mouse"
+    else: 
+        input_key = curinput
+    return input_key 
 
 def main():
     ''' Starts the game '''
