@@ -3,16 +3,19 @@ import random, time
 import numpy as np
 import curses
 
-__author__ = "1359831, Ruschmaritsch, 1357985, Ullmann"
+__author__ = "1359831, Ruschmaritsch, 1357985, Ullmann, x, Lotte"
 __credits__ = ""
-__email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de"
+__email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, x"
 
 
 class Ship:
     ''' Blueprint for the ship objects '''
     def __init__(self, size):
         self.size = size
-        #postition = self.postition
+        self.rotation = "hori"
+        self.position_x = 0
+        self.position_y = 0
+    
 
 def create_matchfield(ySize, xSize, screen):
     matchfield = np.zeros((ySize, xSize))
@@ -21,7 +24,6 @@ def create_matchfield(ySize, xSize, screen):
 
 def update_matchfield(yPos, xPos, matchfield, screen):
     matchfield_visual = str(matchfield)
-    screen.clear()
     screen.addstr(0,0,matchfield_visual)
     screen.refresh()
 
@@ -62,109 +64,118 @@ def userinput(screen):
 def set_ships(yPos, xPos, matchfield, player, screen):
     curinput = ""
     rotation = "hori"
+    counter = 0
+    ship_pos_x = 0
+    ship_pos_y = 0
     game_y_pos = 10
     game_x_pos = 0
     ship_5 = Ship(5)
     ship_4 = Ship(4)
     ship_3 = Ship(3)
     ship_2 = Ship(2)
-    ship_list = [ship_5, ship_4, ship_3, ship_2]
+    ship_1 = Ship(2)
+    ship_list = [ship_5, ship_4, ship_3, ship_2, ship_1]
+    ship_list_placed = []
     
     screen.keypad(1)
     curses.mousemask(-1)
-    
-    #Ship select men
-    # height, width = s.getmaxyx()
-    # curses.newwin(nlines, ncols, begin_y, begin_x)
-    # menu = ["Schlachtschiff(5)", "Kreuzer(4)", "Zerstörer(3)", "U-Boot(2)"]
-    
-    # for idx, element in enumerate(menu):
-    #     y = height // 2 + idx
-    #     x = width // 2 - len(element) // 2
-    #     s.addstr(y, x, element)
-    #     s.refresh()
-
-    # while True:
-    #     curinput = userinput(screen)
-    #     if curinput == 'down'
-    #---------------------------------------------------------------------------------------------------------------------------------
         
     for i in ship_list:
     # Places all necessary ships
         size = i.size
-        matchfield[yPos, xPos:xPos+size] = 1
+        counter += 1
+        next_ship = ship_list[counter]
+        last_ship = ship_list[counter-1]
+
+        if rotation == 'hori':
+        # Draws ship on horizontal axis
+            matchfield[yPos, xPos:xPos+size] = 1
+        else: 
+        # Draws ship on vertical axis
+            matchfield[yPos:yPos+size, xPos] = 1
         update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
+
+        #shows attributes of ship
+
+        # counter1=0
+        # if len(ship_list_placed) > 0:
+        #     for i in ship_list_placed:
+        #         outputtext = []
+        #         outputtext.append(vars(i))
+        #         counter1 +=1
+        #     screen.addstr(10,0,str(outputtext))
+        #     screen.refresh()
 
         while curinput != ord('q'):
         # Position of ship
+            for y in ship_list_placed:
+            # Draw placed ships
+                if y.rotation == 'hori':
+                # Checks if current ship object is horizontal
+                    matchfield[y.position_y, y.position_x:y.position_x+y.size] = 1
+                else:
+                # Checks if current ship object is vertical
+                    matchfield[y.position_yy.position_y+y.size, y.position_x] = 1
+                update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
+
+            matchfield[yPos, xPos:xPos+size] = 0
+            matchfield[yPos:yPos+size, xPos] = 0
+
             curinput = userinput(screen)
             if curinput == 'right':
-                matchfield[yPos, xPos:xPos+size] = 0
-                matchfield[yPos:yPos+size, xPos] = 0
                 if rotation == 'hori':
-                    #matchfield[yPos, xPos:xPos+size] = 0
                     xPos += 1
                     matchfield[yPos, xPos:xPos+size] = 1
                 else:
-                    #matchfield[yPos:yPos+size, xPos] = 0
                     xPos += 1
                     matchfield[yPos:yPos+size, xPos] = 1
-                update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
             elif curinput == 'down':
-                matchfield[yPos, xPos:xPos+size] = 0
-                matchfield[yPos:yPos+size, xPos] = 0
                 if rotation == 'hori':
-                    #matchfield[yPos, xPos:xPos+size] = 0
                     yPos += 1
                     matchfield[yPos, xPos:xPos+size] = 1
                 else:
-                    #matchfield[yPos:yPos+size, xPos] = 0
                     yPos += 1
                     matchfield[yPos:yPos+size, xPos] = 1
-                update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
             elif curinput == 'left':
-                matchfield[yPos, xPos:xPos+size] = 0
-                matchfield[yPos:yPos+size, xPos] = 0
-
                 if rotation == 'hori':
-                    #matchfield[yPos, xPos:xPos+size] = 0
                     xPos -= 1
                     matchfield[yPos, xPos:xPos+size] = 1
                 else:
-                    #matchfield[yPos:yPos+size, xPos] = 0
                     xPos -= 1
                     matchfield[yPos:yPos+size, xPos] = 1
-                update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
             elif curinput == 'up':
-                matchfield[yPos, xPos:xPos+size] = 0
-                matchfield[yPos:yPos+size, xPos] = 0
                 if rotation == 'hori':
-                    #matchfield[yPos, xPos:xPos+size] = 0
                     yPos -= 1
                     matchfield[yPos, xPos:xPos+size] = 1
                 else:
-                    #matchfield[yPos:yPos+size, xPos] = 0
                     yPos -= 1
                     matchfield[yPos:yPos+size, xPos] = 1
-                update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
             elif curinput == 'r':
-                matchfield[yPos, xPos:xPos+size] = 0
-                matchfield[yPos:yPos+size, xPos] = 0
                 if rotation == 'hori':
                     rotation = "verti"
                     matchfield[yPos:yPos+size, xPos] = 1
                 else: 
                     rotation = "hori"
                     matchfield[yPos, xPos:xPos+size] = 1
+            elif curinput == 'enter':
+                i.position_x = xPos
+                i.position_y = yPos
+                if rotation == 'hori':
+                    i.rotation = "hori"
+                    yPos += 1
+                    matchfield[yPos, xPos:xPos+next_ship.size] = 1
+                else:
+                    i.rotation = "verti"
+                    xPos += 1
+                    matchfield[yPos, xPos:xPos+next_ship.size] = 1
+                ship_list_placed.append(i)
                 update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
-            # if curinput == 'enter':
-            #     for x in range(ship.size):
-            #         #display fields
-            #         matchfield[yPos, xPos] = 1
+                break
+            update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
 
-            #         curinput = screen.get_wch()
-            #     if curinput == 'r':
-            #         return 1
+                    
+
+
                 
 def options():
     ''' Currently not in use '''
