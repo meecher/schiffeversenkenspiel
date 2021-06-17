@@ -70,11 +70,17 @@ def set_ships(yPos, xPos, matchfield, player, yGameSize, xGameSize, screen):
     game_y_pos = 10
     game_x_pos = 0
     ship_5 = Ship(5)
-    ship_4 = Ship(4)
-    ship_3 = Ship(3)
-    ship_2 = Ship(2)
-    ship_1 = Ship(2)
-    ship_list = [ship_5, ship_4, ship_3, ship_2, ship_1]
+    ship_4a = Ship(4)
+    ship_4b = Ship(4)
+    ship_3a = Ship(3)
+    ship_3b = Ship(3)
+    ship_3c = Ship(3)
+    ship_2a = Ship(2)
+    ship_2b = Ship(2)
+    ship_2c = Ship(2)
+    ship_2d = Ship(2)
+    ship_fill = Ship(1)
+    ship_list = [ship_5, ship_4a, ship_4b, ship_3a, ship_3b, ship_3c, ship_2a, ship_2b, ship_2c, ship_2d, ship_fill]
     ship_list_placed = []
     
     screen.keypad(1)
