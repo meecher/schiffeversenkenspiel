@@ -19,7 +19,7 @@ class Ship:
 
 def create_matchfield(ySize, xSize, screen):
     matchfield = np.zeros((ySize, xSize))
-    set_ships(0,0,matchfield,1,screen)
+    set_ships(0,0,matchfield,1,ySize,xSize,screen)
 
 
 def update_matchfield(yPos, xPos, matchfield, screen):
@@ -61,7 +61,7 @@ def userinput(screen):
     return input_key
 
 
-def set_ships(yPos, xPos, matchfield, player, screen):
+def set_ships(yPos, xPos, matchfield, player, yGameSize, xGameSize, screen):
     curinput = ""
     rotation = "hori"
     counter = 0
@@ -96,7 +96,6 @@ def set_ships(yPos, xPos, matchfield, player, screen):
         update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
 
         #shows attributes of ship
-
         # counter1=0
         # if len(ship_list_placed) > 0:
         #     for i in ship_list_placed:
@@ -115,62 +114,121 @@ def set_ships(yPos, xPos, matchfield, player, screen):
                     matchfield[y.position_y, y.position_x:y.position_x+y.size] = 1
                 else:
                 # Checks if current ship object is vertical
-                    matchfield[y.position_yy.position_y+y.size, y.position_x] = 1
+                    matchfield[y.position_y:y.position_y+y.size, y.position_x] = 1
                 update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
 
             matchfield[yPos, xPos:xPos+size] = 0
             matchfield[yPos:yPos+size, xPos] = 0
 
             curinput = userinput(screen)
+
             if curinput == 'right':
+            # Checks if userinput is right
                 if rotation == 'hori':
-                    xPos += 1
-                    matchfield[yPos, xPos:xPos+size] = 1
+                # Checks if ship rotation is horizontal
+                    if xPos + size >= xGameSize:
+                    # Doesn't move ship if it exceeds the matchfield to the right
+                        matchfield[yPos, xPos:xPos+size] = 1    
+                    else:                
+                        xPos += 1
+                        matchfield[yPos, xPos:xPos+size] = 1
                 else:
-                    xPos += 1
-                    matchfield[yPos:yPos+size, xPos] = 1
+                    if xPos + 1 >= xGameSize:
+                    # Doesn't move ship if it exceeds the matchfield to the right
+                        matchfield[yPos:yPos+size, xPos] = 1
+                    else:
+                        xPos += 1
+                        matchfield[yPos:yPos+size, xPos] = 1
+
             elif curinput == 'down':
+            # Checks if userinput is down
                 if rotation == 'hori':
-                    yPos += 1
-                    matchfield[yPos, xPos:xPos+size] = 1
+                # Checks if ship rotation is horizontal
+                    if yPos + 1 >= yGameSize:
+                    # Doesn't move ship if it exceeds the matchfield at the bottom
+                        matchfield[yPos, xPos:xPos+size] = 1
+                    else:
+                        yPos += 1
+                        matchfield[yPos, xPos:xPos+size] = 1
                 else:
-                    yPos += 1
-                    matchfield[yPos:yPos+size, xPos] = 1
+                    if yPos + size >= yGameSize:
+                    # Doesn't move ship if it exceeds the matchfield at the bottom
+                        matchfield[yPos:yPos+size, xPos] = 1
+                    else:
+                        yPos += 1
+                        matchfield[yPos:yPos+size, xPos] = 1
+
             elif curinput == 'left':
+            # Checks if userinput is left
                 if rotation == 'hori':
-                    xPos -= 1
-                    matchfield[yPos, xPos:xPos+size] = 1
+                # Checks if ship rotation is horizontal
+                    if xPos - 1 < 0:
+                        # Doesn't move ship if it exceeds the matchfield to the left
+                        matchfield[yPos, xPos:xPos+size] = 1
+                    else:
+                        xPos -= 1
+                        matchfield[yPos, xPos:xPos+size] = 1
                 else:
-                    xPos -= 1
-                    matchfield[yPos:yPos+size, xPos] = 1
+                    if xPos - 1 < 0:
+                    # Doesn't move ship if it exceeds the matchfield to the left                   
+                        matchfield[yPos:yPos+size, xPos] = 1
+                    else:
+                        xPos -= 1
+                        matchfield[yPos:yPos+size, xPos] = 1
+
             elif curinput == 'up':
+            # Checks if userinput is up
                 if rotation == 'hori':
-                    yPos -= 1
-                    matchfield[yPos, xPos:xPos+size] = 1
+                # Checks if ship rotation is horizontal
+                    if yPos - 1 < 0:
+                        # Doesn't move ship if it exceeds the matchfield at the top
+                        matchfield[yPos, xPos:xPos+size] = 1
+                    else:
+                        yPos -= 1
+                        matchfield[yPos, xPos:xPos+size] = 1
                 else:
-                    yPos -= 1
-                    matchfield[yPos:yPos+size, xPos] = 1
+                    if yPos - 1 < 0:
+                    # Doesn't move ship if it exceeds the matchfield at the top
+                        matchfield[yPos:yPos+size, xPos] = 1    
+                    else:
+                        yPos -= 1
+                        matchfield[yPos:yPos+size, xPos] = 1
+
             elif curinput == 'r':
+            # Checks if userinput is r for rotation
                 if rotation == 'hori':
-                    rotation = "verti"
-                    matchfield[yPos:yPos+size, xPos] = 1
-                else: 
-                    rotation = "hori"
-                    matchfield[yPos, xPos:xPos+size] = 1
+                # Checks if ship rotation is horizontal
+                    if yPos + size > yGameSize:
+                    # Doesn't rotate ship if it exceeds the matchfield to the right
+                        matchfield[yPos, xPos:xPos+size] = 1
+                    else:
+                        rotation = "verti"
+                        matchfield[yPos:yPos+size, xPos] = 1
+                else:
+                    if xPos + size >= xGameSize:
+                    # Doesn't move ship if it exceeds the matchfield at the bottom
+                        matchfield[yPos, xPos:xPos+size]
+                    else:
+                        rotation = "hori"
+                        matchfield[yPos, xPos:xPos+size] = 1
+
             elif curinput == 'enter':
+            # Checks if userinput is enter
                 i.position_x = xPos
                 i.position_y = yPos
                 if rotation == 'hori':
+                # Sets ship (current object) rotation and moves current location
                     i.rotation = "hori"
                     yPos += 1
                     matchfield[yPos, xPos:xPos+next_ship.size] = 1
-                else:
+                else:            
                     i.rotation = "verti"
                     xPos += 1
-                    matchfield[yPos, xPos:xPos+next_ship.size] = 1
+                    matchfield[yPos:yPos+next_ship.size, xPos] = 1
                 ship_list_placed.append(i)
                 update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
                 break
+
             update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
 
                     
