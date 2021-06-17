@@ -83,9 +83,13 @@ def set_ships(yPos, xPos, matchfield, player, yGameSize, xGameSize, screen):
     for i in ship_list:
     # Places all necessary ships
         size = i.size
-        counter += 1
+        if counter == len(ship_list)-1:
+            counter = counter
+        else:
+            counter += 1
         next_ship = ship_list[counter]
         last_ship = ship_list[counter-1]
+
 
         if rotation == 'hori':
         # Draws ship on horizontal axis
@@ -94,16 +98,6 @@ def set_ships(yPos, xPos, matchfield, player, yGameSize, xGameSize, screen):
         # Draws ship on vertical axis
             matchfield[yPos:yPos+size, xPos] = 1
         update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
-
-        #shows attributes of ship
-        # counter1=0
-        # if len(ship_list_placed) > 0:
-        #     for i in ship_list_placed:
-        #         outputtext = []
-        #         outputtext.append(vars(i))
-        #         counter1 +=1
-        #     screen.addstr(10,0,str(outputtext))
-        #     screen.refresh()
 
         while curinput != ord('q'):
         # Position of ship
@@ -205,7 +199,7 @@ def set_ships(yPos, xPos, matchfield, player, yGameSize, xGameSize, screen):
                         rotation = "verti"
                         matchfield[yPos:yPos+size, xPos] = 1
                 else:
-                    if xPos + size >= xGameSize:
+                    if xPos + size > xGameSize:
                     # Doesn't move ship if it exceeds the matchfield at the bottom
                         matchfield[yPos, xPos:xPos+size]
                     else:
@@ -214,23 +208,127 @@ def set_ships(yPos, xPos, matchfield, player, yGameSize, xGameSize, screen):
 
             elif curinput == 'enter':
             # Checks if userinput is enter
-                i.position_x = xPos
-                i.position_y = yPos
-                if rotation == 'hori':
-                # Sets ship (current object) rotation and moves current location
-                    i.rotation = "hori"
-                    yPos += 1
-                    matchfield[yPos, xPos:xPos+next_ship.size] = 1
-                else:            
-                    i.rotation = "verti"
-                    xPos += 1
-                    matchfield[yPos:yPos+next_ship.size, xPos] = 1
-                ship_list_placed.append(i)
-                update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
-                break
+                iteration = 0
+                iteration_placed_ship = 0
+                ship_placement = False
+                loop = True
+                xPosCur = xPos
+                yPosCur = yPos
+
+                if not ship_list_placed:
+                # First ship doesn't need to check overlap -> directly placed
+                    ship_placement = True
+                else: 
+                    for cur_ship in ship_list_placed:
+                        iteration = 0
+                        iteration_placed_ship = 0
+                        # Checks if ships overlap
+                        if rotation == 'hori' and cur_ship.rotation == 'hori':
+                        # Checks if ship rotation is horizontal
+                            if yPos == cur_ship.position_y:
+                            # Checks if ships lie in the same y coordinates
+                                while iteration <= size:
+                                # Runs until the size of the current ship is reached
+                                    while loop == True or iteration >= cur_ship.size:
+                                    # Stops if ships overlap or the size is reached
+                                        if xPos + iteration == cur_ship.position_x + iteration_placed_ship:
+                                        # Checks if current x coordinate overlaps with the current selected ship
+                                            screen.addstr(10,0,"Schiffe überschneiden sich")
+                                            loop = False
+                                        else:
+                                            iteration +=1
+                                    iteration += 1
+                                    iteration_placed_ship += 1
+                                if loop == True:
+                                # Ships don't overlap; ready for placing ship
+                                    ship_placement = True
+                            else:
+                                ship_placement = True
+
+                        elif rotation == 'hori' and cur_ship.rotation == 'verti':
+                        # Checks if ship rotation is horizontal
+                            while iteration_placed_ship <= cur_ship.size:
+                            # Runs until the size of the current ship is reached
+                                iteration = 0
+                                while iteration <= size:
+                                # Stops if ships overlap or the size is reached
+                                    if (xPos + iteration == cur_ship.position_x 
+                                    and yPos == cur_ship.position_y + iteration_placed_ship):
+                                    # Checks if current x coordinate overlaps with the current selected ship
+                                        screen.addstr(10,0,"Schiffe überschneiden sich")
+                                        loop = False
+                                        iteration += 1
+                                    else:
+                                        iteration +=1
+                                iteration_placed_ship += 1
+                            if loop == True:
+                            # Ships don't overlap; ready for placing ship
+                                ship_placement = True
+                            else:
+                                ship_placement = False
+                        
+                        elif rotation == 'verti' and cur_ship.rotation == 'hori':
+                        # Checks if ship rotation is horizontal
+                            while iteration_placed_ship <= cur_ship.size:
+                            # Runs until the size of the current ship is reached
+                                iteration = 0
+                                while iteration <= size:
+                                # Stops if ships overlap or the size is reached
+                                    if (xPos == cur_ship.position_x + iteration_placed_ship and
+                                    yPos + iteration == cur_ship.position_y):
+                                    # Checks if current x coordinate overlaps with the current selected ship
+                                        screen.addstr(10,0,"Schiffe überschneiden sich")
+                                        loop = False
+                                        iteration +=1
+                                    else:
+                                        iteration +=1
+                                iteration_placed_ship += 1
+                            if loop == True:
+                            # Ships don't overlap; ready for placing ship
+                                ship_placement = True
+                            else:
+                                ship_placement = False
+                            
+                        elif rotation == 'verti' and cur_ship.rotation == 'verti':
+                        # Checks if ship rotation is horizontal
+                            if xPos == cur_ship.position_x:
+                            # Checks if ships lie in the same x coordinates
+                                while iteration <= size:
+                                # Runs until the size of the current ship is reached
+                                    while loop == True or iteration >= cur_ship.size:
+                                    # Stops if ships overlap or the size is reached
+                                        if yPos + iteration == cur_ship.position_y + iteration_placed_ship:
+                                        # Checks if current y coordinate overlaps with the current selected ship
+                                            screen.addstr(10,0,"Schiffe überschneiden sich")
+                                            loop = False
+                                        else:
+                                            iteration +=1
+                                    iteration += 1
+                                    iteration_placed_ship += 1
+                                if loop == True:
+                                # Ships don't overlap; ready for placing ship
+                                    ship_placement = True
+                            else:
+                                ship_placement = True
+                        
+                if ship_placement == True:
+                    i.position_x = xPosCur 
+                    i.position_y = yPosCur
+                    if rotation == 'hori':
+                    # Sets ship (current object) rotation and moves current location
+                        i.rotation = "hori"
+                        yPos += 1
+                        matchfield[yPos, xPos:xPos+next_ship.size] = 1
+                    else:            
+                        i.rotation = "verti"
+                        xPos += 1
+                        matchfield[yPos:yPos+next_ship.size, xPos] = 1
+                    ship_list_placed.append(i)
+                    update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
+                    break
 
             update_matchfield(game_y_pos, game_x_pos, matchfield, screen)
-
+        options()
                     
 
 
