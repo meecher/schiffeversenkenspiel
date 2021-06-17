@@ -205,7 +205,7 @@ def set_ships(yPos, xPos, matchfield, player, yGameSize, xGameSize, screen):
                         rotation = "verti"
                         matchfield[yPos:yPos+size, xPos] = 1
                 else:
-                    if xPos + size >= xGameSize:
+                    if xPos + size > xGameSize:
                     # Doesn't move ship if it exceeds the matchfield at the bottom
                         matchfield[yPos, xPos:xPos+size]
                     else:
