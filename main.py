@@ -66,8 +66,6 @@ def set_ships(yPos, xPos, matchfield, matchfield_logic, player, yGameSize, xGame
     curinput = ""
     rotation = "hori"
     counter = 0
-    ship_pos_x = 0
-    ship_pos_y = 0
     game_y_pos = 10
     game_x_pos = 0
     ship_5 = Ship(5)
