@@ -4,18 +4,21 @@ import Ship
 import numpy as np
 import curses
 
-__author__ = "1359831, Ruschmaritsch, 1357985, Ullmann, x, Lotte"
+__author__ = "1359831, Ruschmaritsch, 1357985, Ullmann, 135x, Lotte"
 __credits__ = ""
-__email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, x"
+__email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, x@stud.fra-uas.de"
     
 
 def mulitplayer(screen):
+    ''' Creates to matchfields '''
     create_matchfield(10,10,screen) 
 
 def singleplayer(screen):
+    ''' Creates a matchfield for the player and the computer'''
     create_matchfield(10,10,screen)
 
 def create_matchfield(ySize, xSize, screen):
+    ''' Creates matchfields '''
     matchfield_visual = np.chararray((ySize, xSize))
     matchfield_visual[:] = "O"
     matchfield_temp = np.zeros((ySize, xSize))
@@ -23,14 +26,20 @@ def create_matchfield(ySize, xSize, screen):
     set_ships(0,0,matchfield_visual,matchfield_temp,matchfield_logic,1,ySize,xSize,screen)
 
 def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, matchfield_temp, screen):
+    ''' Translates temporary matchfield to visual one and displays visuals '''
+    i = 0
     for x in range(xGameSize):
+    # Increases x until gamesize is reached
         for y in range(yGameSize):
+         # Increases y until gamesize is reached
             if matchfield_temp[y,x] == 1:
+            # Places a x if temporal matchfield has a 1
                 matchfield_visual[y,x] = "X"
             else:
                 matchfield_visual[y,x] = "O"
-    i=0
+
     for row in matchfield_visual.astype(str):
+    # Converts matchfield in string and displays it
         string_conv = [str(int) for  int in row]
         current_str = ' '.join(string_conv)
         screen.addstr(i,0,current_str)
@@ -38,6 +47,7 @@ def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, match
         screen.refresh()
 
 def userinput(screen):
+    ''' Checks userinput '''
     input_key = ""
     curinput = ""
     screen.keypad(1)
@@ -62,6 +72,7 @@ def userinput(screen):
     return input_key
 
 def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, player, yGameSize, xGameSize, screen):
+    ''' Creates and sets all ships in order from biggest to smallest '''
     curinput = ""
     rotation = "hori"
     counter = 0
@@ -88,6 +99,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
     # Places all necessary ships
         size = i.size
         if counter == len(ship_list)-1:
+        # Checks if the last ship is placed
             counter = counter
         else:
             counter += 1
@@ -227,7 +239,9 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                 elif rotation == 'hori':
                 # Sets ship (current object) rotation and moves current location
                     for j in range(size):
+                    # Loop for the current ship size
                         if matchfield_logic[yPos,xPos+j] == 1:
+                        # Checks if any field of the horizontal ship is already used
                             used = True
                             screen.addstr(10,0,"Schiffe Überschneiden sich")
                             screen.refresh()
@@ -236,12 +250,11 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                             screen.refresh()
                             matchfield_temp[yPos, xPos:xPos+size] = 1
 
-                    if used == False:
-                        i.rotation = "hori"
-
                 else:
                     for j in range(size):
+                    # Loop for the current ship size
                         if matchfield_logic[yPos+j,xPos] == 1:
+                        # Checks if any field of the vertical ship is already used
                             used = True
                             screen.addstr(10,0,"Schiffe Überschneiden sich")
                             screen.refresh()
@@ -250,14 +263,15 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                             screen.refresh()
                             matchfield_temp[yPos:yPos+size, xPos] = 1
                             
-                    if used == False:
-                        i.rotation = "verti"
 
                 if used == False:
+                # If the space is free the ship can be placed
+                    i.rotation = rotation
                     ship_list_placed.append(i)
                     if rotation == 'hori':
-                    #Ship gets added to logical matchfield
+                    #Reserves spaces for the ship within the logical matchfield for horizontal ships
                         matchfield_logic[yPos, xPos:xPos+size] = 1
+                        # Below checks the spaces around the ship and reserves the place
                         if (yPos-1 >= 0):
                             matchfield_logic[yPos-1, xPos:xPos+size] = 1
                         if (xPos+size+1 < 10):
@@ -268,7 +282,9 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                             matchfield_logic[yPos+1, xPos:xPos+size] = 1
                             yPos += 1
                     else:
+                    #Reserves spaces for the ship within the logical matchfield for vertical ships
                         matchfield_logic[yPos:yPos+size, xPos] = 1
+                        # Below checks the spaces around the ship and reserves the place
                         if (xPos-1 >= 0):
                             matchfield_logic[yPos:yPos+size, xPos-1] = 1
                         if (yPos+size+1 < 10):
@@ -283,11 +299,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
 
             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, screen)
         #return matchfield_visual, matchfield_logic
-
-                    
-
-
-                
+              
 def options():
     ''' Currently not in use '''
     print("hi")
@@ -300,8 +312,6 @@ def init_game(screen, mode):
         singleplayer(screen)
     else:
         mulitplayer(screen)
-
-    
 
 def beginn_screen(screen): 
     ''' Let's the player select the game mode '''
@@ -437,30 +447,6 @@ def c_main(screen):
         # Quits programm when the key q is pressed
         #else:  
         #    raise AssertionError(curinput)
- 
-def userinput(screen):
-    input_key = ""
-    curinput = ""
-    screen.keypad(1)
-    curses.mousemask(-1)
-
-    curinput = screen.get_wch()
-    
-    if curinput == 'd' or curinput == curses.KEY_RIGHT:
-        input_key = "right"
-    elif curinput == 's' or curinput == curses.KEY_DOWN:
-        input_key = "down"
-    elif curinput == 'a' or curinput == curses.KEY_LEFT:
-        input_key = "left"
-    elif curinput == 'w' or curinput == curses.KEY_UP:
-        input_key = "up"
-    elif curinput == '\n':
-        input_key = "enter"
-    elif curinput == curses.KEY_MOUSE:
-        input_key = "mouse"
-    else: 
-        input_key = curinput
-    return input_key 
 
 def main():
     ''' Starts the game '''
