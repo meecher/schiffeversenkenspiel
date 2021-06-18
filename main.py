@@ -17,7 +17,7 @@ def singleplayer(screen):
 
 def create_matchfield(ySize, xSize, screen):
     matchfield_visual = np.chararray((ySize, xSize))
-    matchfield_visual[:] = 0
+    matchfield_visual[:] = "O"
     matchfield_temp = np.zeros((ySize, xSize))
     matchfield_logic = np.zeros((ySize, xSize))
     set_ships(0,0,matchfield_visual,matchfield_temp,matchfield_logic,1,ySize,xSize,screen)
@@ -26,9 +26,9 @@ def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, match
     for x in range(xGameSize):
         for y in range(yGameSize):
             if matchfield_temp[y,x] == 1:
-                matchfield_visual[y,x] = 1
+                matchfield_visual[y,x] = "X"
             else:
-                matchfield_visual[y,x] = 0
+                matchfield_visual[y,x] = "O"
     i=0
     for row in matchfield_visual.astype(str):
         string_conv = [str(int) for  int in row]
@@ -209,7 +209,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                 else:
                     if xPos + size > xGameSize:
                     # Doesn't move ship if it exceeds the matchfield at the bottom
-                        matchfield_temp[yPos, xPos:xPos+size]
+                        matchfield_temp[yPos:yPos+size, xPos] = 1
                     else:
                         rotation = "hori"
                         matchfield_temp[yPos, xPos:xPos+size] = 1
@@ -234,10 +234,10 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                             time.sleep(0.1)
                             screen.addstr(10,0,"                          ")
                             screen.refresh()
+                            matchfield_temp[yPos, xPos:xPos+size] = 1
 
                     if used == False:
                         i.rotation = "hori"
-                        matchfield_temp[yPos, xPos:xPos+size] = 1
 
                 else:
                     for j in range(size):
@@ -248,10 +248,10 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                             time.sleep(0.1)
                             screen.addstr(10,0,"                          ")
                             screen.refresh()
+                            matchfield_temp[yPos:yPos+size, xPos] = 1
                             
                     if used == False:
                         i.rotation = "verti"
-                        matchfield_temp[yPos:yPos+size, xPos] = 1
 
                 if used == False:
                     ship_list_placed.append(i)
