@@ -1,20 +1,12 @@
 ''' The game Schiffeversenken. '''
 import random, time
+import Ship
 import numpy as np
 import curses
 
 __author__ = "1359831, Ruschmaritsch, 1357985, Ullmann, x, Lotte"
 __credits__ = ""
 __email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, x"
-
-
-class Ship:
-    ''' Blueprint for the ship objects '''
-    def __init__(self, size):
-        self.size = size
-        self.rotation = "hori"
-        self.position_x = 0
-        self.position_y = 0
     
 
 def create_matchfield(ySize, xSize, screen):
@@ -68,17 +60,17 @@ def set_ships(yPos, xPos, matchfield, matchfield_logic, player, yGameSize, xGame
     counter = 0
     game_y_pos = 10
     game_x_pos = 0
-    ship_5 = Ship(5)
-    ship_4a = Ship(4)
-    ship_4b = Ship(4)
-    ship_3a = Ship(3)
-    ship_3b = Ship(3)
-    ship_3c = Ship(3)
-    ship_2a = Ship(2)
-    ship_2b = Ship(2)
-    ship_2c = Ship(2)
-    ship_2d = Ship(2)
-    ship_fill = Ship(1)
+    ship_5 = Ship.Ship(5)
+    ship_4a = Ship.Ship(4)
+    ship_4b = Ship.Ship(4)
+    ship_3a = Ship.Ship(3)
+    ship_3b = Ship.Ship(3)
+    ship_3c = Ship.Ship(3)
+    ship_2a = Ship.Ship(2)
+    ship_2b = Ship.Ship(2)
+    ship_2c = Ship.Ship(2)
+    ship_2d = Ship.Ship(2)
+    ship_fill = Ship.Ship(1)
     ship_list = [ship_5, ship_4a, ship_4b, ship_3a, ship_3b, ship_3c, ship_2a, ship_2b, ship_2c, ship_2d, ship_fill]
     ship_list_placed = []
     
@@ -223,13 +215,11 @@ def set_ships(yPos, xPos, matchfield, matchfield_logic, player, yGameSize, xGame
                     used = False
                 elif rotation == 'hori':
                 # Sets ship (current object) rotation and moves current location
-                    j = 0
-                    while j <= size:
+                    for j in range(next_ship.size):
                         screen.addstr(10,0,str(j))
                         screen.refresh()
                         if matchfield_logic[yPos,xPos+j] == 1:
                             used = True
-                        j += 1
 
                     if used == False:
                         i.rotation = "hori"
