@@ -14,6 +14,7 @@ def c_main(screen):
     #for row in matchfield_visual:
     #screen.addstr(0,0,stringli)
     screen.refresh()
+    time.sleep(10)
 
 
 def main():

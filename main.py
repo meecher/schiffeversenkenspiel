@@ -16,15 +16,26 @@ def singleplayer(screen):
     create_matchfield(10,10,screen)
 
 def create_matchfield(ySize, xSize, screen):
-    matchfield_visual = [[0]*xSize]*ySize
+    matchfield_visual = np.chararray((ySize, xSize))
+    matchfield_visual[:] = 0
     matchfield_temp = np.zeros((ySize, xSize))
     matchfield_logic = np.zeros((ySize, xSize))
     set_ships(0,0,matchfield_visual,matchfield_temp,matchfield_logic,1,ySize,xSize,screen)
 
-def update_matchfield(yPos, xPos, matchfield_temp, screen):
-    matchfield_temp = str(matchfield_temp)
-    #screen.addstr(0,0,matchfield_temp)
-    #screen.refresh()
+def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, matchfield_temp, screen):
+    for x in range(xGameSize):
+        for y in range(yGameSize):
+            if matchfield_temp[y,x] == 1:
+                matchfield_visual[y,x] = 1
+            else:
+                matchfield_visual[y,x] = 0
+    i=0
+    for row in matchfield_visual.astype(str):
+        string_conv = [str(int) for  int in row]
+        current_str = ' '.join(string_conv)
+        screen.addstr(i,0,current_str)
+        i+=1
+        screen.refresh()
 
 def userinput(screen):
     input_key = ""
@@ -49,34 +60,6 @@ def userinput(screen):
     else: 
         input_key = curinput
     return input_key
-
-def draw_visual(matchfield_visual,screen):
-    i = 0
-    for row in matchfield_visual:
-        string_ints = [str(int) for  int in row]
-        stringli = ' '.join(string_ints)
-        screen.addstr(i,0,stringli)
-        screen.refresh()
-        i += 1
-    screen.refresh()
-
-def update_visual(rotation,yStart,yStop,xStart,xStop,matchfield_visual,screen):
-    i = xStart
-    y = yStart
-    if rotation == 'hori':
-        while i < xStop:
-            matchfield_visual[i][yStart] = 1
-    else:
-        while y < yStop:
-            matchfield_visual[xStart][y] = 1
-    i = 0
-    for row in matchfield_visual:
-        string_ints = [str(int) for  int in row]
-        stringli = ' '.join(string_ints)
-        screen.addstr(i,0,stringli)
-        screen.refresh()
-        i += 1
-    screen.refresh()
 
 def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, player, yGameSize, xGameSize, screen):
     curinput = ""
@@ -115,12 +98,11 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
         if rotation == 'hori':
         # Draws ship on horizontal axis
             matchfield_temp[yPos, xPos:xPos+size] = 1
-            #_______________________________________________________________
-            update_visual(rotation,yPos,yPos,xPos,(xPos+size-1),matchfield_visual,screen)
         else: 
         # Draws ship on vertical axis
             matchfield_temp[yPos:yPos+size, xPos] = 1
-        update_matchfield(game_y_pos, game_x_pos, matchfield_temp, screen)
+        
+        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_temp, screen)
 
         while curinput != ord('q'):
         # Position of ship
@@ -132,7 +114,8 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                 else:
                 # Checks if current ship object is vertical
                     matchfield_temp[y.position_y:y.position_y+y.size, y.position_x] = 1
-                update_matchfield(game_y_pos, game_x_pos, matchfield_temp, screen)
+
+                update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, screen)
 
             matchfield_temp[yPos, xPos:xPos+size] = 0
             matchfield_temp[yPos:yPos+size, xPos] = 0
@@ -145,10 +128,11 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                 # Checks if ship rotation is horizontal
                     if xPos + size >= xGameSize:
                     # Doesn't move ship if it exceeds the matchfield to the right
-                        matchfield_temp[yPos, xPos:xPos+size] = 1    
+                        matchfield_temp[yPos, xPos:xPos+size] = 1 
                     else:                
                         xPos += 1
                         matchfield_temp[yPos, xPos:xPos+size] = 1
+                    #update_visual('add',rotation,yPos,yPos,xPos,xPos+size,matchfield_visual,screen)
                 else:
                     if xPos + 1 >= xGameSize:
                     # Doesn't move ship if it exceeds the matchfield to the right
@@ -156,6 +140,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                     else:
                         xPos += 1
                         matchfield_temp[yPos:yPos+size, xPos] = 1
+                    #update_visual('add',rotation,yPos,yPos+size,xPos,xPos,matchfield_visual,screen)
 
             elif curinput == 'down':
             # Checks if userinput is down
@@ -293,10 +278,10 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                         if (xPos+size+1 < 10):
                             matchfield_logic[yPos:yPos+size, xPos+1] = 1
                             xPos += 1
-                    update_matchfield(game_y_pos, game_x_pos, matchfield_temp, screen)
+                    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, screen)
                     break
 
-            update_matchfield(game_y_pos, game_x_pos, matchfield_temp, screen)
+            update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, screen)
         #return matchfield_visual, matchfield_logic
 
                     
@@ -309,6 +294,7 @@ def options():
 
 def init_game(screen, mode):
     ''' Starts selected game mode '''
+    curses.curs_set(0)
     screen.refresh()
     if mode == 'comp':
         singleplayer(screen)

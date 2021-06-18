@@ -1,11 +1,19 @@
+from typing import Sequence
+import numpy as np
 
-matchfield_visual = [[0]*10 for i in range (10)]
-#stringconv = [str(int) for int in matchfield_visual]
-#stringconv2 = [str(int) for int in stringconv]
-#stringli = ''.join(stringconv2)
+ySize = 10
+xSize = 10
 
-for row in matchfield_visual:
-    string_ints = [str(int) for  int in row]
-    stringli = ' '.join(string_ints)
-    print(stringli)
 
+
+matchfield_visual = np.chararray((ySize, xSize))
+matchfield_visual[:] = 1
+#print(' '.join(map(str, matchfield_visual)))
+#hurensohn = matchfield_visual.join()
+#print(hurensohn)
+matchfield_visual.astype(str)
+
+for row in matchfield_visual.astype(str):
+        string_ints = [str(int) for  int in row]
+        stringli = ' '.join(string_ints)
+        print(stringli)
