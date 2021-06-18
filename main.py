@@ -241,42 +241,58 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                     used = False
                 elif rotation == 'hori':
                 # Sets ship (current object) rotation and moves current location
-                    for j in range(next_ship.size):
-                        screen.addstr(10,0,str(j))
-                        screen.refresh()
+                    for j in range(size):
                         if matchfield_logic[yPos,xPos+j] == 1:
                             used = True
+                            screen.addstr(10,0,"Schiffe Überschneiden sich")
+                            screen.refresh()
+                            time.sleep(0.1)
+                            screen.addstr(10,0,"                          ")
+                            screen.refresh()
 
                     if used == False:
                         i.rotation = "hori"
-                        matchfield_temp[yPos, xPos:xPos+next_ship.size] = 1
+                        matchfield_temp[yPos, xPos:xPos+size] = 1
 
                 else:
-                    for j in range(next_ship.size):
+                    for j in range(size):
                         if matchfield_logic[yPos+j,xPos] == 1:
                             used = True
+                            screen.addstr(10,0,"Schiffe Überschneiden sich")
+                            screen.refresh()
+                            time.sleep(0.1)
+                            screen.addstr(10,0,"                          ")
+                            screen.refresh()
                             
                     if used == False:
                         i.rotation = "verti"
-                        matchfield_temp[yPos:yPos+next_ship.size, xPos] = 1
+                        matchfield_temp[yPos:yPos+size, xPos] = 1
 
                 if used == False:
                     ship_list_placed.append(i)
                     if rotation == 'hori':
                     #Ship gets added to logical matchfield
                         matchfield_logic[yPos, xPos:xPos+size] = 1
-                        matchfield_logic[yPos-1, xPos:xPos+size] = 1
-                        matchfield_logic[yPos+1, xPos:xPos+size] = 1
-                        matchfield_logic[yPos, xPos+size+1] = 1
-                        matchfield_logic[yPos, xPos+size-1] = 1
-                        yPos += 1
+                        if (yPos-1 >= 0):
+                            matchfield_logic[yPos-1, xPos:xPos+size] = 1
+                        if (xPos+size+1 < 10):
+                            matchfield_logic[yPos, xPos+size] = 1
+                        if (xPos-1 >= 0):
+                            matchfield_logic[yPos, xPos-1] = 1
+                        if (yPos+size+1 < 10):
+                            matchfield_logic[yPos+1, xPos:xPos+size] = 1
+                            yPos += 1
                     else:
                         matchfield_logic[yPos:yPos+size, xPos] = 1
-                        matchfield_logic[yPos:yPos+size, xPos+1] = 1
-                        matchfield_logic[yPos:yPos+size, xPos-1] = 1
-                        matchfield_logic[yPos:yPos+size, xPos] = 1
-                        matchfield_logic[yPos:yPos+size, xPos] = 1
-                        xPos += 1
+                        if (xPos-1 >= 0):
+                            matchfield_logic[yPos:yPos+size, xPos-1] = 1
+                        if (yPos+size+1 < 10):
+                            matchfield_logic[yPos+size, xPos] = 1
+                        if (yPos-1 >= 0):
+                            matchfield_logic[yPos-1, xPos] = 1
+                        if (xPos+size+1 < 10):
+                            matchfield_logic[yPos:yPos+size, xPos+1] = 1
+                            xPos += 1
                     update_matchfield(game_y_pos, game_x_pos, matchfield_temp, screen)
                     break
 
