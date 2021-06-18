@@ -6,7 +6,7 @@ elif curinput == 'enter':
 
                 if rotation == 'hori':
                 # Sets ship (current object) rotation and moves current location
-                    for j in range(next_ship.size):
+                    for j in range(size):
                         if matchfield[yPos,xPos+j] == 1:
                             used = True
 
