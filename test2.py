@@ -1,8 +1,11 @@
-import time
 
-back = open(r"C:\Users\marcu\Documents\Uni\BSRN\Schiffeversenken\schiffeversenkenspiel\bg.txt", "r")
-#back = open("bg.txt")
-content = back.read()
-print(content)
+matchfield_visual = [[0]*10 for i in range (10)]
+#stringconv = [str(int) for int in matchfield_visual]
+#stringconv2 = [str(int) for int in stringconv]
+#stringli = ''.join(stringconv2)
 
-time.sleep(10)
+for row in matchfield_visual:
+    string_ints = [str(int) for  int in row]
+    stringli = ' '.join(string_ints)
+    print(stringli)
+
