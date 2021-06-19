@@ -27,7 +27,7 @@ def create_matchfield(ySize, xSize, screen):
     matchfield_logic = np.zeros((ySize, xSize))
 
     for x in range(eingabe):
-    # Displays the coordinate systems of the entered size
+    # Creates the coordinate systems of the entered size
         converted_counter = str(counter)
         screen.addstr(0,2+x*2, converted_counter+" ")
         screen.addstr(counter,0, chr(65+x))
