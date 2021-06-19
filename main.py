@@ -19,10 +19,21 @@ def singleplayer(screen):
 
 def create_matchfield(ySize, xSize, screen):
     ''' Creates matchfields '''
+    counter = 1
+    eingabe = 10
     matchfield_visual = np.chararray((ySize, xSize))
     matchfield_visual[:] = "O"
     matchfield_temp = np.zeros((ySize, xSize))
     matchfield_logic = np.zeros((ySize, xSize))
+
+    for x in range(eingabe):
+    # Displays the coordinate systems of the entered size
+        converted_counter = str(counter)
+        screen.addstr(0,2+x*2, converted_counter+" ")
+        screen.addstr(counter,0, chr(65+x))
+        counter+=1
+    screen.refresh()
+
     set_ships(0,0,matchfield_visual,matchfield_temp,matchfield_logic,1,ySize,xSize,screen)
 
 def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, matchfield_temp, screen):
@@ -42,7 +53,7 @@ def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, match
     # Converts matchfield in string and displays it
         string_conv = [str(int) for  int in row]
         current_str = ' '.join(string_conv)
-        screen.addstr(i,0,current_str)
+        screen.addstr(i+1,2,current_str)
         i+=1
         screen.refresh()
 
