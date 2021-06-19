@@ -9,7 +9,7 @@ __credits__ = ""
 __email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, x@stud.fra-uas.de"
     
 
-def mulitplayer(screen):
+def multiplayer(screen):
     ''' Creates to matchfields '''
     create_matchfield(10,10,screen) 
 
@@ -311,7 +311,7 @@ def init_game(screen, mode):
     if mode == 'comp':
         singleplayer(screen)
     else:
-        mulitplayer(screen)
+        multiplayer(screen)
 
 def beginn_screen(screen): 
     ''' Let's the player select the game mode '''
