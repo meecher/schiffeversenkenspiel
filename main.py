@@ -11,11 +11,91 @@ __email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, 
 
 def multiplayer(screen):
     ''' Creates to matchfields '''
-    create_matchfield(10,10,screen) 
+    matchfield_visual_p1, matchfield_ships_p1 = create_matchfield(10,10,"p1",screen) 
+    matchfield_visual_p2, matchfield_ships_p2 = create_matchfield(10,10,"p2",screen) 
 
 def singleplayer(screen):
     ''' Creates a matchfield for the player and the computer'''
     create_matchfield(10,10,screen)
+
+
+def create_matchfield(ySize, xSize, player, screen):
+    ''' Creates matchfields '''
+    counter = 1
+    eingabe = 10
+    matchfield_visual = np.chararray((ySize, xSize))
+    matchfield_visual[:] = "O"
+    matchfield_temp = np.zeros((ySize, xSize))
+    matchfield_logic = np.zeros((ySize, xSize))
+    matchfield_ship_pos = np.zeros((ySize, xSize))
+
+    matchfield_visual, matchfield_ship_pos = set_ships(2,2,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,ySize,xSize,player,screen)
+    return matchfield_visual, matchfield_ship_pos
+
+def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, matchfield_temp, player, screen):
+    ''' Translates temporary matchfield to visual one and displays visuals '''
+    i = yPos
+    counter = 2
+    str_counter = 1
+    eingabe = yGameSize
+
+    if player == 'p1':
+        currentplayer = "Spieler 1"
+        screen.addstr(0,0, currentplayer)
+    else:
+        currentplayer = "Spieler 2"
+        screen.addstr(0,0, currentplayer)
+
+    for x in range(xGameSize):
+    # Increases x until gamesize is reached
+        for y in range(yGameSize):
+         # Increases y until gamesize is reached
+            if matchfield_temp[y,x] == 1:
+            # Places a x if temporal matchfield has a 1
+                matchfield_visual[y,x] = "X"
+            else:
+                matchfield_visual[y,x] = "O"
+
+    for x in range(eingabe):
+    # Creates the coordinate systems of the entered size
+        converted_counter = str(str_counter)
+        screen.addstr(1,2+x*2, converted_counter+" ")
+        screen.addstr(counter,0, chr(65+x))
+        counter+=1
+        str_counter+=1
+
+    for row in matchfield_visual.astype(str):
+    # Converts matchfield in string and displays it
+        string_conv = [str(int) for  int in row]
+        current_str = ' '.join(string_conv)
+        screen.addstr(i,xPos,current_str)
+        i+=1
+    screen.refresh()
+
+def userinput(screen):
+    ''' Checks user input '''
+    input_key = ""
+    curinput = ""
+    screen.keypad(1)
+    curses.mousemask(-1)
+
+    curinput = screen.get_wch()
+    
+    if curinput == 'd' or curinput == curses.KEY_RIGHT:
+        input_key = "right"
+    elif curinput == 's' or curinput == curses.KEY_DOWN:
+        input_key = "down"
+    elif curinput == 'a' or curinput == curses.KEY_LEFT:
+        input_key = "left"
+    elif curinput == 'w' or curinput == curses.KEY_UP:
+        input_key = "up"
+    elif curinput == '\n':
+        input_key = "enter"
+    elif curinput == curses.KEY_MOUSE:
+        input_key = "mouse"
+    else: 
+        input_key = curinput
+    return input_key
 
 def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
     ''' Random shot function for the AI ''' # Wird später in den Code eingebaut
@@ -133,80 +213,15 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
         time.sleep(2)
         current_player = 1
 
-
-def create_matchfield(ySize, xSize, screen):
-    ''' Creates matchfields '''
-    counter = 1
-    eingabe = 10
-    matchfield_visual = np.chararray((ySize, xSize))
-    matchfield_visual[:] = "O"
-    matchfield_temp = np.zeros((ySize, xSize))
-    matchfield_logic = np.zeros((ySize, xSize))
-    matchfield_ship_pos = np.zeros((ySize, xSize))
-
-
-    for x in range(eingabe):
-    # Creates the coordinate systems of the entered size
-        converted_counter = str(counter)
-        screen.addstr(0,2+x*2, converted_counter+" ")
-        screen.addstr(counter,0, chr(65+x))
-        counter+=1
-    screen.refresh()
-    matchfield_visual, matchfield_ship_pos = set_ships(0,0,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,1,ySize,xSize,screen)
-
-def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, matchfield_temp, screen):
-    ''' Translates temporary matchfield to visual one and displays visuals '''
-    i = 0
-    for x in range(xGameSize):
-    # Increases x until gamesize is reached
-        for y in range(yGameSize):
-         # Increases y until gamesize is reached
-            if matchfield_temp[y,x] == 1:
-            # Places a x if temporal matchfield has a 1
-                matchfield_visual[y,x] = "X"
-            else:
-                matchfield_visual[y,x] = "O"
-    screen.clear()
-    for row in matchfield_visual.astype(str):
-    # Converts matchfield in string and displays it
-        string_conv = [str(int) for  int in row]
-        current_str = ' '.join(string_conv)
-        screen.addstr(i+1,2,current_str)
-        i+=1
-        screen.refresh()
-
-def userinput(screen):
-    ''' Checks user input '''
-    input_key = ""
-    curinput = ""
-    screen.keypad(1)
-    curses.mousemask(-1)
-
-    curinput = screen.get_wch()
-    
-    if curinput == 'd' or curinput == curses.KEY_RIGHT:
-        input_key = "right"
-    elif curinput == 's' or curinput == curses.KEY_DOWN:
-        input_key = "down"
-    elif curinput == 'a' or curinput == curses.KEY_LEFT:
-        input_key = "left"
-    elif curinput == 'w' or curinput == curses.KEY_UP:
-        input_key = "up"
-    elif curinput == '\n':
-        input_key = "enter"
-    elif curinput == curses.KEY_MOUSE:
-        input_key = "mouse"
-    else: 
-        input_key = curinput
-    return input_key
-
-def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, player, yGameSize, xGameSize, screen):
+def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, yGameSize, xGameSize, player, screen):
     ''' Creates and sets all ships in order from biggest to smallest '''
     curinput = ""
     rotation = "hori"
     counter = 0
-    game_y_pos = 10
-    game_x_pos = 0
+    game_y_pos = yPos
+    game_x_pos = xPos
+    yPos = 0
+    xPos = 0
     ship_5 = Ship.Ship(5)
     ship_4a = Ship.Ship(4)
     ship_4b = Ship.Ship(4)
@@ -243,7 +258,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
         # Draws ship on vertical axis
             matchfield_temp[yPos:yPos+size, xPos] = 1
         
-        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_temp, screen)
+        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_temp, player, screen)
 
         while curinput != ord('q'):
         # Position of ship
@@ -256,7 +271,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                 # Checks if current ship object is vertical
                     matchfield_temp[y.position_y:y.position_y+y.size, y.position_x] = 1
 
-                update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, screen)
+                update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
 
             matchfield_temp[yPos, xPos:xPos+size] = 0
             matchfield_temp[yPos:yPos+size, xPos] = 0
@@ -370,10 +385,10 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                         if matchfield_logic[yPos,xPos+j] == 1:
                         # Checks if any field of the horizontal ship is already used
                             used = True
-                            screen.addstr(10,0,"Schiff kann hier nicht platziert werden.")
+                            screen.addstr(game_y_pos+yGameSize,0,"Schiff kann hier nicht platziert werden.")
                             screen.refresh()
                             time.sleep(0.1)
-                            screen.addstr(10,0,"                          ")
+                            screen.addstr(game_y_pos+yGameSize,0,"                                        ")
                             screen.refresh()
                             matchfield_temp[yPos, xPos:xPos+size] = 1
 
@@ -383,10 +398,10 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                         if matchfield_logic[yPos+j,xPos] == 1:
                         # Checks if any field of the vertical ship is already used
                             used = True
-                            screen.addstr(10,0,"Schiff kann hier nicht platziert werden.")
+                            screen.addstr(game_y_pos+yGameSize,0,"Schiff kann hier nicht platziert werden.")
                             screen.refresh()
                             time.sleep(0.1)
-                            screen.addstr(10,0,"                          ")
+                            screen.addstr(game_y_pos+yGameSize,0,"                                        ")
                             screen.refresh()
                             matchfield_temp[yPos:yPos+size, xPos] = 1
                             
@@ -423,10 +438,10 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                         if (xPos+size+1 < 10):
                             matchfield_logic[yPos:yPos+size, xPos+1] = 1
                             xPos += 1
-                    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, screen)
+                    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
                     break
 
-            update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, screen)
+            update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
     return matchfield_visual, matchfield_ship_pos
               
 def options():
