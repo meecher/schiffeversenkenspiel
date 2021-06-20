@@ -16,8 +16,7 @@ def multiplayer(screen):
 
 def singleplayer(screen):
     ''' Creates a matchfield for the player and the computer'''
-    matchfield_visual_p1, matchfield_ships_p1 = create_matchfield(10,10,"comp",screen) 
-    matchfield_visual_p2, matchfield_ships_p2 = create_matchfield(10,10,"comp",screen)
+    create_matchfield(10,10,screen)
 
 
 def create_matchfield(ySize, xSize, player, screen):
@@ -30,10 +29,7 @@ def create_matchfield(ySize, xSize, player, screen):
     matchfield_logic = np.zeros((ySize, xSize))
     matchfield_ship_pos = np.zeros((ySize, xSize))
 
-    if player == 'p1' or player == 'p2':
-        matchfield_visual, matchfield_ship_pos = set_ships(2,2,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,ySize,xSize,player,screen)
-    else:
-        matchfield_visual, matchfield_ship_pos = set_ships_comp(2,2,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,ySize,xSize,player,screen)
+    matchfield_visual, matchfield_ship_pos = set_ships(2,2,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,ySize,xSize,player,screen)
     return matchfield_visual, matchfield_ship_pos
 
 def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, matchfield_temp, player, screen):
@@ -103,9 +99,12 @@ def userinput(screen):
 
 def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
     ''' Random shot function for the AI ''' # Wird später in den Code eingebaut
+    #Todo: Nachdem in eine Richtung nichts war erneut überprüfen mit der Richtung ausgeschlossen, solange bis ein Treffer gelandet wird.
+    #
     hit = False
     doublehit = False
     hitcounter = 0
+    current_direction = ""
     current_player = random.randint(1,2)
 
     while True:
@@ -117,8 +116,22 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
             if hit == False:
                 x = random.randint(0, xGamesize)
                 y = random.randint(0, yGamesize)
+                directions = []
+                # Below checks the surrounding squares around the shot: Sets possible directions.
+                # Possible directions are when the logical number of the matchfield is 0 or 1 and doesnt touch borders.
+                if x > 0 and (matchfield_logic[y,x-1] == 0 or matchfield_logic[y,x-1] == 1): directions.append("Westen")
+                if x < xGamesize and (matchfield_logic[y,x+1] == 0 or matchfield_logic[y,x+1] == 1): directions.append("Osten")
+                if y > 0 and (matchfield_logic[y-1,x] == 0 or matchfield_logic[y-1,x] == 1): directions.append("Norden")
+                if y < yGamesize and (matchfield_logic[y+1,x] == 0 or matchfield_logic[y+1,x] == 1): directions.append("Süden")
+                direction_copy = directions
+                random_direction = random.sample(directions,1)
+
                 if matchfield_logic[y,x] == 1: #1 is the logical indication for a ship
                     hit = True
+                    norden = False
+                    sueden = False
+                    osten = False
+                    westen = False
                     yCurrent = y
                     xCurrent = x
                     hitcounter += 1
@@ -127,16 +140,8 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                     matchfield_logic[y,x] = 3 #3 is the logical indication for a miss
             else:
                 if doublehit == False:
-                    directions = []
-                    # Below checks the surrounding squares around the shot: Sets possible directions.
-                    # Possible directions are when the logical number of the matchfield is 0 or 1 and doesnt touch borders.
-                    if x > 0 and (matchfield_logic[y,x-1] == 0 or matchfield_logic[y,x-1] == 1): directions.append("Westen")
-                    if x < xGamesize and (matchfield_logic[y,x+1] == 0 or matchfield_logic[y,x+1] == 1): directions.append("Osten")
-                    if y > 0 and (matchfield_logic[y-1,x] == 0 or matchfield_logic[y-1,x] == 1): directions.append("Norden")
-                    if y < yGamesize and (matchfield_logic[y+1,x] == 0 or matchfield_logic[y+1,x] == 1): directions.append("Süden")
-                    random_direction = random.sample(directions,1)
-
                     if random_direction == "Norden":
+                        norden = True
                         if matchfield_logic[yCurrent-1,xCurrent] == 1:
                             hitcounter += 1
                             yCurrent -= 1
@@ -145,6 +150,7 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                             hit = False
                             matchfield_logic[yCurrent-1,xCurrent] = 3
                     if random_direction == "Osten":
+                        osten = True
                         if matchfield_logic[yCurrent,xCurrent+1] == 1:
                             hitcounter += 1
                             xCurrent += 1
@@ -153,6 +159,7 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                             hit = False
                             matchfield_logic[yCurrent,xCurrent+1] = 3
                     if random_direction == "Süden":
+                        sueden = True
                         if matchfield_logic[yCurrent+1,xCurrent] == 1:
                             hitcounter += 1
                             yCurrent += 1
@@ -161,6 +168,7 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                             hit = False
                             matchfield_logic[yCurrent+1,xCurrent] = 3
                     if random_direction == "Westen":
+                        westen = True
                         if matchfield_logic[yCurrent,xCurrent-1] == 1:
                             hitcounter += 1
                             xCurrent -= 1
@@ -200,7 +208,7 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                             hitcounter += 1
                             yCurrent += 1
                             matchfield_logic[yCurrent+1,xCurrent] = 2
-                        else: 
+                        else:
                             hit = False
                             matchfield_logic[yCurrent+1,xCurrent] = 3
                     if random_direction == "Westen":
@@ -370,7 +378,8 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
     ship_2b = Ship.Ship(2)
     ship_2c = Ship.Ship(2)
     ship_2d = Ship.Ship(2)
-    ship_list = [ship_5, ship_4a, ship_4b, ship_3a, ship_3b, ship_3c, ship_2a, ship_2b, ship_2c, ship_2d]
+    ship_fill = Ship.Ship(1)
+    ship_list = [ship_5, ship_4a, ship_4b, ship_3a, ship_3b, ship_3c, ship_2a, ship_2b, ship_2c, ship_2d, ship_fill]
     ship_list_placed = []
     
     screen.keypad(1)
@@ -508,7 +517,10 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
             elif curinput == 'enter':
             # Checks if userinput is enter
                 # First ship doesn't need to check overlap -> directly placed
+                i.position_x = xPos
+                i.position_y = yPos
                 used = False
+
                 if not ship_list_placed:
                 # First ship doesn't need to check overlap -> directly placed
                     used = False
@@ -525,7 +537,6 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                             screen.addstr(game_y_pos+yGameSize,0,"                                        ")
                             screen.refresh()
                             matchfield_temp[yPos, xPos:xPos+size] = 1
-                            break
 
                 else:
                     for j in range(size):
@@ -539,14 +550,11 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                             screen.addstr(game_y_pos+yGameSize,0,"                                        ")
                             screen.refresh()
                             matchfield_temp[yPos:yPos+size, xPos] = 1
-                            break
                             
 
                 if used == False:
                 # If the space is free the ship can be placed
                     i.rotation = rotation
-                    i.position_x = xPos
-                    i.position_y = yPos
                     ship_list_placed.append(i)
                     if rotation == 'hori':
                     #Reserves spaces for the ship within the logical matchfield for horizontal ships
