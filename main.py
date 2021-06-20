@@ -107,7 +107,13 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
     #
     hit = False
     doublehit = False
+    norden = True
+    sueden = True
+    osten = True
+    westen = True
+    valid_field = False # For the random function // a valid field is where the logic matchfield is 0 or 1
     hitcounter = 0
+    check_two_sides = 0
     current_direction = ""
     current_player = random.randint(1,2)
 
@@ -117,7 +123,8 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
             current_player = 2
 
         elif current_player == 2:
-            if hit == False:
+            # Random shots fired until it hits a player's ship
+            if hit == False and doublehit == False:
                 x = random.randint(0, xGamesize)
                 y = random.randint(0, yGamesize)
                 directions = []
@@ -132,20 +139,19 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
 
                 if matchfield_logic[y,x] == 1: #1 is the logical indication for a ship
                     hit = True
-                    norden = False
-                    sueden = False
-                    osten = False
-                    westen = False
+                    screen.addstr(10,0,"The AI shot hit again")
+                    screen.refresh()
                     yCurrent = y
                     xCurrent = x
                     hitcounter += 1
                     matchfield_logic[y,x] = 2  #2 is the logical indication for a hit
                 else: 
                     matchfield_logic[y,x] = 3 #3 is the logical indication for a miss
+
+            # First shot hit. Shoots at the nearby field with a random direction until hit.
             else:
                 if doublehit == False:
                     if random_direction == "Norden":
-                        norden = True
                         if matchfield_logic[yCurrent-1,xCurrent] == 1:
                             hitcounter += 1
                             yCurrent -= 1
@@ -154,7 +160,6 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                             hit = False
                             matchfield_logic[yCurrent-1,xCurrent] = 3
                     if random_direction == "Osten":
-                        osten = True
                         if matchfield_logic[yCurrent,xCurrent+1] == 1:
                             hitcounter += 1
                             xCurrent += 1
@@ -163,7 +168,6 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                             hit = False
                             matchfield_logic[yCurrent,xCurrent+1] = 3
                     if random_direction == "Süden":
-                        sueden = True
                         if matchfield_logic[yCurrent+1,xCurrent] == 1:
                             hitcounter += 1
                             yCurrent += 1
@@ -172,7 +176,6 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                             hit = False
                             matchfield_logic[yCurrent+1,xCurrent] = 3
                     if random_direction == "Westen":
-                        westen = True
                         if matchfield_logic[yCurrent,xCurrent-1] == 1:
                             hitcounter += 1
                             xCurrent -= 1
@@ -182,14 +185,14 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                             matchfield_logic[yCurrent,xCurrent-1] = 3
 
                     if hit == True: 
-                        screen.addstr(10,0,"The AI shot hit")
+                        screen.addstr(10,0,"The AI shot hit again")
                         screen.refresh()
                         doublehit = True
 
                     else: 
                         screen.addstr(10,0,"The AI shot missed")
                         screen.refresh()
-     
+                # When 2 shots land on one ship doublehit is True and now the ship can only be in 2 directions
                 else:
                     if random_direction == "Norden":
                         if matchfield_logic[yCurrent-1,xCurrent] == 1:
@@ -199,6 +202,8 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                         else: 
                             hit = False
                             matchfield_logic[yCurrent-1,xCurrent] = 3
+                            check_two_sides += 1
+                            random_direction = "Süden"
                     if random_direction == "Osten":
                         if matchfield_logic[yCurrent,xCurrent+1] == 1:
                             hitcounter += 1
@@ -207,6 +212,8 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                         else: 
                             hit = False
                             matchfield_logic[yCurrent,xCurrent+1] = 3
+                            check_two_sides += 1
+                            random_direction = "Westen"
                     if random_direction == "Süden":
                         if matchfield_logic[yCurrent+1,xCurrent] == 1:
                             hitcounter += 1
@@ -215,6 +222,8 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                         else:
                             hit = False
                             matchfield_logic[yCurrent+1,xCurrent] = 3
+                            check_two_sides += 1
+                            random_direction = "Norden"
                     if random_direction == "Westen":
                         if matchfield_logic[yCurrent,xCurrent-1] == 1:
                             hitcounter += 1
@@ -223,8 +232,11 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
                         else: 
                             hit = False
                             matchfield_logic[yCurrent,xCurrent-1] = 3
-                    if not hit: 
+                            check_two_sides += 1
+                            random_direction = "Osten"
+                    if not hit and check_two_sides == 2: 
                         doublehit = False
+                        check_two_sides = 0
                         screen.addstr("Schiff zerstört")
         time.sleep(2)
         current_player = 1
