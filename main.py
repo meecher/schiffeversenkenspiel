@@ -16,7 +16,8 @@ def multiplayer(screen):
 
 def singleplayer(screen):
     ''' Creates a matchfield for the player and the computer'''
-    create_matchfield(10,10,screen)
+    matchfield_visual_p1, matchfield_ships_p1 = create_matchfield(10,10,"comp",screen) 
+    matchfield_visual_p2, matchfield_ships_p2 = create_matchfield(10,10,"comp",screen)
 
 
 def create_matchfield(ySize, xSize, player, screen):
@@ -29,7 +30,10 @@ def create_matchfield(ySize, xSize, player, screen):
     matchfield_logic = np.zeros((ySize, xSize))
     matchfield_ship_pos = np.zeros((ySize, xSize))
 
-    matchfield_visual, matchfield_ship_pos = set_ships(2,2,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,ySize,xSize,player,screen)
+    if player == 'p1' or player == 'p2':
+        matchfield_visual, matchfield_ship_pos = set_ships(2,2,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,ySize,xSize,player,screen)
+    else:
+        matchfield_visual, matchfield_ship_pos = set_ships_comp(2,2,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,ySize,xSize,player,screen)
     return matchfield_visual, matchfield_ship_pos
 
 def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, matchfield_temp, player, screen):
@@ -330,11 +334,11 @@ def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_lo
                         # Below checks the spaces around the ship and reserves the place
                         if (yPos_rand-1 >= 0):
                             matchfield_logic[yPos_rand-1, xPos_rand:xPos_rand+size] = 1
-                        if (xPos_rand+size+1 < game_x_pos + xGameSize):
+                        if (xPos_rand+size+1 <= xGameSize):
                             matchfield_logic[yPos_rand, xPos_rand+size] = 1
                         if (xPos_rand-1 >= 0):
                             matchfield_logic[yPos_rand, xPos_rand-1] = 1
-                        if (yPos_rand+1 < game_y_pos + yGameSize):
+                        if (yPos_rand+1 < yGameSize):
                             matchfield_logic[yPos_rand+1, xPos_rand:xPos_rand+size] = 1
                             yPos += 1
                     else:
@@ -344,15 +348,13 @@ def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_lo
                         # Below checks the spaces around the ship and reserves the place
                         if (xPos_rand-1 >= 0):
                             matchfield_logic[yPos_rand:yPos_rand+size, xPos_rand-1] = 1
-                        if (yPos_rand+size+1 < game_y_pos + yGameSize +1):
+                        if (yPos_rand+size+1 <= yGameSize):
                             matchfield_logic[yPos_rand+size, xPos_rand] = 1
-                        if (yPos_rand-1 >= game_y_pos + yGameSize+1):
+                        if (yPos_rand-1 >= 0):
                             matchfield_logic[yPos_rand-1, xPos_rand] = 1
-                        if (xPos_rand+1 < game_x_pos + xGameSize+1):
+                        if (xPos_rand+1 < xGameSize):
                             matchfield_logic[yPos_rand:yPos_rand+size, xPos_rand+1] = 1
                             xPos += 1
-        screen.clear()
-        screen.refresh()
         update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_ship_pos, player, screen)
     screen.addstr(game_y_pos+yGameSize+1,0,"alle platziert")
     screen.refresh()
@@ -583,12 +585,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                             matchfield_logic[yPos-1, xPos] = 1
                         if (xPos+1 < xGameSize):
                             matchfield_logic[yPos:yPos+size, xPos+1] = 1
-                            xPos += 1
-                    screen.clear()
-                    screen.addstr(str(matchfield_logic))
-                    screen.refresh()
-                    time.sleep(5)
-                    
+                            xPos += 1       
                     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
                     break
 
