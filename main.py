@@ -16,7 +16,7 @@ def multiplayer(screen):
 
 def singleplayer(screen):
     ''' Creates a matchfield for the player and the computer'''
-    matchfield_visual_p1, matchfield_ships_p1 = create_matchfield(10,10,"comp",screen) 
+    matchfield_visual_p1, matchfield_ships_p1 = create_matchfield(10,10,"p1",screen) 
     matchfield_visual_p2, matchfield_ships_p2 = create_matchfield(10,10,"comp",screen)
 
 
@@ -229,6 +229,7 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
         time.sleep(2)
         current_player = 1
 
+
 def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, yGameSize, xGameSize, player, screen):
     ''' Creates and sets all ships in order from biggest to smallest '''
     rotation = "hori"
@@ -237,6 +238,7 @@ def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_lo
     yPos = 0
     xPos = 0
     counter = 0
+    tries = 0
     rotation_choice = ["hori", "verti"]
     ship_5 = Ship.Ship(5)
     ship_4a = Ship.Ship(4)
@@ -253,50 +255,113 @@ def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_lo
         
     for i in ship_list:
     # Places all necessary ships
+        yStatic = False
+        choice = ["y", "x"]
         ship_placed = False
         yPos_rand = yPos
         xPos_rand = xPos
         size = i.size
-        counter = 0
+        counter_rot = 0
+        counter_pos = 0
+
         rotation = random.choice(rotation_choice)
 
+        if rotation == 'hori':
+            if random.choice(choice) == "y":
+            # Returns random choice; defines that y is increased everytime x reaches the gamesize
+            # Chooses y and x according to the size of the ship and the gamesize
+                yPos_rand = random.randrange(0,yGameSize-1)
+                yStatic = True
+                xPos_rand = 0
+            else:
+                xPos_rand = random.randrange(0,xGameSize-size)
+                yPos_rand = 0
+        else: 
+            if random.choice(choice) == "y":
+            # Returns random choice; defines that y is increased everytime x reaches the gamesize;
+            # Chooses y and x according to the size of the ship and the gamesize
+                yPos_rand = random.randrange(0,yGameSize-size)
+                yStatic = True
+                xPos_rand = 0
+            else:
+                xPos_rand = random.randrange(0,xGameSize-1)
+                yPos_rand = 0
+
         while ship_placed == False:
-            counter += 1
-            if counter > 100:
-                roation = random.choice(rotation_choice)
-                counter = 0
-            matchfield_temp[yPos_rand, xPos_rand:xPos_rand+size] = 0
+        # Selects coordinates for the ship
+            changed = False
+            if counter_rot >= 99:
+            # Changes rotation after 99 tries
+                if rotation == 'hori':
+                # Changes rotation
+                    rotation = "verti"
+                else:
+                    rotation = "hori"
+                counter_rot = 0
+
+
+            matchfield_temp[yPos_rand, xPos_rand:yPos_rand+size] = 0
             matchfield_temp[yPos_rand:yPos_rand+size, xPos_rand] = 0  
 
-            if rotation == 'hori':
-                yPos_rand = random.randrange(0,yGameSize)
-                xPos_rand = random.randrange(0,xGameSize-size)
-            else:
-                yPos_rand = random.randrange(0,yGameSize-size)
-                xPos_rand = random.randrange(0,xGameSize)
-
-            changed = False
+            
             if rotation == 'hori':
             # Checks if ship rotation is horizontal
-                if (xPos_rand + size >= xGameSize or yPos_rand + 1 >= yGameSize
-                or xPos_rand - 1 < 0 or yPos_rand - 1 < 0):
+                if yStatic == True:
+                # Increases y and resets x after gamesize is reached
+                    if yPos_rand + 1 > yGameSize - 1:
+                    # Resets y and x if the gamesize is reached
+                        yPos_rand = 0
+                        xPos_rand = 0
+                    elif xPos_rand == xGameSize - 1:
+                    # Resets x if it reaches the gamesize and increases y
+                        yPos_rand += 1
+                        xPos_rand = 0
+                else:
+                    if xPos_rand + 1 + size > xGameSize - 1:
+                    # Resets x and y if the gamesize is reached
+                        xPos_rand = 0
+                        yPos_rand = 0
+                    elif yPos_rand == yGameSize - 1:
+                    # Resets y if it reaches the gamesize increases y
+                        xPos_rand += 1
+                        yPos_rand = 0
+                #counter_pos = 0
+                if xPos_rand + size > xGameSize - 1:
                 # Doesn't move ship if it exceeds the matchfield
                     matchfield_temp[yPos, xPos:xPos+size] = 1 
                 else:                
                     matchfield_temp[yPos_rand, xPos_rand:xPos_rand+size] = 1
                     changed = True
             else:
-                if (xPos_rand + 1 >= xGameSize or yPos_rand + size >= yGameSize
-                or xPos_rand - 1 < 0 or yPos_rand - 1 < 0):
+                if yStatic == True:
+                # Increases y and resets x after gamesize is reached
+                    if yPos_rand + 1 + size > yGameSize - 1:
+                    # Resets y and x if the gamesize is reached
+                        yPos_rand = 0
+                        xPos_rand = 0
+                    elif xPos_rand == xGameSize - 1:
+                    # Resets x if it reaches the gamesize and increases y
+                        yPos_rand += 1
+                        xPos_rand = 0
+                else:
+                    if xPos_rand + 1 > xGameSize - 1:
+                    # Resets x and y if the gamesize is reached
+                        xPos_rand = 0
+                        yPos_rand = 0
+                    elif yPos_rand == yGameSize - 1:
+                    # Resets y if it reaches the gamesize increases y
+                        xPos_rand += 1
+                        yPos_rand = 0
+                #counter_pos = 0
+                if yPos_rand + size >= yGameSize - 1:
                 # Doesn't move ship if it exceeds the matchfield
                     matchfield_temp[yPos:yPos+size, xPos] = 1
                 else:
                     matchfield_temp[yPos_rand:yPos_rand+size, xPos_rand] = 1
                     changed = True
-
+            
             if changed == True:
-            # Checks if userinput is enter
-                # First ship doesn't need to check overlap -> directly placed
+            # Cheks if coordinates have changed
                 used = False
                 if not ship_list_placed:
                 # First ship doesn't need to check overlap -> directly placed
@@ -318,7 +383,7 @@ def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_lo
                             used = True
                             matchfield_temp[yPos:yPos+size, xPos] = 1
                             break
-                            
+
                 if used == False:
                 # If the space is free the ship can be placed
                     i.rotation = rotation
@@ -355,10 +420,23 @@ def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_lo
                         if (xPos_rand+1 < xGameSize):
                             matchfield_logic[yPos_rand:yPos_rand+size, xPos_rand+1] = 1
                             xPos += 1
+
+            if yStatic == True:
+            # Increases x or y according to leading coordinate
+                xPos_rand += 1
+            else:
+                yPos_rand += 1  
+            counter_pos += 1      
+            counter_rot += 1
+
+            # screen.clear()
+            # screen.addstr(0,0,str(matchfield_logic))
+            # screen.addstr(game_y_pos+yGameSize+1,0,"                                                                                            ")
+            # cords = "y:" + str(yPos_rand) + " x:" + str(xPos_rand) + " rot:" + rotation + " size:" + str(size) + "count:" + str(counter) + " tries:" + str(tries)
+            # screen.addstr(game_y_pos+yGameSize+1,0,cords)
+            # screen.refresh()
+            # time.sleep(0.01)
         update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_ship_pos, player, screen)
-    screen.addstr(game_y_pos+yGameSize+1,0,"alle platziert")
-    screen.refresh()
-    time.sleep(10)
     return matchfield_visual, matchfield_ship_pos
 
 def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, yGameSize, xGameSize, player, screen):
@@ -380,8 +458,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
     ship_2b = Ship.Ship(2)
     ship_2c = Ship.Ship(2)
     ship_2d = Ship.Ship(2)
-    ship_fill = Ship.Ship(1)
-    ship_list = [ship_5, ship_4a, ship_4b, ship_3a, ship_3b, ship_3c, ship_2a, ship_2b, ship_2c, ship_2d, ship_fill]
+    ship_list = [ship_5, ship_4a, ship_4b, ship_3a, ship_3b, ship_3c, ship_2a, ship_2b, ship_2c, ship_2d]
     ship_list_placed = []
     
     screen.keypad(1)
