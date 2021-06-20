@@ -17,7 +17,7 @@ def singleplayer(screen):
     ''' Creates a matchfield for the player and the computer'''
     create_matchfield(10,10,screen)
 
-def randomshot(screen, xGamesize, yGamesize, matchfield_logic):
+def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
     ''' Random shot function for the AI ''' # Wird später in den Code eingebaut
     hit = False
     doublehit = False
@@ -142,6 +142,8 @@ def create_matchfield(ySize, xSize, screen):
     matchfield_visual[:] = "O"
     matchfield_temp = np.zeros((ySize, xSize))
     matchfield_logic = np.zeros((ySize, xSize))
+    matchfield_ship_pos = np.zeros((ySize, xSize))
+
 
     for x in range(eingabe):
     # Creates the coordinate systems of the entered size
@@ -150,8 +152,7 @@ def create_matchfield(ySize, xSize, screen):
         screen.addstr(counter,0, chr(65+x))
         counter+=1
     screen.refresh()
-
-    set_ships(0,0,matchfield_visual,matchfield_temp,matchfield_logic,1,ySize,xSize,screen)
+    matchfield_visual, matchfield_ship_pos = set_ships(0,0,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,1,ySize,xSize,screen)
 
 def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, matchfield_temp, screen):
     ''' Translates temporary matchfield to visual one and displays visuals '''
@@ -165,7 +166,7 @@ def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, match
                 matchfield_visual[y,x] = "X"
             else:
                 matchfield_visual[y,x] = "O"
-
+    screen.clear()
     for row in matchfield_visual.astype(str):
     # Converts matchfield in string and displays it
         string_conv = [str(int) for  int in row]
@@ -175,7 +176,7 @@ def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, match
         screen.refresh()
 
 def userinput(screen):
-    ''' Checks userinput '''
+    ''' Checks user input '''
     input_key = ""
     curinput = ""
     screen.keypad(1)
@@ -199,7 +200,7 @@ def userinput(screen):
         input_key = curinput
     return input_key
 
-def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, player, yGameSize, xGameSize, screen):
+def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, player, yGameSize, xGameSize, screen):
     ''' Creates and sets all ships in order from biggest to smallest '''
     curinput = ""
     rotation = "hori"
@@ -272,7 +273,6 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                     else:                
                         xPos += 1
                         matchfield_temp[yPos, xPos:xPos+size] = 1
-                    #update_visual('add',rotation,yPos,yPos,xPos,xPos+size,matchfield_visual,screen)
                 else:
                     if xPos + 1 >= xGameSize:
                     # Doesn't move ship if it exceeds the matchfield to the right
@@ -280,7 +280,6 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                     else:
                         xPos += 1
                         matchfield_temp[yPos:yPos+size, xPos] = 1
-                    #update_visual('add',rotation,yPos,yPos+size,xPos,xPos,matchfield_visual,screen)
 
             elif curinput == 'down':
             # Checks if userinput is down
@@ -371,7 +370,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                         if matchfield_logic[yPos,xPos+j] == 1:
                         # Checks if any field of the horizontal ship is already used
                             used = True
-                            screen.addstr(10,0,"Schiffe Überschneiden sich")
+                            screen.addstr(10,0,"Schiff kann hier nicht platziert werden.")
                             screen.refresh()
                             time.sleep(0.1)
                             screen.addstr(10,0,"                          ")
@@ -384,7 +383,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                         if matchfield_logic[yPos+j,xPos] == 1:
                         # Checks if any field of the vertical ship is already used
                             used = True
-                            screen.addstr(10,0,"Schiffe Überschneiden sich")
+                            screen.addstr(10,0,"Schiff kann hier nicht platziert werden.")
                             screen.refresh()
                             time.sleep(0.1)
                             screen.addstr(10,0,"                          ")
@@ -399,6 +398,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                     if rotation == 'hori':
                     #Reserves spaces for the ship within the logical matchfield for horizontal ships
                         matchfield_logic[yPos, xPos:xPos+size] = 1
+                        matchfield_ship_pos[yPos, xPos:xPos+size] = 1
                         # Below checks the spaces around the ship and reserves the place
                         if (yPos-1 >= 0):
                             matchfield_logic[yPos-1, xPos:xPos+size] = 1
@@ -412,6 +412,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                     else:
                     #Reserves spaces for the ship within the logical matchfield for vertical ships
                         matchfield_logic[yPos:yPos+size, xPos] = 1
+                        matchfield_ship_pos[yPos:yPos+size, xPos] = 1
                         # Below checks the spaces around the ship and reserves the place
                         if (xPos-1 >= 0):
                             matchfield_logic[yPos:yPos+size, xPos-1] = 1
@@ -426,7 +427,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                     break
 
             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, screen)
-        #return matchfield_visual, matchfield_logic
+    return matchfield_visual, matchfield_ship_pos
               
 def options():
     ''' Currently not in use '''
