@@ -44,10 +44,12 @@ def randomshot(screen, xGamesize, yGamesize, matchfield_logic):
             else:
                 if doublehit == False:
                     directions = []
-                    if x > 0: directions.append("Westen")
-                    if x < xGamesize: directions.append("Osten")
-                    if y > 0: directions.append("Norden")
-                    if y < yGamesize: directions.append("Süden")
+                    # Below checks the surrounding squares around the shot: Sets possible directions.
+                    # Possible directions are when the logical number of the matchfield is 0 or 1 and doesnt touch borders.
+                    if x > 0 and (matchfield_logic[y,x-1] == 0 or matchfield_logic[y,x-1] == 1): directions.append("Westen")
+                    if x < xGamesize and (matchfield_logic[y,x+1] == 0 or matchfield_logic[y,x+1] == 1): directions.append("Osten")
+                    if y > 0 and (matchfield_logic[y-1,x] == 0 or matchfield_logic[y-1,x] == 1): directions.append("Norden")
+                    if y < yGamesize and (matchfield_logic[y+1,x] == 0 or matchfield_logic[y+1,x] == 1): directions.append("Süden")
                     random_direction = random.sample(directions,1)
 
                     if random_direction == "Norden":
@@ -91,8 +93,43 @@ def randomshot(screen, xGamesize, yGamesize, matchfield_logic):
                     else: 
                         screen.addstr(10,0,"The AI shot missed")
                         screen.refresh()
-                else: "Schuss mit der selben Richtung wie zuvor"
-
+     
+                else:
+                    if random_direction == "Norden":
+                        if matchfield_logic[yCurrent-1,xCurrent] == 1:
+                            hitcounter += 1
+                            yCurrent -= 1
+                            matchfield_logic[yCurrent-1,xCurrent] = 2
+                        else: 
+                            hit = False
+                            matchfield_logic[yCurrent-1,xCurrent] = 3
+                    if random_direction == "Osten":
+                        if matchfield_logic[yCurrent,xCurrent+1] == 1:
+                            hitcounter += 1
+                            xCurrent += 1
+                            matchfield_logic[yCurrent,xCurrent+1] = 2
+                        else: 
+                            hit = False
+                            matchfield_logic[yCurrent,xCurrent+1] = 3
+                    if random_direction == "Süden":
+                        if matchfield_logic[yCurrent+1,xCurrent] == 1:
+                            hitcounter += 1
+                            yCurrent += 1
+                            matchfield_logic[yCurrent+1,xCurrent] = 2
+                        else: 
+                            hit = False
+                            matchfield_logic[yCurrent+1,xCurrent] = 3
+                    if random_direction == "Westen":
+                        if matchfield_logic[yCurrent,xCurrent-1] == 1:
+                            hitcounter += 1
+                            xCurrent -= 1
+                            matchfield_logic[yCurrent,xCurrent-1] = 2
+                        else: 
+                            hit = False
+                            matchfield_logic[yCurrent,xCurrent-1] = 3
+                    if not hit: 
+                        doublehit = False
+                        screen.addstr("Schiff zerstört")
         time.sleep(2)
         current_player = 1
 
