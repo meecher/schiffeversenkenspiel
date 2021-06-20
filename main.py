@@ -220,11 +220,11 @@ def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
 def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, yGameSize, xGameSize, player, screen):
     ''' Creates and sets all ships in order from biggest to smallest '''
     rotation = "hori"
-    counter = 0
     game_y_pos = yPos
     game_x_pos = xPos
     yPos = 0
     xPos = 0
+    counter = 0
     rotation_choice = ["hori", "verti"]
     ship_5 = Ship.Ship(5)
     ship_4a = Ship.Ship(4)
@@ -245,17 +245,22 @@ def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_lo
         yPos_rand = yPos
         xPos_rand = xPos
         size = i.size
+        counter = 0
         rotation = random.choice(rotation_choice)
 
         while ship_placed == False:
+            counter += 1
+            if counter > 100:
+                roation = random.choice(rotation_choice)
+                counter = 0
             matchfield_temp[yPos_rand, xPos_rand:xPos_rand+size] = 0
             matchfield_temp[yPos_rand:yPos_rand+size, xPos_rand] = 0  
 
             if rotation == 'hori':
                 yPos_rand = random.randrange(0,yGameSize-1)
-                xPos_rand = random.randrange(0,xGameSize-size-1)
+                xPos_rand = random.randrange(0,xGameSize-size)
             else:
-                yPos_rand = random.randrange(0,yGameSize-size-1)
+                yPos_rand = random.randrange(0,yGameSize-size)
                 xPos_rand = random.randrange(0,xGameSize-1)
 
             changed = False
@@ -291,11 +296,6 @@ def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_lo
                         if matchfield_logic[yPos_rand,xPos_rand+j] == 1:
                         # Checks if any field of the horizontal ship is already used
                             used = True
-                            #screen.addstr(game_y_pos+yGameSize,0,"Schiff kann hier nicht platziert werden.")
-                            #screen.refresh()
-                            #time.sleep(0.1)
-                            #screen.addstr(game_y_pos+yGameSize,0,"                                        ")
-                            #screen.refresh()
                             matchfield_temp[yPos, xPos:xPos+size] = 1
                             break
                 else:
@@ -304,11 +304,6 @@ def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_lo
                         if matchfield_logic[yPos_rand+j,xPos_rand] == 1:
                         # Checks if any field of the vertical ship is already used
                             used = True
-                            #screen.addstr(game_y_pos+yGameSize,0,"Schiff kann hier nicht platziert werden.")
-                            #screen.refresh()
-                            #time.sleep(0.1)
-                            #screen.addstr(game_y_pos+yGameSize,0,"                                        ")
-                            #screen.refresh()
                             matchfield_temp[yPos:yPos+size, xPos] = 1
                             break
                             
@@ -345,206 +340,12 @@ def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_lo
                             matchfield_logic[yPos_rand-1, xPos_rand] = 1
                         if (xPos_rand+size+1 < 10):
                             matchfield_logic[yPos_rand:yPos_rand+size, xPos_rand+1] = 1
-                    #time.sleep(0.3)
-                    break
 
-        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
+        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_ship_pos, player, screen)
     screen.addstr(game_y_pos+yGameSize+1,0,"alle platziert")
     screen.refresh()
     time.sleep(10)
     return matchfield_visual, matchfield_ship_pos
-
-# def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, yGameSize, xGameSize, player, screen):
-#     ''' Creates and sets all ships in order from biggest to smallest '''
-#     rotation = "hori"
-#     counter = 0
-#     game_y_pos = yPos
-#     game_x_pos = xPos
-#     yPos = 0
-#     xPos = 0
-#     rotation_choice = ["hori", "verti"]
-#     ship_5 = Ship.Ship(5)
-#     ship_4a = Ship.Ship(4)
-#     ship_4b = Ship.Ship(4)
-#     ship_3a = Ship.Ship(3)
-#     ship_3b = Ship.Ship(3)
-#     ship_3c = Ship.Ship(3)
-#     ship_2a = Ship.Ship(2)
-#     ship_2b = Ship.Ship(2)
-#     ship_2c = Ship.Ship(2)
-#     ship_2d = Ship.Ship(2)
-#     ship_list = [ship_5, ship_4a, ship_4b, ship_3a, ship_3b, ship_3c, ship_2a, ship_2b, ship_2c, ship_2d]
-#     ship_list_placed = []
-        
-#     for i in ship_list:
-#     # Places all necessary ships
-#         ship_placed = False
-#         yPos_rand = yPos
-#         xPos_rand = xPos
-
-#         while ship_placed == False:
-#             size = i.size
-#             if counter == len(ship_list)-1:
-#             # Checks if the last ship is placed
-#                 counter = counter
-#             else:
-#                 counter += 1
-
-#             next_ship = ship_list[counter]
-#             last_ship = ship_list[counter-1]
-
-#             if rotation == 'hori':
-#             # Draws ship on horizontal axis
-#                 matchfield_temp[yPos, xPos:xPos+size] = 1
-#             else: 
-#             # Draws ship on vertical axis
-#                 matchfield_temp[yPos:yPos+size, xPos] = 1
-            
-#             #update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_temp, player, screen)
-
-#             for y in ship_list_placed:
-#             # Draw placed ships
-#                 yPos_rand = yPos
-#                 xPos_rand = xPos
-
-#                 if y.rotation == 'hori':
-#                 # Checks if current ship object is horizontal
-#                     matchfield_temp[y.position_y, y.position_x:y.position_x+y.size] = 1
-#                 else:
-#                 # Checks if current ship object is vertical
-#                     matchfield_temp[y.position_y:y.position_y+y.size, y.position_x] = 1
-
-#                 #update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
-
-#             matchfield_temp[yPos_rand, xPos_rand:xPos_rand+size] = 0
-#             matchfield_temp[yPos_rand:yPos_rand+size, xPos_rand] = 0
-#             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
-            
-#             rotation_check = False
-#             rotation = random.choice(rotation_choice)
-#             # if rotation == 'hori':
-#             # # Checks if ship rotation is horizontal
-#             #     if yPos + size > yGameSize:
-#             #     # Doesn't rotate ship if it exceeds the matchfield to the right
-#             #         matchfield_temp[yPos, xPos:xPos+size] = 1
-#             #     else:
-#             #         rotation = "verti"
-#             #         matchfield_temp[yPos:yPos+size, xPos] = 1
-#             #         rotation_check = True
-#             # else:
-#             #     if xPos + size > xGameSize:
-#             #     # Doesn't move ship if it exceeds the matchfield at the bottom
-#             #         matchfield_temp[yPos:yPos+size, xPos] = 1
-#             #     else:
-#             #         rotation = "hori"
-#             #         matchfield_temp[yPos, xPos:xPos+size] = 1
-#             #         rotation_check = True
-
-#             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
-
-#             while ship_placed == False:
-#                 if rotation == 'hori':
-#                     yPos_rand = random.randrange(0,yGameSize-1)
-#                     xPos_rand = random.randrange(0,xGameSize-size-1)
-#                 else:
-#                     yPos_rand = random.randrange(0,yGameSize-size-1)
-#                     xPos_rand = random.randrange(0,xGameSize-1)
-
-#                 changed = False
-#                 if rotation == 'hori':
-#                 # Checks if ship rotation is horizontal
-#                     if (xPos_rand + size >= xGameSize or yPos_rand + 1 >= yGameSize
-#                     or xPos_rand - 1 < 0 or yPos_rand - 1 < 0):
-#                     # Doesn't move ship if it exceeds the matchfield
-#                         matchfield_temp[yPos, xPos:xPos+size] = 1 
-#                     else:                
-#                         matchfield_temp[yPos_rand, xPos_rand:xPos_rand+size] = 1
-#                         changed = True
-#                 else:
-#                     if (xPos_rand + 1 >= xGameSize or yPos_rand + size >= yGameSize
-#                     or xPos_rand - 1 < 0 or yPos_rand - 1 < 0):
-#                     # Doesn't move ship if it exceeds the matchfield
-#                         matchfield_temp[yPos:yPos+size, xPos] = 1
-#                     else:
-#                         matchfield_temp[yPos_rand:yPos_rand+size, xPos_rand] = 1
-#                         changed = True
-
-#                 if changed == True:
-#                 # Checks if userinput is enter
-#                     # First ship doesn't need to check overlap -> directly placed
-#                     used = False
-#                     if not ship_list_placed:
-#                     # First ship doesn't need to check overlap -> directly placed
-#                         used = False
-#                     elif rotation == 'hori':
-#                     # Sets ship (current object) rotation and moves current location
-#                         for j in range(size):
-#                         # Loop for the current ship size
-#                             if matchfield_logic[yPos_rand,xPos_rand+j] == 1:
-#                             # Checks if any field of the horizontal ship is already used
-#                                 used = True
-#                                 screen.addstr(game_y_pos+yGameSize,0,"Schiff kann hier nicht platziert werden.")
-#                                 screen.refresh()
-#                                 time.sleep(0.1)
-#                                 screen.addstr(game_y_pos+yGameSize,0,"                                        ")
-#                                 screen.refresh()
-#                                 matchfield_temp[yPos, xPos:xPos+size] = 1
-#                                 break
-#                     else:
-#                         for j in range(size):
-#                         # Loop for the current ship size
-#                             if matchfield_logic[yPos_rand+j,xPos_rand] == 1:
-#                             # Checks if any field of the vertical ship is already used
-#                                 used = True
-#                                 screen.addstr(game_y_pos+yGameSize,0,"Schiff kann hier nicht platziert werden.")
-#                                 screen.refresh()
-#                                 time.sleep(0.1)
-#                                 screen.addstr(game_y_pos+yGameSize,0,"                                        ")
-#                                 screen.refresh()
-#                                 matchfield_temp[yPos:yPos+size, xPos] = 1
-#                                 break
-                                
-#                     if used == False:
-#                     # If the space is free the ship can be placed
-#                         i.rotation = rotation
-#                         i.position_x = xPos_rand
-#                         i.position_y = yPos_rand
-#                         ship_list_placed.append(i)
-#                         ship_placed = True
-#                         if rotation == 'hori':
-#                         #Reserves spaces for the ship within the logical matchfield for horizontal ships
-#                             matchfield_logic[yPos_rand, xPos_rand:xPos_rand+size] = 1
-#                             matchfield_ship_pos[yPos_rand, xPos_rand:xPos_rand+size] = 1
-#                             # Below checks the spaces around the ship and reserves the place
-#                             if (yPos_rand-1 >= 0):
-#                                 matchfield_logic[yPos_rand-1, xPos_rand:xPos_rand+size] = 1
-#                             if (xPos_rand+size+1 < 10):
-#                                 matchfield_logic[yPos_rand, xPos_rand+size] = 1
-#                             if (xPos_rand-1 >= 0):
-#                                 matchfield_logic[yPos_rand, xPos_rand-1] = 1
-#                             if (yPos_rand+size+1 < 10):
-#                                 matchfield_logic[yPos_rand+1, xPos_rand:xPos_rand+size] = 1
-#                         else:
-#                         #Reserves spaces for the ship within the logical matchfield for vertical ships
-#                             matchfield_logic[yPos_rand:yPos_rand+size, xPos_rand] = 1
-#                             matchfield_ship_pos[yPos_rand:yPos_rand+size, xPos_rand] = 1
-#                             # Below checks the spaces around the ship and reserves the place
-#                             if (xPos_rand-1 >= 0):
-#                                 matchfield_logic[yPos_rand:yPos_rand+size, xPos_rand-1] = 1
-#                             if (yPos_rand+size+1 < 10):
-#                                 matchfield_logic[yPos_rand+size, xPos_rand] = 1
-#                             if (yPos_rand-1 >= 0):
-#                                 matchfield_logic[yPos_rand-1, xPos_rand] = 1
-#                             if (xPos_rand+size+1 < 10):
-#                                 matchfield_logic[yPos_rand:yPos_rand+size, xPos_rand+1] = 1
-#                         time.sleep(0.3)
-#                         break
-
-#         update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
-#     screen.addstr(game_y_pos+yGameSize+1,0,"alle platziert")
-#     screen.refresh()
-#     time.sleep(10)
-#     return matchfield_visual, matchfield_ship_pos
 
 def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, yGameSize, xGameSize, player, screen):
     ''' Creates and sets all ships in order from biggest to smallest '''
