@@ -17,6 +17,86 @@ def singleplayer(screen):
     ''' Creates a matchfield for the player and the computer'''
     create_matchfield(10,10,screen)
 
+def randomshot(screen, xGamesize, yGamesize, matchfield_logic):
+    ''' Random shot function for the AI ''' # Wird später in den Code eingebaut
+    hit = False
+    doublehit = False
+    hitcounter = 0
+    current_player = random.randint(1,2)
+
+    while True:
+        if current_player == 1:
+            time.sleep(1)
+            current_player = 2
+
+        elif current_player == 2:
+            if hit == False:
+                x = random.randint(0, xGamesize)
+                y = random.randint(0, yGamesize)
+                if matchfield_logic[y,x] == 1: #1 is the logical indication for a ship
+                    hit = True
+                    yCurrent = y
+                    xCurrent = x
+                    hitcounter += 1
+                    matchfield_logic[y,x] = 2  #2 is the logical indication for a hit
+                else: 
+                    matchfield_logic[y,x] = 3 #3 is the logical indication for a miss
+            else:
+                if doublehit == False:
+                    directions = []
+                    if x > 0: directions.append("Westen")
+                    if x < xGamesize: directions.append("Osten")
+                    if y > 0: directions.append("Norden")
+                    if y < yGamesize: directions.append("Süden")
+                    random_direction = random.sample(directions,1)
+
+                    if random_direction == "Norden":
+                        if matchfield_logic[yCurrent-1,xCurrent] == 1:
+                            hitcounter += 1
+                            yCurrent -= 1
+                            matchfield_logic[yCurrent-1,xCurrent] = 2
+                        else: 
+                            hit = False
+                            matchfield_logic[yCurrent-1,xCurrent] = 3
+                    if random_direction == "Osten":
+                        if matchfield_logic[yCurrent,xCurrent+1] == 1:
+                            hitcounter += 1
+                            xCurrent += 1
+                            matchfield_logic[yCurrent,xCurrent+1] = 2
+                        else: 
+                            hit = False
+                            matchfield_logic[yCurrent,xCurrent+1] = 3
+                    if random_direction == "Süden":
+                        if matchfield_logic[yCurrent+1,xCurrent] == 1:
+                            hitcounter += 1
+                            yCurrent += 1
+                            matchfield_logic[yCurrent+1,xCurrent] = 2
+                        else: 
+                            hit = False
+                            matchfield_logic[yCurrent+1,xCurrent] = 3
+                    if random_direction == "Westen":
+                        if matchfield_logic[yCurrent,xCurrent-1] == 1:
+                            hitcounter += 1
+                            xCurrent -= 1
+                            matchfield_logic[yCurrent,xCurrent-1] = 2
+                        else: 
+                            hit = False
+                            matchfield_logic[yCurrent,xCurrent-1] = 3
+
+                    if hit == True: 
+                        screen.addstr(10,0,"The AI shot hit")
+                        screen.refresh()
+                        doublehit = True
+
+                    else: 
+                        screen.addstr(10,0,"The AI shot missed")
+                        screen.refresh()
+                else: "Schuss mit der selben Richtung wie zuvor"
+
+        time.sleep(2)
+        current_player = 1
+
+
 def create_matchfield(ySize, xSize, screen):
     ''' Creates matchfields '''
     counter = 1
