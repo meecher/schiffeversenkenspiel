@@ -19,7 +19,6 @@ def multiplayer(screen):
     matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(10,10, "p2", screen)
     
     shoot(matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1, matchfield_ships_p2, yGameSize, xGameSize, "p1", screen)
-    random_shot(matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2, matchfield_ships_p1, yGameSize, xGameSize, "p1", screen)
 
 def singleplayer(screen):
     ''' Creates a matchfield for the player and the computer'''
@@ -29,8 +28,9 @@ def singleplayer(screen):
     matchfield_visual_p2, matchfield_ships_p2 = create_matchfield(yGameSize,xGameSize,"comp",screen) 
     matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1 = create_matchfield_hits(10,10, "p1", screen)
     matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(10,10, "p2", screen)
-    
+     
     shoot(matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1, matchfield_ships_p2, yGameSize, xGameSize, "p1", screen)
+    random_shot(matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2, matchfield_ships_p1, yGameSize, xGameSize, "p1", screen)
 
     #matchfield_visual_p1, matchfield_ships_p1 = create_matchfield(10,10,"p1",screen) 
     #matchfield_visual_p2, matchfield_ships_p2 = create_matchfield(10,10,"comp",screen)
