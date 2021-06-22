@@ -19,6 +19,7 @@ def multiplayer(screen):
     matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(10,10, "p2", screen)
     
     shoot(matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1, matchfield_ships_p2, yGameSize, xGameSize, "p1", screen)
+    random_shot(matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2, matchfield_ships_p1, yGameSize, xGameSize, "p1", screen)
 
 def singleplayer(screen):
     ''' Creates a matchfield for the player and the computer'''
@@ -122,7 +123,7 @@ def userinput(screen):
         input_key = curinput
     return input_key
 
-def random_shot(screen, xGamesize, yGamesize, matchfield_logic):
+def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships_p1, yGameSize, xGameSize, player, screen):
     ''' Random shot function for the AI ''' # Wird später in den Code eingebaut
     hit = False
     doublehit = False
