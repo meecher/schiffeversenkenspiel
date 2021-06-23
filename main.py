@@ -64,8 +64,6 @@ def singleplayer(screen):
     screen.refresh()
     time.sleep(10)
 
-
-
 def create_matchfield_hits(ySize, xSize, player, screen):
     ''' Creates matchfields '''
     matchfield_visual = np.chararray((ySize, xSize))
@@ -157,47 +155,97 @@ def userinput(screen):
         input_key = curinput
     return input_key
 
-<<<<<<< HEAD
 def random_AI(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships, ship_list_placed, yGameSize, xGameSize, player, screen):
     ''' Good luck '''
     new_random_shot = True
+    hit = False
+    doublehit = False
+    hitcounter = 0
     #Directions for the random coordinate
     #0 is the logical indication for the ocean
     #1 is the logical indication for a ship
     #2 is the logical indication for a hit
-    #3 is the logical indication for a miss
-    north = False
-    east = False
-    south = False
-    west = False 
+    #3 is the logical indication for a miss 
     while new_random_shot:
+        north = False
+        east = False
+        south = False
+        west = False
         x = random.randint(0, xGameSize)
         y = random.randint(0, yGameSize)
+        xPointer = x #For the current x-positon
+        yPointer = y #For the current y-position
         #Random coordinates of the Playfield: Check if they are valid. (Can go in atleast one direction, is not a field already shot at)
 
         if y > 0 and (matchfield_ships[y-1,x] == 0 or matchfield_ships[y-1,x] == 1): north = True           #Check North
         if x < xGameSize and (matchfield_ships[y,x+1] == 0 or matchfield_ships[y,x+1] == 1): east = True    #Check East
         if y < yGameSize and (matchfield_ships[y+1,x] == 0 or matchfield_ships[y+1,x] == 1): south = True   #Check South
-        if x > 0 and (matchfield_ships[y,x-1] == 0 or matchfield_ships[y,x-1] == 1): west = True            #Check West 
+        if x > 0 and (matchfield_ships[y,x-1] == 0 or matchfield_ships[y,x-1] == 1): west = True            #Check West
         
         if (matchfield_logic[y,x] == 0 or matchfield_logic[y,x] == 1) and (north or east or south or west):
             #Checks if the random shot is on a valid field and has atleast one direction
             new_random_shot = False
+    
+    if not doublehit:
+        if not hit:
             if matchfield_logic[y,x] == 0:
                 #Checks if first valid shot missed (ocean)
                 matchfield_logic[y,x] = 3
-
-            if matchfield_logic[y,x] == 1:
+                new_random_shot = True
+            elif matchfield_logic[y,x] == 1:
                 #Checks if first valid shot hit (ship)
                 matchfield_logic[y,x] = 2
+                hitcounter += 1
+                hit = True
+        elif hit: #First shot hit now check next shot with clockwise directions for next hit.
+            #NORTH
+            if north:
+                if matchfield_ships[y-1,x] == 1:
+                    matchfield_ships[y-1,x] == 2
+                    yPointer -= 1
+                    hitcounter += 1
+                    doublehit = True
+                elif matchfield_ships[y-1,x] == 0:
+                    matchfield_ships[y-1,x] == 3
+                    north = False
 
-    
+            #EAST
+            elif east:
+                if matchfield_ships[y,x+1] == 1:
+                    matchfield_ships[y,x+1] == 2
+                    hitcounter += 1
+                    xPointer += 1
+                    doublehit = True
+                elif matchfield_ships[y,x+1] == 0:
+                    matchfield_ships[y,x+1] == 3
+                    east = False
+
+            #SOUTH
+            elif south:
+                if matchfield_ships[y+1,x] == 1:
+                    matchfield_ships[y+1,x] == 2
+                    yPointer += 1
+                    hitcounter += 1
+                    doublehit = True
+                elif matchfield_ships[y+1,x] == 0:
+                    matchfield_ships[y+1,x] == 3
+                    south = False
+
+            #WEST
+            elif west:
+                if matchfield_ships[y,x-1] == 1:
+                    matchfield_ships[y,x-1] == 2
+                    xPointer -= 1
+                    hitcounter += 1
+                    doublehit = True
+                elif matchfield_ships[y,x-1] == 0:
+                    matchfield_ships[y,x-1] == 3
+                    west = False
+    elif doublehit:
 
 
-        
 
-def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships, ship_list_placed, yGameSize, xGameSize, player, screen):
-=======
+
 def random_shot_two(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
     game_y_pos = 0
     game_x_pos = 0
@@ -263,8 +311,7 @@ def random_shot_two(matchfield_visual, matchfield_temp, matchfield_logic, matchf
                 matchfield_logic[yPos,xPos] = 3
                 break
 
-def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships_p1, ship_list_placed, yGameSize, xGameSize, player, screen):
->>>>>>> 74de5ee15bdab132da6ea19e9c40beeb0bbc26ec
+def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships, ship_list_placed, yGameSize, xGameSize, player, screen):
     ''' Random shot function for the AI ''' # Wird später in den Code eingebaut
     hit = False
     doublehit = False
