@@ -44,18 +44,30 @@ def singleplayer(screen):
     matchfield_visual_p1, matchfield_ships_p1, ship_list_placed_p1 = create_matchfield(yGameSize,xGameSize,"comp",screen) 
     matchfield_visual_p2, matchfield_ships_p2, ship_list_placed_p2 = create_matchfield(yGameSize,xGameSize,"comp",screen) 
     matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1 = create_matchfield_hits(10,10, "p1", screen)
-    matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(10,10, "p2", screen)
+    matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(10,10, "comp", screen)
     
     yPos_p1 = 0
     xPos_p1 = 0
     yPos_p2 = 0
     xPos_p2 = 0
 
+    already_hit = True
+    direction = "" 
+    hit = False
+    last_hit = ()
+    y_neg = True
+    y_positive = True
+    x_neg = False
+    x_positive = False
+    not_hit_two = False
+    ship_hit = False
+    
+
     while len(ship_list_placed_p1) > 0 or len(ship_list_placed_p2) > 0:
         yPos_p1, xPos_p1, matchfield_ships_2, matchfield_logic_hits_p1, ship_list_placed_p2 = shoot(yPos_p1, xPos_p1, matchfield_visual_hits_p1, matchfield_temp_hits_p1,
         matchfield_logic_hits_p1, matchfield_ships_p2, ship_list_placed_p2, yGameSize, xGameSize, "p1", screen)
-        yPos_p2, xPos_p2, matchfield_ships_1, matchfield_logic_hits_p2, ship_list_placed_p1 = shoot(yPos_p2, xPos_p2, matchfield_visual_hits_p2, matchfield_temp_hits_p2,
-        matchfield_logic_hits_p2, matchfield_ships_p1, ship_list_placed_p1, yGameSize, xGameSize, "p2", screen)
+        ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos_p2, xPos_p2,  matchfield_ships_1, matchfield_logic_hits_p2, ship_list_placed_p1 = random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos_p2, xPos_p2, matchfield_visual_hits_p2, matchfield_temp_hits_p2,
+        matchfield_logic_hits_p2, matchfield_ships_p1, ship_list_placed_p1, yGameSize, xGameSize, "comp", screen)
     if len(ship_list_placed_p1) == 0:
         screen.clear()
         screen.addstr(0,0,"P2 Gewonnen", curses.A_REVERSE)
@@ -63,8 +75,6 @@ def singleplayer(screen):
         screen.addstr(0,0,"P1 Gewonnen", curses.A_REVERSE)
     screen.refresh()
     time.sleep(10)
-
-
 
 def create_matchfield_hits(ySize, xSize, player, screen):
     ''' Creates matchfields '''
@@ -94,12 +104,16 @@ def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, match
     counter = 2
     str_counter = 1
     eingabe = yGameSize
+    screen.clear()
 
     if player == 'p1':
         currentplayer = "Spieler 1"
         screen.addstr(0,0, currentplayer)
-    else:
+    elif player == 'p2':
         currentplayer = "Spieler 2"
+        screen.addstr(0,0, currentplayer)
+    else:
+        currentplayer = "Computer"
         screen.addstr(0,0, currentplayer)
 
     for x in range(xGameSize):
@@ -157,7 +171,6 @@ def userinput(screen):
         input_key = curinput
     return input_key
 
-<<<<<<< HEAD
 def random_AI(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships, ship_list_placed, yGameSize, xGameSize, player, screen):
     ''' Good luck '''
     new_random_shot = True
@@ -191,80 +204,143 @@ def random_AI(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_s
                 #Checks if first valid shot hit (ship)
                 matchfield_logic[y,x] = 2
 
-    
+def random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
+    game_y_pos = 2
+    game_x_pos = 2
 
-
-        
-
-def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships, ship_list_placed, yGameSize, xGameSize, player, screen):
-=======
-def random_shot_two(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
-    game_y_pos = 0
-    game_x_pos = 0
-    last_hit = ()
-
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, screen)
     while already_hit == True:
-        if last_hit == ():
-            yPos = random.randint(0, xGameSize)
-            xPos = random.randint(0, yGameSize)
-            # First ship doesn't need to check overlap -> directly placed
-            current_ship = 0
-            already_hit = False
-        else:
-            if yPos + 1 >= yGameSize:
-                yPos - 1
-            else:
-                yPos + 1
+        yPos = random.randint(0, xGameSize-1)
+        xPos = random.randint(0, yGameSize-1)
+        # First ship doesn't need to check overlap -> directly placed
+        current_ship = 0
+        already_hit = False
+        
         if matchfield_logic[yPos,xPos] == 2 or matchfield_logic[yPos,xPos] == 3:
         # Checks if field is already hit
             already_hit = True
 
-        if already_hit == False:
-        # Checks if current field was already hit
-            if matchfield_ship_pos[yPos,xPos] == 1:
-            # Checks if a ship is placed on current field
-                matchfield_logic[yPos,xPos] = 2
-                last_hit = (yPos,xPos)
-                coordinates = (yPos, xPos)
-                screen.addstr(game_y_pos+yGameSize,0,"Schiff getroffen.")
-                screen.refresh()
-                time.sleep(1)
-                screen.addstr(game_y_pos+yGameSize,0,"                                        ")
-                screen.refresh()
+    if already_hit == False:
+        not_hit_two = True
+        while not_hit_two == True:
+            if ship_hit == True:
+                if yPos + 1 >= yGameSize and y_neg == True:
+                    yPos -= 1
+                    y_neg = True
+                    direction = "y_neg"
+                elif y_positive == True:
+                    yPos += 1
+                    y_positive = True
+                    direction = "y_positive"
+                if y_neg == False and y_positive == False:
+                    if xPos + 1 >= xGameSize:
+                        xPos -= 1
+                        x_neg = True
+                        direction = "x_neg"
+                    else:
+                        xPos += 1
+                        x_positive = True
+                        direction = "x_positive"
 
-                for i in ship_list_placed:
-                # Checks which ship gets hit
-                    counter = 0
-                    for y in i.cords:
-                    # Goes through the coordinates of the currently selected ship
-                        if coordinates == i.cords[counter]:
-                        # Deletes ships coordinates if it is hit
-                            i.cords.pop(counter)
-                        else:
-                            counter += 1
-                    if not i.cords:
-                    # Deletes ship if all coordinates are hit
-                        del i
-                        ship_list_placed.pop(current_ship)
-                        screen.addstr(game_y_pos+yGameSize,0,"*****Schiff zerstört.*****", curses.A_REVERSE)
-                        screen.refresh()
-                        time.sleep(1)
-                        screen.addstr(game_y_pos+yGameSize,0,"                                        ")
-                        screen.refresh()
-                    current_ship += 1
-                break
-            elif matchfield_ship_pos[yPos,xPos] == 0:
-            # Checks if field is empty
-                screen.addstr(game_y_pos+yGameSize,0,"Kein Schiff bei dieser Position")
-                screen.refresh()
-                time.sleep(1)
-                screen.addstr(game_y_pos+yGameSize,0,"                                        ")
-                screen.refresh()
-                matchfield_logic[yPos,xPos] = 3
-                break
+            if matchfield_logic[yPos,xPos] == 2 or matchfield_logic[yPos,xPos] == 3:
+                # Checks if field is already hit
+                    not_hit_two = True
+                    if direction == 'y_neg':
+                        y_neg = False
+                        yPos += 1
+                    if direction == 'y_positive':
+                        y_positive = False
+                        yPos -= 1
+                    if direction == 'x_neg':
+                        x_neg = False
+                        xPos += 1
+                    if direction == 'x_positive':
+                        x_positive = False
+                        xPos -= 1
+            else:
+                not_hit_two = False
+
+    if already_hit == False:
+        current_ship = 0
+    # Checks if current field was already hit
+        if matchfield_ship_pos[yPos,xPos] == 1:
+        # Checks if a ship is placed on current field
+            ship_hit = True
+            matchfield_logic[yPos,xPos] = 2
+            last_hit = (yPos,xPos)
+            yPos = last_hit[0]
+            xPos = last_hit[1]
+            hit = True
+            coordinates = (yPos, xPos)
+            screen.addstr(game_y_pos+yGameSize,0,"Schiff getroffen.")
+            screen.refresh()
+            time.sleep(1)
+            screen.addstr(game_y_pos+yGameSize,0,"                                        ")
+            screen.refresh()
+            for i in ship_list_placed:
+            # Checks which ship gets hit
+                counter = 0
+                for y in i.cords:
+                # Goes through the coordinates of the currently selected ship
+                    if coordinates == i.cords[counter]:
+                    # Deletes ships coordinates if it is hit
+                        i.cords.pop(counter)
+                    else:
+                        counter += 1
+                if not i.cords:
+                # Deletes ship if all coordinates are hit
+                    del i
+                    last_hit = ()
+                    ship_hit = False
+                    hit = False
+                    if ship_hit == False:
+                        already_hit = True
+                    y_neg = True
+                    x_neg = True
+                    y_positive = True
+                    x_positive = True
+                    ship_list_placed.pop(current_ship)
+                    screen.addstr(game_y_pos+yGameSize,0,"*****Schiff zerstört.*****", curses.A_REVERSE)
+                    screen.refresh()
+                    time.sleep(1)
+                    screen.addstr(game_y_pos+yGameSize,0,"                                        ")
+                    screen.refresh()
+                current_ship += 1
+            #break
+        elif matchfield_ship_pos[yPos,xPos] == 0:
+        # Checks if field is empty
+            matchfield_logic[yPos,xPos] = 3
+
+            if ship_hit == True:
+                if y_positive == True:
+                    #y_neg = False
+                    yPos -= 1
+                elif y_neg == True:
+                    #y_positive = False
+                    yPos += 1
+                elif x_positive == True:
+                    #x_neg = False
+                    xPos -= 1
+                elif x_neg == True:
+                    #x_positive = False
+                    xPos += 1
+
+            if ship_hit == False:
+                already_hit = True
+
+            screen.addstr(game_y_pos+yGameSize,0,"Kein Schiff bei dieser Position")
+            screen.refresh()
+            hit = False
+            time.sleep(1)
+            screen.addstr(game_y_pos+yGameSize,0,"                                        ")
+            screen.refresh()
+            #break
+        
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, screen)
+    time.sleep(5)
+    return ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed
 
 def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships_p1, ship_list_placed, yGameSize, xGameSize, player, screen):
->>>>>>> 74de5ee15bdab132da6ea19e9c40beeb0bbc26ec
     ''' Random shot function for the AI ''' # Wird später in den Code eingebaut
     hit = False
     doublehit = False
