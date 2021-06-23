@@ -157,6 +157,7 @@ def userinput(screen):
         input_key = curinput
     return input_key
 
+<<<<<<< HEAD
 def random_AI(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships, ship_list_placed, yGameSize, xGameSize, player, screen):
     ''' Good luck '''
     new_random_shot = True
@@ -196,6 +197,74 @@ def random_AI(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_s
         
 
 def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships, ship_list_placed, yGameSize, xGameSize, player, screen):
+=======
+def random_shot_two(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
+    game_y_pos = 0
+    game_x_pos = 0
+    last_hit = ()
+
+    while already_hit == True:
+        if last_hit == ():
+            yPos = random.randint(0, xGameSize)
+            xPos = random.randint(0, yGameSize)
+            # First ship doesn't need to check overlap -> directly placed
+            current_ship = 0
+            already_hit = False
+        else:
+            if yPos + 1 >= yGameSize:
+                yPos - 1
+            else:
+                yPos + 1
+        if matchfield_logic[yPos,xPos] == 2 or matchfield_logic[yPos,xPos] == 3:
+        # Checks if field is already hit
+            already_hit = True
+
+        if already_hit == False:
+        # Checks if current field was already hit
+            if matchfield_ship_pos[yPos,xPos] == 1:
+            # Checks if a ship is placed on current field
+                matchfield_logic[yPos,xPos] = 2
+                last_hit = (yPos,xPos)
+                coordinates = (yPos, xPos)
+                screen.addstr(game_y_pos+yGameSize,0,"Schiff getroffen.")
+                screen.refresh()
+                time.sleep(1)
+                screen.addstr(game_y_pos+yGameSize,0,"                                        ")
+                screen.refresh()
+
+                for i in ship_list_placed:
+                # Checks which ship gets hit
+                    counter = 0
+                    for y in i.cords:
+                    # Goes through the coordinates of the currently selected ship
+                        if coordinates == i.cords[counter]:
+                        # Deletes ships coordinates if it is hit
+                            i.cords.pop(counter)
+                        else:
+                            counter += 1
+                    if not i.cords:
+                    # Deletes ship if all coordinates are hit
+                        del i
+                        ship_list_placed.pop(current_ship)
+                        screen.addstr(game_y_pos+yGameSize,0,"*****Schiff zerstört.*****", curses.A_REVERSE)
+                        screen.refresh()
+                        time.sleep(1)
+                        screen.addstr(game_y_pos+yGameSize,0,"                                        ")
+                        screen.refresh()
+                    current_ship += 1
+                break
+            elif matchfield_ship_pos[yPos,xPos] == 0:
+            # Checks if field is empty
+                screen.addstr(game_y_pos+yGameSize,0,"Kein Schiff bei dieser Position")
+                screen.refresh()
+                time.sleep(1)
+                screen.addstr(game_y_pos+yGameSize,0,"                                        ")
+                screen.refresh()
+                matchfield_logic[yPos,xPos] = 3
+                break
+
+def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships_p1, ship_list_placed, yGameSize, xGameSize, player, screen):
+>>>>>>> 74de5ee15bdab132da6ea19e9c40beeb0bbc26ec
     ''' Random shot function for the AI ''' # Wird später in den Code eingebaut
     hit = False
     doublehit = False
@@ -982,7 +1051,7 @@ def shoot(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matc
                     else:
                         xPos += 1
                         matchfield_temp[yPos, xPos] = 1
-                        
+
                     break
             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
         update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
