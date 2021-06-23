@@ -161,59 +161,60 @@ def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield
         yStart = y
         # Below checks the surrounding squares around the shot: Sets possible directions.
         # Possible directions are when the logical number of the matchfield is 0 or 1 and doesnt touch borders.
-        if x > 0 and (matchfield_logic[y,x-1] == 0 or matchfield_logic[y,x-1] == 1): directions.append("Westen")
-        if x < xGameSize and (matchfield_logic[y,x+1] == 0 or matchfield_logic[y,x+1] == 1): directions.append("Osten")
-        if y > 0 and (matchfield_logic[y-1,x] == 0 or matchfield_logic[y-1,x] == 1): directions.append("Norden")
-        if y < yGameSize and (matchfield_logic[y+1,x] == 0 or matchfield_logic[y+1,x] == 1): directions.append("Süden")
+        if x > 0 and (matchfield_ships_p1[y,x-1] == 0 or matchfield_ships_p1[y,x-1] == 1): directions.append("Westen")
+        if x < xGameSize and (matchfield_ships_p1[y,x+1] == 0 or matchfield_ships_p1[y,x+1] == 1): directions.append("Osten")
+        if y > 0 and (matchfield_ships_p1[y-1,x] == 0 or matchfield_ships_p1[y-1,x] == 1): directions.append("Norden")
+        if y < yGameSize and (matchfield_ships_p1[y+1,x] == 0 or matchfield_ships_p1[y+1,x] == 1): directions.append("Süden")
+        random_direction = random.sample(directions,1)
         newshot = False
 
     if hit == False and doublehit == False:
-        if matchfield_logic[y,x] == 1: #1 is the logical indication for a ship
+        if matchfield_ships_p1[y,x] == 1: #1 is the logical indication for a ship
             hit = True
             screen.addstr(yGameSize,0,"The first AI shot hit")
             screen.refresh()
             hitcounter += 1
-            matchfield_logic[y,x] = 2  #2 is the logical indication for a hit
+            matchfield_ships_p1[y,x] = 2  #2 is the logical indication for a hit
         else: 
-            matchfield_logic[y,x] = 3 #3 is the logical indication for a miss
+            matchfield_ships_p1[y,x] = 3 #3 is the logical indication for a miss
 
     # First shot hit. Shoots at the nearby field with a random direction until hit.
-    else:
-        random_direction = random.sample(directions,1)
-        directions.remove(random_direction)
+    elif hit:
         if doublehit == False:
+            directions.remove(random_direction)
+
             if random_direction == "Norden":
-                if matchfield_logic[yCurrent-1,xCurrent] == 1:
+                if matchfield_ships_p1[yCurrent-1,xCurrent] == 1:
                     hitcounter += 1
                     yCurrent -= 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
+                    matchfield_ships_p1[yCurrent,xCurrent] = 2
                 else: 
                     hit = False
-                    matchfield_logic[yCurrent-1,xCurrent] = 3
+                    matchfield_ships_p1[yCurrent-1,xCurrent] = 3
             if random_direction == "Osten":
-                if matchfield_logic[yCurrent,xCurrent+1] == 1:
+                if matchfield_ships_p1[yCurrent,xCurrent+1] == 1:
                     hitcounter += 1
                     xCurrent += 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
+                    matchfield_ships_p1[yCurrent,xCurrent] = 2
                 else: 
                     hit = False
-                    matchfield_logic[yCurrent,xCurrent+1] = 3
+                    matchfield_ships_p1[yCurrent,xCurrent+1] = 3
             if random_direction == "Süden":
-                if matchfield_logic[yCurrent+1,xCurrent] == 1:
+                if matchfield_ships_p1[yCurrent+1,xCurrent] == 1:
                     hitcounter += 1
                     yCurrent += 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
+                    matchfield_ships_p1[yCurrent,xCurrent] = 2
                 else: 
                     hit = False
-                    matchfield_logic[yCurrent+1,xCurrent] = 3
+                    matchfield_ships_p1[yCurrent+1,xCurrent] = 3
             if random_direction == "Westen":
-                if matchfield_logic[yCurrent,xCurrent-1] == 1:
+                if matchfield_ships_p1[yCurrent,xCurrent-1] == 1:
                     hitcounter += 1
                     xCurrent -= 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
+                    matchfield_ships_p1[yCurrent,xCurrent] = 2
                 else: 
                     hit = False
-                    matchfield_logic[yCurrent,xCurrent-1] = 3
+                    matchfield_ships_p1[yCurrent,xCurrent-1] = 3
 
             if hit == True:
                 screen.addstr(yGameSize,0,"The AI shot hit again")
@@ -229,107 +230,107 @@ def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield
             # NORTH
             #
             if random_direction == "Norden":
-                if matchfield_logic[yCurrent-1,xCurrent] == 1:
+                if matchfield_ships_p1[yCurrent-1,xCurrent] == 1:
                     hitcounter += 1
                     yCurrent -= 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
-                elif matchfield_logic[yCurrent-1,xCurrent] == 3:
+                    matchfield_ships_p1[yCurrent,xCurrent] = 2
+                elif matchfield_ships_p1[yCurrent-1,xCurrent] == 3:
                 # If the next field shot at would be a field already shot at, it changes to opposite direction and checks the next field form the starting x,y point.
                     yCurrent = yStart
                     xCurrent = xStart
                     random_direction = "Süden"
                     check_two_sides += 1
-                    if matchfield_logic[yCurrent+1,xCurrent] == 1:
+                    if matchfield_ships_p1[yCurrent+1,xCurrent] == 1:
                         hitcounter += 1
                         yCurrent += 1
-                        matchfield_logic[yCurrent,xCurrent] = 2
+                        matchfield_ships_p1[yCurrent,xCurrent] = 2
                     else:
                         hit = False
-                        matchfield_logic[yCurrent+1,xCurrent] = 3
+                        matchfield_ships_p1[yCurrent+1,xCurrent] = 3
                         check_two_sides += 1
                 else:
                     hit = False
-                    matchfield_logic[yCurrent-1,xCurrent] = 3
+                    matchfield_ships_p1[yCurrent-1,xCurrent] = 3
                     check_two_sides += 1
                     random_direction = "Süden"
             #
             # EAST
             #
             if random_direction == "Osten":
-                if matchfield_logic[yCurrent,xCurrent+1] == 1:
+                if matchfield_ships_p1[yCurrent,xCurrent+1] == 1:
                     hitcounter += 1
                     xCurrent += 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
-                elif matchfield_logic[yCurrent,xCurrent+1] == 3:
+                    matchfield_ships_p1[yCurrent,xCurrent] = 2
+                elif matchfield_ships_p1[yCurrent,xCurrent+1] == 3:
                 # If the next field shot at would be a field already shot at, it changes to opposite direction and checks the next field form the starting x,y point.
                     yCurrent = yStart
                     xCurrent = xStart
                     random_direction = "Westen"
                     check_two_sides += 1
-                    if matchfield_logic[yCurrent,xCurrent-1] == 1:
+                    if matchfield_ships_p1[yCurrent,xCurrent-1] == 1:
                         hitcounter += 1
                         xCurrent -= 1
-                        matchfield_logic[yCurrent,xCurrent] = 2
+                        matchfield_ships_p1[yCurrent,xCurrent] = 2
                     else: 
                         hit = False
-                        matchfield_logic[yCurrent,xCurrent-1] = 3
+                        matchfield_ships_p1[yCurrent,xCurrent-1] = 3
                         check_two_sides += 1
                 else: 
                     hit = False
-                    matchfield_logic[yCurrent,xCurrent+1] = 3
+                    matchfield_ships_p1[yCurrent,xCurrent+1] = 3
                     check_two_sides += 1
                     random_direction = "Westen"
             #
             # SOUTH
             #
             if random_direction == "Süden":
-                if matchfield_logic[yCurrent+1,xCurrent] == 1:
+                if matchfield_ships_p1[yCurrent+1,xCurrent] == 1:
                     hitcounter += 1
                     yCurrent += 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
-                elif matchfield_logic[yCurrent+1,xCurrent] == 3:
+                    matchfield_ships_p1[yCurrent,xCurrent] = 2
+                elif matchfield_ships_p1[yCurrent+1,xCurrent] == 3:
                 # If the next field shot at would be a field already shot at, it changes to opposite direction and checks the next field form the starting x,y point.
                     yCurrent = yStart
                     xCurrent = xStart
                     random_direction = "Norden"
                     check_two_sides += 1
-                    if matchfield_logic[yCurrent-1,xCurrent] == 1:
+                    if matchfield_ships_p1[yCurrent-1,xCurrent] == 1:
                         hitcounter += 1
                         yCurrent -= 1
-                        matchfield_logic[yCurrent,xCurrent] = 2
+                        matchfield_ships_p1[yCurrent,xCurrent] = 2
                     else:
                         hit = False
-                        matchfield_logic[yCurrent-1,xCurrent] = 3
+                        matchfield_ships_p1[yCurrent-1,xCurrent] = 3
                         check_two_sides += 1
                 else:
                     hit = False
-                    matchfield_logic[yCurrent+1,xCurrent] = 3
+                    matchfield_ships_p1[yCurrent+1,xCurrent] = 3
                     check_two_sides += 1
                     random_direction = "Norden"
             #
             # WEST
             #
             if random_direction == "Westen":
-                if matchfield_logic[yCurrent,xCurrent-1] == 1:
+                if matchfield_ships_p1[yCurrent,xCurrent-1] == 1:
                     hitcounter += 1
                     xCurrent -= 1
-                    matchfield_logic[yCurrent,xCurrent-1] = 2
-                elif matchfield_logic[yCurrent,xCurrent-1] == 3:
+                    matchfield_ships_p1[yCurrent,xCurrent-1] = 2
+                elif matchfield_ships_p1[yCurrent,xCurrent-1] == 3:
                     yCurrent = yStart
                     xCurrent = xStart
                     random_direction = "Osten"
                     check_two_sides += 1
-                    if matchfield_logic[yCurrent,xCurrent+1] == 1:
+                    if matchfield_ships_p1[yCurrent,xCurrent+1] == 1:
                         hitcounter += 1
                         xCurrent += 1
-                        matchfield_logic[yCurrent,xCurrent] = 2
+                        matchfield_ships_p1[yCurrent,xCurrent] = 2
                     else: # HIER ERNEUTE ABFRAGE OB ES AUF EIN BENUTZES FELD STÖSST, DANN WÄRE DAS SCHIFF DIREKT VERSENKT!
                         hit = False
-                        matchfield_logic[yCurrent,xCurrent+1] = 3
+                        matchfield_ships_p1[yCurrent,xCurrent+1] = 3
                         check_two_sides += 1
                 else: 
                     hit = False
-                    matchfield_logic[yCurrent,xCurrent-1] = 3
+                    matchfield_ships_p1[yCurrent,xCurrent-1] = 3
                     check_two_sides += 1
                     random_direction = "Osten"
 
