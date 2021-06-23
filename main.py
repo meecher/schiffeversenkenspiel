@@ -298,11 +298,11 @@ def random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive,
                     y_positive = True
                     direction = "y_positive"
                 if y_neg == False and y_positive == False:
-                    if xPos + 1 >= xGameSize:
+                    if x_neg == True:
                         xPos -= 1
                         x_neg = True
                         direction = "x_neg"
-                    else:
+                    elif x_positive == True:
                         xPos += 1
                         x_positive = True
                         direction = "x_positive"
