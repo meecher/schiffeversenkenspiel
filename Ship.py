@@ -7,9 +7,13 @@ class Ship:
         self.position_y = 0
         self.cords = []
 
-    def ship_cords():
-        for i in size:
-            if rotation == 'hori':
-                cords.append((position_y,position_x+i))
+    def ship_cords(self):
+        for i in range(self.size):
+            if self.rotation == 'hori':
+                self.cords.append((self.position_y,self.position_x+i))
             else:
-                cords.append((position_y+i,position_x))
+                self.cords.append((self.position_y+i,self.position_x))
+    
+    def __del__(self):
+        del self
+        
