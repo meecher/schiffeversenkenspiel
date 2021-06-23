@@ -28,26 +28,41 @@ def multiplayer(screen):
         matchfield_logic_hits_p1, matchfield_ships_p2, ship_list_placed_p2, yGameSize, xGameSize, "p1", screen)
         yPos_p2, xPos_p2, matchfield_ships_1, matchfield_logic_hits_p2, ship_list_placed_p1 = shoot(yPos_p2, xPos_p2, matchfield_visual_hits_p2, matchfield_temp_hits_p2,
         matchfield_logic_hits_p2, matchfield_ships_p1, ship_list_placed_p1, yGameSize, xGameSize, "p2", screen)
+    if len(ship_list_placed_p1) == 0:
+        screen.clear()
+        screen.addstr(0,0,"P2 Gewonnen", curses.A_REVERSE)
+    else:
+        screen.addstr(0,0,"P1 Gewonnen", curses.A_REVERSE)
+    screen.refresh()
+    time.sleep(10)
 
 def singleplayer(screen):
     ''' Creates a matchfield for the player and the computer'''
+    ''' Creates to matchfields '''
     yGameSize = 10
     xGameSize = 10
-    matchfield_visual_p1, matchfield_ships_p1, ship_list_placed_p1 = create_matchfield(yGameSize,xGameSize,"p1",screen) 
+    matchfield_visual_p1, matchfield_ships_p1, ship_list_placed_p1 = create_matchfield(yGameSize,xGameSize,"comp",screen) 
     matchfield_visual_p2, matchfield_ships_p2, ship_list_placed_p2 = create_matchfield(yGameSize,xGameSize,"comp",screen) 
     matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1 = create_matchfield_hits(10,10, "p1", screen)
     matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(10,10, "p2", screen)
+    
+    yPos_p1 = 0
+    xPos_p1 = 0
+    yPos_p2 = 0
+    xPos_p2 = 0
 
     while len(ship_list_placed_p1) > 0 or len(ship_list_placed_p2) > 0:
-        matchfield_ships_2, matchfield_logic_hits_p1, ship_list_placed_p2 = shoot(matchfield_visual_hits_p1, matchfield_temp_hits_p1,
+        yPos_p1, xPos_p1, matchfield_ships_2, matchfield_logic_hits_p1, ship_list_placed_p2 = shoot(yPos_p1, xPos_p1, matchfield_visual_hits_p1, matchfield_temp_hits_p1,
         matchfield_logic_hits_p1, matchfield_ships_p2, ship_list_placed_p2, yGameSize, xGameSize, "p1", screen)
-        matchfield_ships_1, matchfield_logic_hits_p2, ship_list_placed_p1 = random_shot(matchfield_visual_hits_p2, matchfield_temp_hits_p2,
+        yPos_p2, xPos_p2, matchfield_ships_1, matchfield_logic_hits_p2, ship_list_placed_p1 = shoot(yPos_p2, xPos_p2, matchfield_visual_hits_p2, matchfield_temp_hits_p2,
         matchfield_logic_hits_p2, matchfield_ships_p1, ship_list_placed_p1, yGameSize, xGameSize, "p2", screen)
     if len(ship_list_placed_p1) == 0:
         screen.clear()
-        screen.addstr(0,0,"P2 Gewonnen")
+        screen.addstr(0,0,"P2 Gewonnen", curses.A_REVERSE)
     else:
-        screen.addstr(0,0,"P1 Gewonnen")
+        screen.addstr(0,0,"P1 Gewonnen", curses.A_REVERSE)
+    screen.refresh()
+    time.sleep(10)
 
 
 
@@ -797,8 +812,10 @@ def shoot(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matc
     # Position of ship
         yPos_cur = 0
         xPos_cur = 0
-        for i in range(xGameSize-1):
-            for y in range(yGameSize-1):
+        for i in range(xGameSize):
+        # Updates temporal matchfield with hits and misses
+            for y in range(yGameSize):
+            # Converts logic to temporal matchfield
                 if matchfield_logic[yPos_cur,xPos_cur] == 1:
                     matchfield_temp[yPos_cur,xPos_cur] = 1
                 elif matchfield_logic[yPos_cur,xPos_cur] == 2:
@@ -855,48 +872,85 @@ def shoot(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matc
         # Checks if userinput is enter
             # First ship doesn't need to check overlap -> directly placed
             current_ship = 0
-            if matchfield_ship_pos[yPos,xPos] == 1:
-                matchfield_logic[yPos,xPos] = 2
-                coordinates = (yPos, xPos)
+            already_hit = False
 
-                screen.addstr(game_y_pos+yGameSize,0,"Schiff getroffen.")
+            if matchfield_logic[yPos,xPos] == 2 or matchfield_logic[yPos,xPos] == 3:
+            # Checks if field is already hit
+                screen.addstr(game_y_pos+yGameSize,0,"Dieses Feld wurde schon beschossen.")
                 screen.refresh()
                 time.sleep(1)
                 screen.addstr(game_y_pos+yGameSize,0,"                                        ")
                 screen.refresh()
+                already_hit = True
 
-                for i in ship_list_placed:
-                    counter = 0
-                    for y in i.cords:
-                        if coordinates == i.cords[counter]:
-                            i.cords.pop(counter)
+            if already_hit == False:
+            # Checks if current field was already hit
+                if matchfield_ship_pos[yPos,xPos] == 1:
+                # Checks if a ship is placed on current field
+                    matchfield_logic[yPos,xPos] = 2
+                    coordinates = (yPos, xPos)
+                    screen.addstr(game_y_pos+yGameSize,0,"Schiff getroffen.")
+                    screen.refresh()
+                    time.sleep(1)
+                    screen.addstr(game_y_pos+yGameSize,0,"                                        ")
+                    screen.refresh()
+
+                    if xPos + 1 >= xGameSize:
+                    # Changes field's position
+                        if yPos + 1 >= yGameSize:
+                            matchfield_temp[yPos, xPos] = 1
                         else:
-                            counter += 1
-                    if not i.cords:
-                        del i
-                        ship_list_placed.pop(current_ship)
-                        screen.addstr(game_y_pos+yGameSize,0,"*****Schiff zerstört.*****", curses.A_REVERSE)
-                        screen.refresh()
-                        time.sleep(1)
-                        screen.addstr(game_y_pos+yGameSize,0,"                                        ")
-                        screen.refresh()
-                    current_ship += 1
-            else:
-                screen.addstr(game_y_pos+yGameSize,0,"Kein Schiff bei dieser Position")
-                screen.refresh()
-                time.sleep(1)
-                screen.addstr(game_y_pos+yGameSize,0,"                                        ")
-                screen.refresh()
-                matchfield_logic[yPos,xPos] = 3
- 
+                            yPos += 1
+                            matchfield_temp[yPos, xPos] = 1
+                    else:
+                        xPos += 1
+                        matchfield_temp[yPos, xPos] = 1
+
+                    for i in ship_list_placed:
+                    # Checks which ship gets hit
+                        counter = 0
+                        for y in i.cords:
+                        # Goes through the coordinates of the currently selected ship
+                            if coordinates == i.cords[counter]:
+                            # Deletes ships coordinates if it is hit
+                                i.cords.pop(counter)
+                            else:
+                                counter += 1
+                        if not i.cords:
+                        # Deletes ship if all coordinates are hit
+                            del i
+                            ship_list_placed.pop(current_ship)
+                            screen.addstr(game_y_pos+yGameSize,0,"*****Schiff zerstört.*****", curses.A_REVERSE)
+                            screen.refresh()
+                            time.sleep(1)
+                            screen.addstr(game_y_pos+yGameSize,0,"                                        ")
+                            screen.refresh()
+                        current_ship += 1
+                    break
+                elif matchfield_ship_pos[yPos,xPos] == 0:
+                # Checks if field is empty
+                    screen.addstr(game_y_pos+yGameSize,0,"Kein Schiff bei dieser Position")
+                    screen.refresh()
+                    time.sleep(1)
+                    screen.addstr(game_y_pos+yGameSize,0,"                                        ")
+                    screen.refresh()
+                    matchfield_logic[yPos,xPos] = 3
+                    
+                    if xPos + 1 >= xGameSize:
+                    # Changes field's position
+                        if yPos + 1 >= yGameSize:
+                            matchfield_temp[yPos, xPos] = 1
+                        else:
+                            yPos += 1
+                            matchfield_temp[yPos, xPos] = 1
+                    else:
+                        xPos += 1
+                        matchfield_temp[yPos, xPos] = 1
+                        
+                    break
             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
-            break
         update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
     return yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed
-
-def options():
-    ''' Currently not in use '''
-    print("hi")
 
 def init_game(screen, mode):
     ''' Starts selected game mode '''
