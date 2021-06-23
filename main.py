@@ -297,15 +297,14 @@ def random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive,
                     yPos += 1
                     y_positive = True
                     direction = "y_positive"
-                if y_neg == False and y_positive == False:
-                    if x_neg == True:
-                        xPos -= 1
-                        x_neg = True
-                        direction = "x_neg"
-                    elif x_positive == True:
-                        xPos += 1
-                        x_positive = True
-                        direction = "x_positive"
+                if x_neg == True:
+                    xPos -= 1
+                    x_neg = True
+                    direction = "x_neg"
+                elif x_positive == True:
+                    xPos += 1
+                    x_positive = True
+                    direction = "x_positive"
 
             if matchfield_logic[yPos,xPos] == 2 or matchfield_logic[yPos,xPos] == 3:
                 # Checks if field is already hit
