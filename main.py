@@ -149,9 +149,10 @@ def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield
     newshot = True
     hitcounter = 0
     check_two_sides = 0
+    invalid_field = False
     current_player = random.randint(1,2)
 
-    if newshot == True:
+    while newshot:
         x = random.randint(0, xGameSize)
         y = random.randint(0, yGameSize)
         directions = []
@@ -161,12 +162,16 @@ def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield
         yStart = y
         # Below checks the surrounding squares around the shot: Sets possible directions.
         # Possible directions are when the logical number of the matchfield is 0 or 1 and doesnt touch borders.
+        if matchfield_ships_p1[y,x] == 2 or matchfield_ships_p1[y,x] == 3:
+            invalid_field = True
         if x > 0 and (matchfield_ships_p1[y,x-1] == 0 or matchfield_ships_p1[y,x-1] == 1): directions.append("Westen")
         if x < xGameSize and (matchfield_ships_p1[y,x+1] == 0 or matchfield_ships_p1[y,x+1] == 1): directions.append("Osten")
         if y > 0 and (matchfield_ships_p1[y-1,x] == 0 or matchfield_ships_p1[y-1,x] == 1): directions.append("Norden")
         if y < yGameSize and (matchfield_ships_p1[y+1,x] == 0 or matchfield_ships_p1[y+1,x] == 1): directions.append("Süden")
+        if directions.count == 0 or invalid_field:
+            newshot = True
+        else: newshot = False
         random_direction = random.sample(directions,1)
-        newshot = False
 
     if hit == False and doublehit == False:
         if matchfield_ships_p1[y,x] == 1: #1 is the logical indication for a ship
