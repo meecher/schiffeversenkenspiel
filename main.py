@@ -57,8 +57,8 @@ def singleplayer(screen):
     last_hit = ()
     y_neg = True
     y_positive = True
-    x_neg = False
-    x_positive = False
+    x_neg = True
+    x_positive = True
     not_hit_two = False
     ship_hit = False
     
@@ -383,7 +383,6 @@ def random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive,
                     screen.addstr(game_y_pos+yGameSize,0,"                                        ")
                     screen.refresh()
                 current_ship += 1
-            #break
         elif matchfield_ship_pos[yPos,xPos] == 0:
         # Checks if field is empty
             matchfield_logic[yPos,xPos] = 3
@@ -411,10 +410,9 @@ def random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive,
             time.sleep(1)
             screen.addstr(game_y_pos+yGameSize,0,"                                        ")
             screen.refresh()
-            #break
         
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, screen)
-    time.sleep(5)
+    time.sleep(3)
     return ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed
 
 def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships_p1, ship_list_placed, yGameSize, xGameSize, player, screen):
