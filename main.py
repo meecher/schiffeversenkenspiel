@@ -258,6 +258,7 @@ def random_AI(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_s
                     matchfield_ships[y,x-1] == 3
                     west = False
     elif doublehit:
+        "s"
 
 def random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
     game_y_pos = 2
