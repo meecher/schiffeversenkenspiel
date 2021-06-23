@@ -322,6 +322,7 @@ def random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive,
                     if direction == 'x_positive':
                         x_positive = False
                         xPos -= 1
+
             elif matchfield_logic[yPos,xPos] == 3:
                 if direction == 'y_neg':
                     y_neg = False
@@ -335,8 +336,9 @@ def random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive,
                 if direction == 'x_positive':
                     x_positive = False
                     xPos += 1
-            else:
+            elif matchfield_logic[yPos,xPos] == 0:
                 not_hit_two = False
+    
 
     if already_hit == False:
         current_ship = 0
