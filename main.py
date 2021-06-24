@@ -162,15 +162,14 @@ def create_matchfield(ySize, xSize, game_y_pos, game_x_pos, player, screen):
     return matchfield_ship_pos, ship_list_placed, matchfield_visual_2
 
 def sound(case):
-    if sound_case == "water":
+    if case == "water":
         playsound.playsound('explosion_water.mp3')
-    elif sound_case == "full":
+    elif case == "full":
         playsound.playsound('explosion_full.mp3')
-    elif sound_case == "hit":
+    elif case == "hit":
         playsound.playsound('explosion_base_v2.mp3')
     else:
         pass
-
 
 def update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, mode, screen):
     ''' Translates temporary matchfield to visual one and displays visuals '''
@@ -229,8 +228,8 @@ def update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_v
         screen.addstr(game_y_pos+yGameSize, game_x_pos+xGameSize+x, "_")
         screen.addstr(counter,game_x_pos-1, "|")
         screen.addstr(game_y_pos+yGameSize,game_x_pos-1, "|")
-        screen.addstr(counter,game_x_pos+xGameSize+10, "|")
-        screen.addstr(game_y_pos+yGameSize,game_x_pos+xGameSize+10, "|")
+        screen.addstr(counter,game_x_pos+xGameSize*2, "|")
+        screen.addstr(game_y_pos+yGameSize,game_x_pos+xGameSize*2, "|")
 
         counter+=1
         str_counter+=1
@@ -275,8 +274,8 @@ yGameSize, xGameSize, player, screen):
     current_ships(game_y_pos,game_x_pos,xGameSize,yGameSize,ship_list_placed_own,ship_list_placed,screen)
 
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
-    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+10, matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
-    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+10, matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+25, matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+25, matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
 
     while already_hit == True:
         yPos = random.randint(0, xGameSize-1)
@@ -927,8 +926,8 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
     
     matchfield_temp[yPos,xPos] = 1        
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
-    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+10,matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
-    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+10,matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+25,matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+25,matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
 
     while curinput != ord('q'):
     # Position of ship
