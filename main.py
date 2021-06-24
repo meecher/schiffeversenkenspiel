@@ -130,10 +130,12 @@ def singleplayer(screen):
         matchfield_visual_hits_p2, matchfield_logic_hits_p2, matchfield_ships_p1, ship_list_placed_p1, yGameSize, xGameSize, "comp", screen)
 
 def continue_game(game_y_pos, game_x_pos, yGameSize, xGameSize, screen):
+    ''' Waits for the user to press enter '''
     curinput = ""
     screen.addstr(game_y_pos+yGameSize+3,15,"Druecke Enter zum fortfahren.",curses.A_REVERSE)   
 
     while curinput != 'enter':
+    # Doesn't continue if user doesn't press enter
         curinput = userinput(screen)
        
     screen.addstr(game_y_pos+yGameSize+3,15,"                              ")
@@ -162,6 +164,7 @@ def create_matchfield(ySize, xSize, game_y_pos, game_x_pos, player, screen):
     return matchfield_ship_pos, ship_list_placed, matchfield_visual_2
 
 def sound(case):
+    ''' Outputs sound depending on the hit '''
     if case == "water":
         playsound.playsound('explosion_water.mp3')
     elif case == "full":
