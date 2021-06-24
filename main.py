@@ -1017,11 +1017,12 @@ def beginn_screen(screen):
     comp = "Computer"
     mp = "2 Spieler"
     currselction = "mp"
+    message = "Wählen sie den Spielmodus aus..."
     pressed = False
     check_press = False
     mouse_press = False
     x, y = 0, 0
-    screen.addstr(curses.LINES//2+5,10,"Wählen sie den Spielmodus aus...")
+    screen.addstr(curses.LINES//3,curses.COLS // 2 - len(message) // 2 ,message)
     screen.addstr(curses.LINES // 2,
     curses.COLS // 2 - len(mp) // 2 - 10,
     mp, curses.A_REVERSE) 
