@@ -41,6 +41,7 @@ def singleplayer(screen):
     ''' Creates to matchfields '''
     yGameSize = 10
     xGameSize = 10
+    game_end = True
     matchfield_visual_p1, matchfield_ships_p1, ship_list_placed_p1 = create_matchfield(yGameSize,xGameSize,"comp",screen) 
     matchfield_visual_p2, matchfield_ships_p2, ship_list_placed_p2 = create_matchfield(yGameSize,xGameSize,"comp",screen) 
     matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1 = create_matchfield_hits(10,10, "p1", screen)
@@ -63,18 +64,25 @@ def singleplayer(screen):
     ship_hit = False
     
 
-    while len(ship_list_placed_p1) > 0 or len(ship_list_placed_p2) > 0:
+    while True:
+        if len(ship_list_placed_p1) == 0:
+            screen.clear()
+            screen.addstr(0,0,"P2 Gewonnen", curses.A_REVERSE)
+            game_end = False
+            screen.refresh()
+            time.sleep(10)
+            break
+        elif len(ship_list_placed_p2) == 0:
+            screen.addstr(0,0,"P1 Gewonnen", curses.A_REVERSE)
+            game_end = False
+            screen.refresh()
+            time.sleep(10)
+            break
         yPos_p1, xPos_p1, matchfield_ships_2, matchfield_logic_hits_p1, ship_list_placed_p2 = shoot(yPos_p1, xPos_p1, matchfield_visual_hits_p1, matchfield_temp_hits_p1,
         matchfield_logic_hits_p1, matchfield_ships_p2, ship_list_placed_p2, yGameSize, xGameSize, "p1", screen)
         ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos_p2, xPos_p2,  matchfield_ships_1, matchfield_logic_hits_p2, ship_list_placed_p1 = random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos_p2, xPos_p2, matchfield_visual_hits_p2, matchfield_temp_hits_p2,
         matchfield_logic_hits_p2, matchfield_ships_p1, ship_list_placed_p1, yGameSize, xGameSize, "comp", screen)
-    if len(ship_list_placed_p1) == 0:
-        screen.clear()
-        screen.addstr(0,0,"P2 Gewonnen", curses.A_REVERSE)
-    else:
-        screen.addstr(0,0,"P1 Gewonnen", curses.A_REVERSE)
-    screen.refresh()
-    time.sleep(10)
+
 
 def create_matchfield_hits(ySize, xSize, player, screen):
     ''' Creates matchfields '''
