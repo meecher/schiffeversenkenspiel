@@ -12,12 +12,12 @@ __email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, 
     
 
 def multiplayer(screen):
-    ''' Creates to matchfields '''
+    ''' Creates two matchfields '''
     if len(sys.argv) == 3:
-        if int(sys.argv[1]) >= 10:
+        if int(sys.argv[1]) >= 10 and int(sys.argv[1]) <= 20:
             yGameSize = int(sys.argv[1])
         else: yGameSize = 10
-        if int(sys.argv[2]) >= 10:
+        if int(sys.argv[2]) >= 10 and int(sys.argv[1]) <= 20:
             xGameSize = int(sys.argv[2])
         else: xGameSize = 10
     else:
@@ -68,10 +68,10 @@ def singleplayer(screen):
     ''' Creates two matchfields '''
 
     if len(sys.argv) == 3:
-        if int(sys.argv[1]) >= 10:
+        if int(sys.argv[1]) >= 10 and int(sys.argv[1]) <= 20:
             yGameSize = int(sys.argv[1])
         else: yGameSize = 10
-        if int(sys.argv[2]) >= 10:
+        if int(sys.argv[2]) >= 10 and int(sys.argv[1]) <= 20:
             xGameSize = int(sys.argv[2])
         else: xGameSize = 10
     else:
