@@ -46,12 +46,12 @@ def multiplayer(screen):
 
 def singleplayer(screen):
     ''' Creates a matchfield for the player and the computer'''
-    ''' Creates to matchfields '''
+    ''' Creates two matchfields '''
     yGameSize = 10
     xGameSize = 10
     game_end = True
-    matchfield_visual_p1, matchfield_ships_p1, ship_list_placed_p1 = create_matchfield(yGameSize,xGameSize,"comp",screen) 
-    matchfield_visual_p2, matchfield_ships_p2, ship_list_placed_p2 = create_matchfield(yGameSize,xGameSize,"comp",screen) 
+    matchfield_visual_p1, matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2 = create_matchfield(yGameSize,xGameSize,"comp",screen) 
+    matchfield_visual_p2, matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2 = create_matchfield(yGameSize,xGameSize,"comp",screen) 
     matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1 = create_matchfield_hits(10,10, "p1", screen)
     matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(10,10, "comp", screen)
     
@@ -86,10 +86,14 @@ def singleplayer(screen):
             screen.refresh()
             time.sleep(10)
             break
-        yPos_p1, xPos_p1, matchfield_ships_2, matchfield_logic_hits_p1, ship_list_placed_p2 = shoot(yPos_p1, xPos_p1, matchfield_visual_hits_p1, matchfield_temp_hits_p1,
-        matchfield_logic_hits_p1, matchfield_ships_p2, ship_list_placed_p2, yGameSize, xGameSize, "p1", screen)
-        ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos_p2, xPos_p2,  matchfield_ships_1, matchfield_logic_hits_p2, ship_list_placed_p1 = random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos_p2, xPos_p2, matchfield_visual_hits_p2, matchfield_temp_hits_p2,
-        matchfield_logic_hits_p2, matchfield_ships_p1, ship_list_placed_p1, yGameSize, xGameSize, "comp", screen)
+        yPos_p1, xPos_p1, matchfield_ships_p1, matchfield_logic_hits_p1, ship_list_placed_p2 = shoot(yPos_p1, xPos_p1, matchfield_ships_p1, matchfield_visual_2, 
+        matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1, matchfield_ships_p2, 
+        ship_list_placed_p2, yGameSize, xGameSize, "p1", screen)
+
+        (ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos_p2, xPos_p2, matchfield_ships_p1, 
+        matchfield_logic_hits_p2, ship_list_placed_p1) = random_shot(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, 
+        hit, last_hit, yPos_p2, xPos_p2, matchfield_visual_2_p2, matchfield_ships_p2, matchfield_visual_hits_p2, matchfield_logic_hits_p2, matchfield_ships_p1, 
+        ship_list_placed_p1, yGameSize, xGameSize, "comp", screen)
 
 
 def create_matchfield_hits(ySize, xSize, player, screen):
@@ -103,6 +107,7 @@ def create_matchfield_hits(ySize, xSize, player, screen):
 def create_matchfield(ySize, xSize, player, screen):
     ''' Creates matchfields '''
     matchfield_visual = np.chararray((ySize, xSize))
+    matchfield_visual_2 = np.chararray((ySize, xSize))
     matchfield_visual[:] = "O"
     matchfield_temp = np.zeros((ySize, xSize))
     matchfield_logic = np.zeros((ySize, xSize))
@@ -112,15 +117,17 @@ def create_matchfield(ySize, xSize, player, screen):
         matchfield_visual, matchfield_ship_pos, ship_list_placed = set_ships(2,2,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,ySize,xSize,player,screen)
     else:
         matchfield_visual, matchfield_ship_pos, ship_list_placed = set_ships_comp(2,2,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,ySize,xSize,player,screen)
-    return matchfield_visual, matchfield_ship_pos, ship_list_placed
+    return matchfield_visual, matchfield_ship_pos, ship_list_placed, matchfield_visual_2
 
-def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, matchfield_temp, player, screen):
+def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, matchfield_temp, player, mode, screen):
     ''' Translates temporary matchfield to visual one and displays visuals '''
     i = yPos
     counter = 2
     str_counter = 1
     eingabe = yGameSize
-    screen.clear()
+    #screen.clear()
+    #screen.refresh()
+    screen.addstr(0,0,"                  ")
 
     if player == 'p1':
         currentplayer = "Spieler 1"
@@ -138,19 +145,27 @@ def update_matchfield(yGameSize, xGameSize, yPos, xPos, matchfield_visual, match
          # Increases y until gamesize is reached
             if matchfield_temp[y,x] == 1:
             # Places a x if temporal matchfield has a 1
-                matchfield_visual[y,x] = "X"
+                if currentplayer == "Computer":
+                    if mode == "secondary":
+                        matchfield_visual[y,x] = "?"
+                else:
+                    matchfield_visual[y,x] = "X" 
             elif matchfield_temp[y,x] == 2:
                 matchfield_visual[y,x] = "*" 
             elif matchfield_temp[y,x] == 3:
                 matchfield_visual[y,x] = "%"  
             else:
-                matchfield_visual[y,x] = "O"
+                if currentplayer == "Computer":
+                    if mode == "secondary":
+                        matchfield_visual[y,x] = "?" 
+                else:
+                    matchfield_visual[y,x] = "O" 
 
     for x in range(eingabe):
     # Creates the coordinate systems of the entered size
         converted_counter = str(str_counter)
-        screen.addstr(1,2+x*2, converted_counter+" ")
-        screen.addstr(counter,0, chr(65+x))
+        screen.addstr(1, 2+x*2, converted_counter+" ")
+        screen.addstr(counter,xPos-2, chr(65+x))
         counter+=1
         str_counter+=1
 
@@ -187,100 +202,13 @@ def userinput(screen):
         input_key = curinput
     return input_key
 
-def random_AI(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships, ship_list_placed, yGameSize, xGameSize, player, screen):
-    ''' Good luck '''
-    new_random_shot = True
-    hit = False
-    doublehit = False
-    hitcounter = 0
-    #Directions for the random coordinate
-    #0 is the logical indication for the ocean
-    #1 is the logical indication for a ship
-    #2 is the logical indication for a hit
-    #3 is the logical indication for a miss 
-    while new_random_shot:
-        north = False
-        east = False
-        south = False
-        west = False
-        x = random.randint(0, xGameSize)
-        y = random.randint(0, yGameSize)
-        xPointer = x #For the current x-positon
-        yPointer = y #For the current y-position
-        #Random coordinates of the Playfield: Check if they are valid. (Can go in atleast one direction, is not a field already shot at)
-
-        if y > 0 and (matchfield_ships[y-1,x] == 0 or matchfield_ships[y-1,x] == 1): north = True           #Check North
-        if x < xGameSize and (matchfield_ships[y,x+1] == 0 or matchfield_ships[y,x+1] == 1): east = True    #Check East
-        if y < yGameSize and (matchfield_ships[y+1,x] == 0 or matchfield_ships[y+1,x] == 1): south = True   #Check South
-        if x > 0 and (matchfield_ships[y,x-1] == 0 or matchfield_ships[y,x-1] == 1): west = True            #Check West
-        
-        if (matchfield_logic[y,x] == 0 or matchfield_logic[y,x] == 1) and (north or east or south or west):
-            #Checks if the random shot is on a valid field and has atleast one direction
-            new_random_shot = False
-    
-    if not doublehit:
-        if not hit:
-            if matchfield_logic[y,x] == 0:
-                #Checks if first valid shot missed (ocean)
-                matchfield_logic[y,x] = 3
-                new_random_shot = True
-            elif matchfield_logic[y,x] == 1:
-                #Checks if first valid shot hit (ship)
-                matchfield_logic[y,x] = 2
-                hitcounter += 1
-                hit = True
-        elif hit: #First shot hit now check next shot with clockwise directions for next hit.
-            #NORTH
-            if north:
-                if matchfield_ships[y-1,x] == 1:
-                    matchfield_ships[y-1,x] == 2
-                    yPointer -= 1
-                    hitcounter += 1
-                    doublehit = True
-                elif matchfield_ships[y-1,x] == 0:
-                    matchfield_ships[y-1,x] == 3
-                    north = False
-
-            #EAST
-            elif east:
-                if matchfield_ships[y,x+1] == 1:
-                    matchfield_ships[y,x+1] == 2
-                    hitcounter += 1
-                    xPointer += 1
-                    doublehit = True
-                elif matchfield_ships[y,x+1] == 0:
-                    matchfield_ships[y,x+1] == 3
-                    east = False
-
-            #SOUTH
-            elif south:
-                if matchfield_ships[y+1,x] == 1:
-                    matchfield_ships[y+1,x] == 2
-                    yPointer += 1
-                    hitcounter += 1
-                    doublehit = True
-                elif matchfield_ships[y+1,x] == 0:
-                    matchfield_ships[y+1,x] == 3
-                    south = False
-
-            #WEST
-            elif west:
-                if matchfield_ships[y,x-1] == 1:
-                    matchfield_ships[y,x-1] == 2
-                    xPointer -= 1
-                    hitcounter += 1
-                    doublehit = True
-                elif matchfield_ships[y,x-1] == 0:
-                    matchfield_ships[y,x-1] == 3
-                    west = False
-    elif doublehit:
-        "s"
-
-def random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
+def random_shot(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos, xPos, 
+matchfield_visual_2, matchfield_own_ships, matchfield_visual, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
     game_y_pos = 2
     game_x_pos = 2
 
-    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+30, matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
     while already_hit == True:
         yPos = random.randint(0, xGameSize-1)
         xPos = random.randint(0, yGameSize-1)
@@ -427,213 +355,10 @@ def random_shot_two(ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive,
             screen.addstr(game_y_pos+yGameSize,0,"                                        ")
             screen.refresh()
         
-    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
     time.sleep(3)
     return ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed
 
-def random_shot(matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ships_p1, ship_list_placed, yGameSize, xGameSize, player, screen):
-    ''' Random shot function for the AI ''' # Wird später in den Code eingebaut
-    hit = False
-    doublehit = False
-    newshot = True
-    hitcounter = 0
-    check_two_sides = 0
-    invalid_field = False
-    current_player = random.randint(1,2)
-
-    while newshot:
-        x = random.randint(0, xGameSize)
-        y = random.randint(0, yGameSize)
-        directions = []
-        yCurrent = y
-        xCurrent = x
-        xStart = x
-        yStart = y
-        # Below checks the surrounding squares around the shot: Sets possible directions.
-        # Possible directions are when the logical number of the matchfield is 0 or 1 and doesnt touch borders.
-        if matchfield_logic[y,x] == 2 or matchfield_logic[y,x] == 3:
-            invalid_field = True
-        if x > 0 and (matchfield_ships[y,x-1] == 0 or matchfield_ships[y,x-1] == 1): directions.append("Westen")
-        if x < xGameSize and (matchfield_ships[y,x+1] == 0 or matchfield_ships[y,x+1] == 1): directions.append("Osten")
-        if y > 0 and (matchfield_ships[y-1,x] == 0 or matchfield_ships[y-1,x] == 1): directions.append("Norden")
-        if y < yGameSize and (matchfield_ships[y+1,x] == 0 or matchfield_ships[y+1,x] == 1): directions.append("Süden")
-        if directions.count == 0 or invalid_field:
-            newshot = True
-        else: newshot = False
-        random_direction = random.sample(directions,1)
-
-    if hit == False and doublehit == False:
-        if matchfield_ships[y,x] == 1: #1 is the logical indication for a ship
-            hit = True
-            screen.addstr(yGameSize,0,"The first AI shot hit")
-            screen.refresh()
-            hitcounter += 1
-            matchfield_logic[y,x] = 2  #2 is the logical indication for a hit
-        else: 
-            matchfield_logic[y,x] = 3 #3 is the logical indication for a miss
-
-    # First shot hit. Shoots at the nearby field with a random direction until hit.
-    elif hit:
-        if doublehit == False:
-            directions.remove(random_direction)
-
-            if random_direction == "Norden":
-                if matchfield_ships[yCurrent-1,xCurrent] == 1:
-                    hitcounter += 1
-                    yCurrent -= 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
-                else: 
-                    hit = False
-                    matchfield_logic[yCurrent-1,xCurrent] = 3
-            if random_direction == "Osten":
-                if matchfield_ships[yCurrent,xCurrent+1] == 1:
-                    hitcounter += 1
-                    xCurrent += 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
-                else: 
-                    hit = False
-                    matchfield_logic[yCurrent,xCurrent+1] = 3
-            if random_direction == "Süden":
-                if matchfield_ships[yCurrent+1,xCurrent] == 1:
-                    hitcounter += 1
-                    yCurrent += 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
-                else: 
-                    hit = False
-                    matchfield_logic[yCurrent+1,xCurrent] = 3
-            if random_direction == "Westen":
-                if matchfield_ships[yCurrent,xCurrent-1] == 1:
-                    hitcounter += 1
-                    xCurrent -= 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
-                else: 
-                    hit = False
-                    matchfield_logic[yCurrent,xCurrent-1] = 3
-
-            if hit == True:
-                screen.addstr(yGameSize,0,"The AI shot hit again")
-                screen.refresh()
-                doublehit = True
-
-            else: 
-                screen.addstr(yGameSize,0,"The AI shot missed")
-                screen.refresh()
-        # When 2 shots land on one ship doublehit is True and now the ship can only be in 2 directions
-        else:
-            #
-            # NORTH
-            #
-            if random_direction == "Norden":
-                if matchfield_ships[yCurrent-1,xCurrent] == 1:
-                    hitcounter += 1
-                    yCurrent -= 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
-                elif matchfield_logic[yCurrent-1,xCurrent] == 3:
-                # If the next field shot at would be a field already shot at, it changes to opposite direction and checks the next field form the starting x,y point.
-                    yCurrent = yStart
-                    xCurrent = xStart
-                    random_direction = "Süden"
-                    check_two_sides += 1
-                    if matchfield_ships[yCurrent+1,xCurrent] == 1:
-                        hitcounter += 1
-                        yCurrent += 1
-                        matchfield_logic[yCurrent,xCurrent] = 2
-                    else:
-                        hit = False
-                        matchfield_logic[yCurrent+1,xCurrent] = 3
-                        check_two_sides += 1
-                else:
-                    hit = False
-                    matchfield_logic[yCurrent-1,xCurrent] = 3
-                    check_two_sides += 1
-                    random_direction = "Süden"
-            #
-            # EAST
-            #
-            if random_direction == "Osten":
-                if matchfield_ships[yCurrent,xCurrent+1] == 1:
-                    hitcounter += 1
-                    xCurrent += 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
-                elif matchfield_logic[yCurrent,xCurrent+1] == 3:
-                # If the next field shot at would be a field already shot at, it changes to opposite direction and checks the next field form the starting x,y point.
-                    yCurrent = yStart
-                    xCurrent = xStart
-                    random_direction = "Westen"
-                    check_two_sides += 1
-                    if matchfield_ships[yCurrent,xCurrent-1] == 1:
-                        hitcounter += 1
-                        xCurrent -= 1
-                        matchfield_logic[yCurrent,xCurrent] = 2
-                    else: 
-                        hit = False
-                        matchfield_logic[yCurrent,xCurrent-1] = 3
-                        check_two_sides += 1
-                else: 
-                    hit = False
-                    matchfield_logic[yCurrent,xCurrent+1] = 3
-                    check_two_sides += 1
-                    random_direction = "Westen"
-            #
-            # SOUTH
-            #
-            if random_direction == "Süden":
-                if matchfield_ships[yCurrent+1,xCurrent] == 1:
-                    hitcounter += 1
-                    yCurrent += 1
-                    matchfield_logic[yCurrent,xCurrent] = 2
-                elif matchfield_logic[yCurrent+1,xCurrent] == 3:
-                # If the next field shot at would be a field already shot at, it changes to opposite direction and checks the next field form the starting x,y point.
-                    yCurrent = yStart
-                    xCurrent = xStart
-                    random_direction = "Norden"
-                    check_two_sides += 1
-                    if matchfield_ships[yCurrent-1,xCurrent] == 1:
-                        hitcounter += 1
-                        yCurrent -= 1
-                        matchfield_logic[yCurrent,xCurrent] = 2
-                    else:
-                        hit = False
-                        matchfield_logic[yCurrent-1,xCurrent] = 3
-                        check_two_sides += 1
-                else:
-                    hit = False
-                    matchfield_logic[yCurrent+1,xCurrent] = 3
-                    check_two_sides += 1
-                    random_direction = "Norden"
-            #
-            # WEST
-            #
-            if random_direction == "Westen":
-                if matchfield_ships[yCurrent,xCurrent-1] == 1:
-                    hitcounter += 1
-                    xCurrent -= 1
-                    matchfield_logic[yCurrent,xCurrent-1] = 2
-                elif matchfield_logic[yCurrent,xCurrent-1] == 3:
-                    yCurrent = yStart
-                    xCurrent = xStart
-                    random_direction = "Osten"
-                    check_two_sides += 1
-                    if matchfield_ships[yCurrent,xCurrent+1] == 1:
-                        hitcounter += 1
-                        xCurrent += 1
-                        matchfield_logic[yCurrent,xCurrent] = 2
-                    else: # HIER ERNEUTE ABFRAGE OB ES AUF EIN BENUTZES FELD STÖSST, DANN WÄRE DAS SCHIFF DIREKT VERSENKT!
-                        hit = False
-                        matchfield_logic[yCurrent,xCurrent+1] = 3
-                        check_two_sides += 1
-                else: 
-                    hit = False
-                    matchfield_logic[yCurrent,xCurrent-1] = 3
-                    check_two_sides += 1
-                    random_direction = "Osten"
-
-            if not hit and check_two_sides == 2: 
-                doublehit = False
-                check_two_sides = 0
-                screen.addstr(yGameSize,0,"Schiff zerstört")
-                screen.refresh()
-                newshot = True
 
 def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, yGameSize, xGameSize, player, screen):
     ''' Creates and sets all ships in order from biggest to smallest '''
@@ -834,7 +559,7 @@ def set_ships_comp(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_lo
                 yPos_rand += 1  
             counter_pos += 1      
             counter_rot += 1
-        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_ship_pos, player, screen)
+        #update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
     return matchfield_visual, matchfield_ship_pos, ship_list_placed
 
 def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, yGameSize, xGameSize, player, screen):
@@ -881,7 +606,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
         # Draws ship on vertical axis
             matchfield_temp[yPos:yPos+size, xPos] = 1
         
-        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_temp, player, screen)
+        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
 
         while curinput != ord('q'):
         # Position of ship
@@ -894,7 +619,7 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                 # Checks if current ship object is vertical
                     matchfield_temp[y.position_y:y.position_y+y.size, y.position_x] = 1
 
-                update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
+                update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
 
             matchfield_temp[yPos, xPos:xPos+size] = 0
             matchfield_temp[yPos:yPos+size, xPos] = 0
@@ -1062,13 +787,13 @@ def set_ships(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, 
                         if (xPos+1 < xGameSize):
                             matchfield_logic[yPos:yPos+size, xPos+1] = 1
                             xPos += 1       
-                    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
+                    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
                     break
 
-            update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
+            update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
     return matchfield_visual, matchfield_ship_pos, ship_list_placed
               
-def shoot(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
+def shoot(yPos, xPos, matchfield_own_ships, matchfield_visual_2, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
     ''' Creates and sets all ships in order from biggest to smallest '''
     counter = 0
     curinput = ""
@@ -1078,7 +803,8 @@ def shoot(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matc
     curses.mousemask(-1)
 
     matchfield_temp[yPos,xPos] = 1        
-    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_temp, player, screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+30,matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
 
     while curinput != ord('q'):
     # Position of ship
@@ -1097,7 +823,7 @@ def shoot(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matc
                 yPos_cur += 1
             yPos_cur = 0
             xPos_cur += 1
-        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
+        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
 
         matchfield_temp[yPos, xPos] = 0
 
@@ -1220,8 +946,8 @@ def shoot(yPos, xPos, matchfield_visual, matchfield_temp, matchfield_logic, matc
                         matchfield_temp[yPos, xPos] = 1
 
                     break
-            update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
-        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, screen)
+            update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
+        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
     return yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed
 
 def init_game(screen, mode):
