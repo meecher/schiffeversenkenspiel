@@ -1120,11 +1120,12 @@ def mouse_pos():
 def c_main(screen): 
     ''' Starts the game '''
     beginning = "Schiffeversenken"
-    start_message = "Willkommen im Spiel Schiffeversenken! Klicken sie in der Mitte auf Schiffeversenken oder drücken sie <Enter>"
+    start_message = ("Willkommen im Spiel Schiffeversenken! Klicken sie in der Mitte auf Schiffeversenken oder drücken sie <Enter>")
     curses.mousemask(-1)
     curses.mouseinterval(0)
     curses.curs_set(0)
     screen.keypad(True)
+    curinput = ""
 
     pressed = False
     x, y = 0, 0
@@ -1133,7 +1134,7 @@ def c_main(screen):
     curses.COLS // 2 - len(beginning) // 2,
     beginning, curses.A_REVERSE)
 
-    while True: 
+    while curinput != 'q': 
     # Waits for input
         curinput = userinput(screen)
 
@@ -1150,10 +1151,6 @@ def c_main(screen):
             screen.erase()
             screen.refresh()
             beginn_screen(screen)
-        #if curinput == "q":
-        # Quits programm when the key q is pressed
-        #else:  
-        #    raise AssertionError(curinput)
 
 def main():
     ''' Starts the game '''
