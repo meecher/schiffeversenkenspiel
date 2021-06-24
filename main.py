@@ -366,7 +366,7 @@ yGameSize, xGameSize, player, screen):
                         if (i.position_y-1 >= 0):
                             matchfield_logic[i.position_y-1, i.position_x] = 3
                         if (i.position_x+1 < xGameSize):
-                            matchfield_logic[i.position_y:i.position_ys+i.size, i.position_x+1] = 3
+                            matchfield_logic[i.position_y:i.position_y+i.size, i.position_x+1] = 3
                     del i
                     last_hit = ()
                     ship_hit = False
@@ -1023,7 +1023,7 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
                                     if (i.position_y-1 >= 0):
                                         matchfield_logic[i.position_y-1, i.position_x] = 3
                                     if (i.position_x+1 < xGameSize):
-                                        matchfield_logic[i.position_y:i.position_ys+i.size, i.position_x+1] = 3
+                                        matchfield_logic[i.position_y:i.position_y+i.size, i.position_x+1] = 3
                                 del i
                                 ship_list_placed.pop(current_ship)
                                 screen.addstr(game_y_pos+yGameSize+1,0,"*****Schiff zerstört.*****", curses.A_REVERSE)
