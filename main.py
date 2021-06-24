@@ -17,7 +17,7 @@ def multiplayer(screen):
     game_x_pos = 2
     game_end = True
     matchfield_visual_p1, matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"p1",screen) 
-    matchfield_visual_p2, matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2 = create_matchfield(yGameSize,xGameSize,game_x_pos,game_y_pos,"p2",screen) 
+    matchfield_visual_p2, matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"p2",screen) 
     matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1 = create_matchfield_hits(10,10, "p1", screen)
     matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(10,10, "p2", screen)
     
@@ -57,8 +57,8 @@ def singleplayer(screen):
     game_y_pos = 3
     game_x_pos = 2
     game_end = True
-    matchfield_visual_p1, matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"comp",screen) 
-    matchfield_visual_p2, matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2 = create_matchfield(yGameSize,xGameSize,game_x_pos,game_y_pos,"comp",screen) 
+    matchfield_visual_p1, matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"p1",screen) 
+    matchfield_visual_p2, matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"comp",screen) 
     matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1 = create_matchfield_hits(10,10, "p1", screen)
     matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(10,10, "comp", screen)
     
@@ -82,7 +82,7 @@ def singleplayer(screen):
     while game_end:
         if len(ship_list_placed_p1) == 0:
             screen.clear()
-            screen.addstr(0,0,"P2 Gewonnen", curses.A_REVERSE)
+            screen.addstr(0,0,"Computer hat Gewonnen", curses.A_REVERSE)
             game_end = False
             screen.refresh()
             time.sleep(10)
@@ -131,7 +131,6 @@ def update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_v
     i = game_y_pos
     counter = game_y_pos
     str_counter = 1
-    #screen.clear()
     screen.addstr(0,0,"                  ")
 
     if player == 'p1':
@@ -180,8 +179,6 @@ def update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_v
         screen.addstr(yGameSize+3,game_x_pos-1, "|")
         screen.addstr(counter,game_x_pos+xGameSize+10, "|")
         screen.addstr(yGameSize+3,game_x_pos+xGameSize+10, "|")
-        screen.refresh()
-
 
         counter+=1
         str_counter+=1
