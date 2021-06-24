@@ -43,11 +43,11 @@ def multiplayer(screen):
             screen.refresh()
             time.sleep(10)
             break
-        yPos_p1, xPos_p1, matchfield_ships_p2, matchfield_logic_hits_p1, ship_list_placed_p2 = shoot(game_y_pos,game_x_pos, yPos_p1, xPos_p1, 
+        yPos_p1, xPos_p1, matchfield_ships_p2, matchfield_logic_hits_p1, ship_list_placed_p2 = shoot(game_y_pos,game_x_pos, yPos_p1, xPos_p1, matchfield_logic_hits_p2,
         matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2, matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1, 
         matchfield_ships_p2, ship_list_placed_p2, yGameSize, xGameSize, "p1", screen)
 
-        yPos_p2, xPos_p2, matchfield_ships_p1, matchfield_logic_hits_p2, ship_list_placed_p1 = shoot(game_y_pos,game_x_pos,yPos_p2, xPos_p2, 
+        yPos_p2, xPos_p2, matchfield_ships_p1, matchfield_logic_hits_p2, ship_list_placed_p1 = shoot(game_y_pos,game_x_pos,yPos_p2, xPos_p2, matchfield_logic_hits_p1, 
         matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2, matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2,
         matchfield_ships_p1, ship_list_placed_p1, yGameSize, xGameSize, "p2", screen)
 
@@ -99,14 +99,14 @@ def singleplayer(screen):
             screen.refresh()
             time.sleep(10)
             break
-        yPos_p1, xPos_p1, matchfield_ships_p1, matchfield_logic_hits_p1, ship_list_placed_p2 = shoot(game_y_pos,game_x_pos,yPos_p1, xPos_p1, matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2, 
-        matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1, matchfield_ships_p2, 
-        ship_list_placed_p2, yGameSize, xGameSize, "p1", screen)
+        yPos_p1, xPos_p1, matchfield_ships_p2, matchfield_logic_hits_p1, ship_list_placed_p2 = shoot(game_y_pos,game_x_pos, yPos_p1, xPos_p1, matchfield_logic_hits_p2,
+        matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2, matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1, 
+        matchfield_ships_p2, ship_list_placed_p2, yGameSize, xGameSize, "p1", screen)
 
         (ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos_p2, xPos_p2, matchfield_ships_p1, 
-        matchfield_logic_hits_p2, ship_list_placed_p1) = random_shot(game_y_pos, game_x_pos, ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, 
-        hit, last_hit, yPos_p2, xPos_p2, matchfield_visual_2_p2, matchfield_ships_p2, ship_list_placed_p1, matchfield_visual_hits_p2, matchfield_logic_hits_p2, matchfield_ships_p1, 
-        ship_list_placed_p1, yGameSize, xGameSize, "comp", screen)
+        matchfield_logic_hits_p2, ship_list_placed_p1) = random_shot(game_y_pos, game_x_pos, ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive,
+        already_hit, direction, hit, last_hit, yPos_p2, xPos_p2, matchfield_visual_2_p2, matchfield_logic_hits_p1, matchfield_ships_p2, ship_list_placed_p2,
+        matchfield_visual_hits_p2, matchfield_logic_hits_p2, matchfield_ships_p1, ship_list_placed_p1, yGameSize, xGameSize, "comp", screen)
 
 def continue_game(game_y_pos, game_x_pos, yGameSize, xGameSize, screen):
     curinput = ""
@@ -178,6 +178,10 @@ def update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_v
                 if player == "comp":
                     if mode == "secondary":
                         matchfield_visual[y,x] = "?" 
+                    if mode == "third":
+                        pass
+                elif mode == "third":
+                    pass
                 else:
                     matchfield_visual[y,x] = "O" 
 
@@ -233,12 +237,15 @@ def userinput(screen):
     return input_key
 
 def random_shot(game_y_pos, game_x_pos, ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos, xPos, 
-matchfield_visual_2, matchfield_own_ships, ship_list_placed_own, matchfield_visual, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
+matchfield_visual_2, matchfield_logic_hits, matchfield_own_ships, ship_list_placed_own, matchfield_visual, matchfield_logic, matchfield_ship_pos, ship_list_placed, 
+yGameSize, xGameSize, player, screen):
 
     current_ships(game_y_pos,game_x_pos,xGameSize,yGameSize,ship_list_placed_own,ship_list_placed,screen)
 
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+30, matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+30, matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
+
     while already_hit == True:
         yPos = random.randint(0, xGameSize-1)
         xPos = random.randint(0, yGameSize-1)
@@ -407,7 +414,8 @@ matchfield_visual_2, matchfield_own_ships, ship_list_placed_own, matchfield_visu
         
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
     continue_game(game_y_pos,game_x_pos,yGameSize,xGameSize,screen)
-    return ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed
+    return (ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, 
+    yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed)
 
 def set_ships_comp(game_y_pos,game_x_pos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, yGameSize, xGameSize, player, screen):
     ''' Creates and sets all ships in order from biggest to smallest '''
@@ -872,7 +880,7 @@ def current_ships(game_y_pos, game_x_pos, xGameSize, yGameSize, ship_list_placed
     screen.addstr(game_y_pos+yGameSize+2,8,ships_enemy_str)
     screen.refresh()
      
-def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_own_ships, ship_list_placed_own, matchfield_visual_2, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
+def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_own_ships, ship_list_placed_own, matchfield_visual_2, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
     ''' Creates and sets all ships in order from biggest to smallest '''
     counter = 0
     curinput = ""
@@ -884,6 +892,7 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_own_ships, ship_list_pla
     matchfield_temp[yPos,xPos] = 1        
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+30,matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+30,matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
 
     while curinput != ord('q'):
     # Position of ship
@@ -1026,7 +1035,7 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_own_ships, ship_list_pla
 
                     break
             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
-        update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_logic, player, "primary", screen)
     continue_game(game_y_pos,game_x_pos,yGameSize,xGameSize,screen)
     return yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed
 
