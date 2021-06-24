@@ -29,13 +29,16 @@ def multiplayer(screen):
     while game_end:
         if len(ship_list_placed_p1) == 0:
             screen.clear()
-            screen.addstr(0,0,"P2 Gewonnen", curses.A_REVERSE)
+            win_msg = "P2 Gewonnen"
+            screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
             game_end = False
             screen.refresh()
             time.sleep(10)
             break
         elif len(ship_list_placed_p2) == 0:
-            screen.addstr(0,0,"P1 Gewonnen", curses.A_REVERSE)
+            screen.clear()
+            win_msg = "P1 Gewonnen"
+            screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
             game_end = False
             screen.refresh()
             time.sleep(10)
@@ -82,13 +85,16 @@ def singleplayer(screen):
     while game_end:
         if len(ship_list_placed_p1) == 0:
             screen.clear()
-            screen.addstr(0,0,"Computer hat Gewonnen", curses.A_REVERSE)
+            win_msg = "Computer hat gewonnen"
+            screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
             game_end = False
             screen.refresh()
             time.sleep(10)
             break
         elif len(ship_list_placed_p2) == 0:
-            screen.addstr(0,0,"P1 Gewonnen", curses.A_REVERSE)
+            screen.clear()
+            win_msg = "P1 Gewonnen"
+            screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
             game_end = False
             screen.refresh()
             time.sleep(10)
@@ -826,10 +832,10 @@ def current_ships(game_y_pos, game_x_pos, xGameSize, yGameSize, ship_list_placed
         elif i.size == 2:
             ships_enemy[3] += 1    
     
-    ships_own_str = ("Schlaftschiff " + str(ships_own[0]) + "x, Kreuzer " + str(ships_own[1]) + 
-    "x, Zerstörer " + str(ships_own[2]) + "x, U-Boote " + str(ships_own[3]) + "x")
+    ships_own_str = ("Schlachtschiff " + str(ships_own[0]) + "x, Kreuzer " + str(ships_own[1]) + 
+    "x, Zerstoerer " + str(ships_own[2]) + "x, U-Boote " + str(ships_own[3]) + "x")
     ships_enemy_str = ("Schlaftschiff " + str(ships_enemy[0]) + "x, Kreuzer " + str(ships_enemy[1]) + 
-    "x, Zerstörer " + str(ships_enemy[2]) + "x, U-Boote " + str(ships_enemy[3]) + "x")
+    "x, Zerstoerer " + str(ships_enemy[2]) + "x, U-Boote " + str(ships_enemy[3]) + "x")
 
     screen.addstr(0,11,"                                                         ")
     screen.addstr(0,11,ships_own_str)
