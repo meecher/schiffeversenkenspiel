@@ -161,6 +161,17 @@ def create_matchfield(ySize, xSize, game_y_pos, game_x_pos, player, screen):
         matchfield_visual, matchfield_ship_pos, ship_list_placed = set_ships_comp(game_y_pos,game_x_pos,matchfield_visual,matchfield_temp,matchfield_logic,matchfield_ship_pos,ySize,xSize,player,screen)
     return matchfield_ship_pos, ship_list_placed, matchfield_visual_2
 
+def sound(case):
+    if sound_case == "water":
+        playsound.playsound('explosion_water.mp3')
+    elif sound_case == "full":
+        playsound.playsound('explosion_full.mp3')
+    elif sound_case == "hit":
+        playsound.playsound('explosion_base_v2.mp3')
+    else:
+        pass
+
+
 def update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, mode, screen):
     ''' Translates temporary matchfield to visual one and displays visuals '''
     i = game_y_pos
@@ -437,14 +448,7 @@ yGameSize, xGameSize, player, screen):
             screen.refresh()
         
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
-    if sound_case == "water":
-        playsound.playsound('explosion_water.mp3')
-    elif sound_case == "full":
-        playsound.playsound('explosion_full.mp3')
-    elif sound_case == "hit":
-        playsound.playsound('explosion_base_v2.mp3')
-    else:
-        pass
+    sound(sound_case)
     continue_game(game_y_pos,game_x_pos,yGameSize,xGameSize,screen)
     return (ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, 
     yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed)
@@ -1091,14 +1095,7 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
                     break
             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_logic, player, "primary", screen)
-    if sound_case == "water":
-        playsound.playsound('explosion_water.mp3')
-    elif sound_case == "full":
-        playsound.playsound('explosion_full.mp3')
-    elif sound_case == "hit":
-        playsound.playsound('explosion_base_v2.mp3')
-    else:
-        pass
+    sound(sound_case)
     continue_game(game_y_pos,game_x_pos,yGameSize,xGameSize,screen)
     return yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed
 
