@@ -3,6 +3,7 @@ import random, time
 import Ship
 import numpy as np
 import curses
+import sys
 
 __author__ = "1359831, Ruschmaritsch, 1357985, Ullmann, 135x, Lotte"
 __credits__ = ""
@@ -11,8 +12,17 @@ __email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, 
 
 def multiplayer(screen):
     ''' Creates to matchfields '''
-    yGameSize = 10
-    xGameSize = 10
+    if len(sys.argv) == 3:
+        if int(sys.argv[1]) >= 10:
+            yGameSize = int(sys.argv[1])
+        else: yGameSize = 10
+        if int(sys.argv[2]) >= 10:
+            xGameSize = int(sys.argv[2])
+        else: xGameSize = 10
+    else:
+        xGameSize = 10
+        yGameSize = 10
+
     game_y_pos = 3
     game_x_pos = 2
     game_end = True
@@ -55,8 +65,18 @@ def multiplayer(screen):
 def singleplayer(screen):
     ''' Creates a matchfield for the player and the computer'''
     ''' Creates two matchfields '''
-    yGameSize = 10
-    xGameSize = 10
+
+    if len(sys.argv) == 3:
+        if int(sys.argv[1]) >= 10:
+            yGameSize = int(sys.argv[1])
+        else: yGameSize = 10
+        if int(sys.argv[2]) >= 10:
+            xGameSize = int(sys.argv[2])
+        else: xGameSize = 10
+    else:
+        xGameSize = 10
+        yGameSize = 10
+
     game_y_pos = 3
     game_x_pos = 2
     game_end = True
@@ -243,8 +263,8 @@ yGameSize, xGameSize, player, screen):
     current_ships(game_y_pos,game_x_pos,xGameSize,yGameSize,ship_list_placed_own,ship_list_placed,screen)
 
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
-    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+30, matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
-    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+30, matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+10, matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+10, matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
 
     while already_hit == True:
         yPos = random.randint(0, xGameSize-1)
@@ -892,8 +912,8 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
     
     matchfield_temp[yPos,xPos] = 1        
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
-    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+30,matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
-    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+30,matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+10,matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+10,matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
 
     while curinput != ord('q'):
     # Position of ship
