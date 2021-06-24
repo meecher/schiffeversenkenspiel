@@ -108,6 +108,14 @@ def singleplayer(screen):
         hit, last_hit, yPos_p2, xPos_p2, matchfield_visual_2_p2, matchfield_ships_p2, ship_list_placed_p1, matchfield_visual_hits_p2, matchfield_logic_hits_p2, matchfield_ships_p1, 
         ship_list_placed_p1, yGameSize, xGameSize, "comp", screen)
 
+def continue_game(game_y_pos, game_x_pos, yGameSize, xGameSize, screen):
+    curinput = ""
+    screen.addstr(game_y_pos+yGameSize+3,15,"Druecke Enter zum fortfahren.",curses.A_REVERSE)   
+
+    while curinput != 'enter':
+        curinput = userinput(screen)
+       
+    screen.addstr(game_y_pos+yGameSize+3,15,"                              ")
 
 def create_matchfield_hits(ySize, xSize, player, screen):
     ''' Creates matchfields '''
@@ -378,7 +386,7 @@ matchfield_visual_2, matchfield_own_ships, ship_list_placed_own, matchfield_visu
             screen.refresh()
         
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
-    time.sleep(3)
+    continue_game(game_y_pos,game_x_pos,yGameSize,xGameSize,screen)
     return ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed
 
 def set_ships_comp(game_y_pos,game_x_pos, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, yGameSize, xGameSize, player, screen):
@@ -806,6 +814,7 @@ def set_ships(game_y_pos,game_x_pos, matchfield_visual, matchfield_temp, matchfi
                     break
 
             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_temp, player, "primary", screen)
+    continue_game(game_y_pos,game_x_pos,yGameSize,xGameSize,screen)
     return matchfield_visual, matchfield_ship_pos, ship_list_placed
 
 def current_ships(game_y_pos, game_x_pos, xGameSize, yGameSize, ship_list_placed_own, ship_list_placed_enemy, screen):
@@ -998,6 +1007,7 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_own_ships, ship_list_pla
                     break
             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
         update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
+    continue_game(game_y_pos,game_x_pos,yGameSize,xGameSize,screen)
     return yPos, xPos, matchfield_ship_pos, matchfield_logic, ship_list_placed
 
 def init_game(screen, mode):
