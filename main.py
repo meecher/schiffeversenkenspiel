@@ -340,6 +340,26 @@ matchfield_visual_2, matchfield_own_ships, ship_list_placed_own, matchfield_visu
                         counter += 1
                 if not i.cords:
                 # Deletes ship if all coordinates are hit
+                    if i.rotation == 'hori':
+                        # After the ship is destroyed, surrounding spaces cant be targeted anymore
+                        if (i.position_y-1 >= 0):
+                            matchfield_logic[i.position_y-1, i.position_x:i.position_x+i.size] = 3
+                        if (i.position_x+i.size+1 <= xGameSize):
+                            matchfield_logic[i.position_y, i.position_x+i.size] = 3
+                        if (i.position_x-1 >= 0):
+                            matchfield_logic[i.position_y, i.position_x-1] = 3
+                        if (i.position_y+1 < yGameSize):
+                            matchfield_logic[i.position_y+1, i.position_x:i.position_x+i.size] = 3
+                    else:
+                        # After the ship is destroyed, surrounding spaces cant be targeted anymore
+                        if (i.position_x-1 >= 0):
+                            matchfield_logic[i.position_y:i.position_y+i.size, i.position_x-1] = 3
+                        if (i.position_y+i.size+1 <= yGameSize):
+                            matchfield_logic[i.position_y+i.size, i.position_x] = 3
+                        if (i.position_y-1 >= 0):
+                            matchfield_logic[i.position_y-1, i.position_x] = 3
+                        if (i.position_x+1 < xGameSize):
+                            matchfield_logic[i.position_y:i.position_ys+i.size, i.position_x+1] = 3
                     del i
                     last_hit = ()
                     ship_hit = False
@@ -809,7 +829,7 @@ def set_ships(game_y_pos,game_x_pos, matchfield_visual, matchfield_temp, matchfi
                             matchfield_logic[yPos-1, xPos] = 1
                         if (xPos+1 < xGameSize):
                             matchfield_logic[yPos:yPos+size, xPos+1] = 1
-                            xPos += 1       
+                            xPos += 1      
                     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_temp, player, "primary", screen)
                     break
 
