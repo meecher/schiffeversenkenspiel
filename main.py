@@ -1021,7 +1021,7 @@ def beginn_screen(screen):
     check_press = False
     mouse_press = False
     x, y = 0, 0
-
+    screen.addstr(curses.LINES//2+5,10,"Wählen sie den Spielmodus aus...")
     screen.addstr(curses.LINES // 2,
     curses.COLS // 2 - len(mp) // 2 - 10,
     mp, curses.A_REVERSE) 
@@ -1110,6 +1110,7 @@ def mouse_pos():
 def c_main(screen): 
     ''' Starts the game '''
     beginning = "Schiffeversenken"
+    start_message = "Willkommen im Spiel Schiffeversenken! Klicken sie in der Mitte auf Schiffeversenken oder drücken sie <Enter>"
     curses.mousemask(-1)
     curses.mouseinterval(0)
     curses.curs_set(0)
@@ -1117,7 +1118,7 @@ def c_main(screen):
 
     pressed = False
     x, y = 0, 0
-
+    screen.addstr(curses.LINES // 3,curses.COLS // 2 - len(start_message) //2,start_message)
     screen.addstr(curses.LINES // 2,
     curses.COLS // 2 - len(beginning) // 2,
     beginning, curses.A_REVERSE)
