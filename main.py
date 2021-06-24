@@ -1002,15 +1002,35 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
                                 i.cords.pop(counter)
                             else:
                                 counter += 1
-                        if not i.cords:
-                        # Deletes ship if all coordinates are hit
-                            del i
-                            ship_list_placed.pop(current_ship)
-                            screen.addstr(game_y_pos+yGameSize+1,0,"*****Schiff zerstört.*****", curses.A_REVERSE)
-                            screen.refresh()
-                            time.sleep(1)
-                            screen.addstr(game_y_pos+yGameSize+1,0,"                                        ")
-                            screen.refresh()
+                            if not i.cords:
+                            # Deletes ship if all coordinates are hit
+                                if i.rotation == 'hori':
+                                # After the ship is destroyed, surrounding spaces cant be targeted anymore
+                                    if (i.position_y-1 >= 0):
+                                        matchfield_logic[i.position_y-1, i.position_x:i.position_x+i.size] = 3
+                                    if (i.position_x+i.size+1 <= xGameSize):
+                                        matchfield_logic[i.position_y, i.position_x+i.size] = 3
+                                    if (i.position_x-1 >= 0):
+                                        matchfield_logic[i.position_y, i.position_x-1] = 3
+                                    if (i.position_y+1 < yGameSize):
+                                        matchfield_logic[i.position_y+1, i.position_x:i.position_x+i.size] = 3
+                                else:
+                                    # After the ship is destroyed, surrounding spaces cant be targeted anymore
+                                    if (i.position_x-1 >= 0):
+                                        matchfield_logic[i.position_y:i.position_y+i.size, i.position_x-1] = 3
+                                    if (i.position_y+i.size+1 <= yGameSize):
+                                        matchfield_logic[i.position_y+i.size, i.position_x] = 3
+                                    if (i.position_y-1 >= 0):
+                                        matchfield_logic[i.position_y-1, i.position_x] = 3
+                                    if (i.position_x+1 < xGameSize):
+                                        matchfield_logic[i.position_y:i.position_ys+i.size, i.position_x+1] = 3
+                                del i
+                                ship_list_placed.pop(current_ship)
+                                screen.addstr(game_y_pos+yGameSize+1,0,"*****Schiff zerstört.*****", curses.A_REVERSE)
+                                screen.refresh()
+                                time.sleep(1)
+                                screen.addstr(game_y_pos+yGameSize+1,0,"                                        ")
+                                screen.refresh()
                         current_ship += 1
                     break
                 elif matchfield_ship_pos[yPos,xPos] == 0:
