@@ -1,10 +1,12 @@
 # Fdb version 3
-["pdflatex"] 1624728867 "a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex" "documentation.pdf" "documentation" 1624728867
+["pdflatex"] 1624729592 "a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex" "documentation.pdf" "documentation" 1624729592
   "Bilder/Pinguin" 0 -1 0 ""
   "C:/Users/marcu/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1624706609 9751049 b12bbb448211f897e15063364ac84edb ""
   "C:/Users/marcu/AppData/Local/MiKTeX/pdftex/config/pdftex.map" 1624706666 81107 70b8516c68c2e617189c5e44bfd16b96 ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc" 1254938640 2375 baa924870cfb487815765f9094cf3728 ""
+  "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc" 1254938640 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc" 1254938640 2840 216e6e45ad352e2456e1149f28885bee ""
+  "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc" 1254938640 2327 9d6df24f9c4f7368395224341a95523a ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc" 1254938640 3031 6c4d3515bf7115d8518af1c9ab97ca44 ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecrm1000.tfm" 993062122 3148 7e594c8240c71e432203f65ab5f95a51 ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1233955454 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -53,6 +55,8 @@
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb" 1254938640 121021 836464b5fe0c782d94085eb083550ccc ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb" 1254938640 116908 9a7a12d1e4df280ea0ab4aad83cdef88 ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx9.pfb" 1254938640 126646 56e3d11e90816073e07cc59bd07ef384 ""
+  "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb" 1254938640 30388 702fae6a5f0e6e9c48a1d872b442ffcf ""
+  "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi7.pfb" 1254938640 30789 39c6b966e509dbc60e7a1aaaf85d08a0 ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb" 1254938640 119235 05e5c8d6d60439433e50047898c2c0e0 ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb" 1254938640 123394 992f5e87d698d9e94717394c62580ea6 ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb" 1254938640 121145 00b210fbe9efd7ce850c04e64670de9a ""
@@ -116,10 +120,10 @@
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/tex/latex/tools/verbatim.sty" 1622550326 7392 39729ae6a807e217edf1442cf8fab2c2 ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/tex/latex/upquote/upquote.sty" 1335534756 1088 517e01cde97c1c0baf72e69d43aa5a2e ""
   "C:/Users/marcu/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1623005660 55589 34128738f682d033422ca125f82e5d62 ""
-  "a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex" 1624728864 28176 06645a0b8b7de7aa44a31b632b097dc0 ""
-  "documentation.aux" 1624728867 34 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "documentation.tex" 1624728864 28176 06645a0b8b7de7aa44a31b632b097dc0 ""
+  "a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex" 1624729589 29273 d09ae5fcab2dd6fe23c49397268f7b3f ""
+  "documentation.aux" 1624729592 34 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "documentation.tex" 1624729589 29273 d09ae5fcab2dd6fe23c49397268f7b3f ""
   (generated)
   "documentation.pdf"
-  "documentation.log"
   "documentation.aux"
+  "documentation.log"

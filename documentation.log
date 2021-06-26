@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.6) (preloaded format=pdflatex 2021.6.26)  26 JUN 2021 19:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.6) (preloaded format=pdflatex 2021.6.26)  26 JUN 2021 19:46
 entering extended mode
 **a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex
 (a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex
@@ -448,54 +448,117 @@ LaTeX Warning: Citation `Curses' on page 1 undefined on input line 126.
 LaTeX Warning: Citation `Numpy' on page 2 undefined on input line 130.
 
 
-LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 155.
+LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 147.
 
 [2]
+a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex:167: Missing $ inserted.
+<inserted text> 
+                $
+l.167 ... sich durch die Objektmethode \glqq ship_
+                                                  cords\grqq{},
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
-LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 173.
+
+LaTeX Warning: Command \grqq invalid in math mode on input line 167.
+
+
+LaTeX Warning: Command \textquotedblleft invalid in math mode on input line 167.
+
+
+LaTeX Warning: Command \" invalid in math mode on input line 168.
+
+
+LaTeX Warning: Command \ss invalid in math mode on input line 168.
+
+
+LaTeX Warning: Command \" invalid in math mode on input line 168.
+
+
+LaTeX Warning: Command \ss invalid in math mode on input line 169.
+
+
+LaTeX Warning: Command \" invalid in math mode on input line 169.
+
+a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex:170: Missing $ inserted.
+<inserted text> 
+                $
+l.170 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--170
+\T1/lmr/m/n/10 Alle Schiffe sind als Ob-jekte de-fi-niert. Ob-jekte bie-ten hier einen
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--170
+\T1/lmr/m/n/10 er-heb-li-chen Vor-teil durch de-ren At-tri-bute. In je-dem Schiff wer-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--170
+\T1/lmr/m/n/10 den die Gröÿe, Ro-ta-tion, Start-po-si-tion und Ko-or-di-na-ten ge-spei-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--170
+\T1/lmr/m/n/10 chert. Die Ko-or-di-na-ten be-rech-nen sich durch die Ob-jekt-me-thode
+ []
+
+
+Overfull \hbox (627.01595pt too wide) in paragraph at lines 166--170
+\T1/lmr/m/n/10 ship$[]\OML/lmm/m/it/10 ords\OT1/lmr/m/n/10 []\OML/lmm/m/it/10 ; welchejenachAusrichtung\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 horizontal; vertikal\OT1/lmr/m/n/10 )\OML/lmm/m/it/10 eineSchleifebiszurGr\OT1/lmr/m/n/10 öÿ\OML/lmm/m/it/10 edesSchiffsdurchl\OT1/lmr/m/n/10 ä\OML/lmm/m/it/10 uftundvonderStartkoordinateausindiejeweiligeRichtunggeht:Au\OT1/lmr/m/n/10 ÿ\OML/lmm/m/it/10 erdembietenSchiffobjektedieM\OT1/lmr/m/n/10 ö\OML/lmm/m/it/10 glichkeiteineO$ 
+ []
+
+
+LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 175.
 
 [3]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 184.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 191.
  (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 
-LaTeX Warning: Reference `QuellcodeBeispielNr1' on page 4 undefined on input line 201.
+LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 203.
 
+[4]
 
-LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 202.
+LaTeX Warning: Reference `QuellcodeBeispielNr1' on page 5 undefined on input line 208.
 
-[4] (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+(C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 ) (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 
-LaTeX Warning: Reference `LastPage' on page 5 undefined on input line 294.
+LaTeX Warning: Reference `LastPage' on page 5 undefined on input line 278.
 
 [5]
 
-LaTeX Warning: Citation `Knuth1974' on page 6 undefined on input line 311.
+LaTeX Warning: Citation `Knuth1974' on page 6 undefined on input line 318.
 
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 315.
+(Font)              <9> on input line 322.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 315.
+(Font)              <6> on input line 322.
 
-LaTeX Warning: Reference `LastPage' on page 6 undefined on input line 326.
+LaTeX Warning: Reference `LastPage' on page 6 undefined on input line 331.
 
 [6]
 
-LaTeX Warning: Reference `Pinguin_Bild_Label' on page 7 undefined on input line 330.
+LaTeX Warning: Reference `Pinguin_Bild_Label' on page 7 undefined on input line 337.
 
 
-a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex:334: LaTeX Error: File `Bilder/Pinguin' not found.
+a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex:341: LaTeX Error: File `Bilder/Pinguin' not found.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.334 \includegraphics[width=4cm]{Bilder/Pinguin}
+l.341 \includegraphics[width=4cm]{Bilder/Pinguin}
                                                  
 I could not locate the file with any of these extensions:
 .pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
@@ -503,19 +566,19 @@ Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: Reference `Pinguin_Bild_Label' on page 7 undefined on input line 335.
+LaTeX Warning: Reference `Pinguin_Bild_Label' on page 7 undefined on input line 342.
 
 
-LaTeX Warning: Reference `Pinguin_Bild_gedreht_Label' on page 7 undefined on input line 340.
+LaTeX Warning: Reference `Pinguin_Bild_gedreht_Label' on page 7 undefined on input line 347.
 
 
-a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex:344: LaTeX Error: File `Bilder/Pinguin' not found.
+a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex:351: LaTeX Error: File `Bilder/Pinguin' not found.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.344 ...hics[width=4cm,angle=270]{Bilder/Pinguin}
+l.351 ...hics[width=4cm,angle=270]{Bilder/Pinguin}
                                                   
 I could not locate the file with any of these extensions:
 .pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
@@ -523,40 +586,43 @@ Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: Reference `Pinguin_Bild_gedreht_Label' on page 7 undefined on input line 345.
+LaTeX Warning: Reference `Pinguin_Bild_gedreht_Label' on page 7 undefined on input line 352.
 
 
-LaTeX Warning: Reference `Einfache_Table_Label' on page 7 undefined on input line 354.
+LaTeX Warning: Reference `Einfache_Table_Label' on page 7 undefined on input line 361.
 
 
-LaTeX Warning: Reference `LastPage' on page 7 undefined on input line 372.
+LaTeX Warning: Reference `LastPage' on page 7 undefined on input line 362.
 
 [7]
 
-LaTeX Warning: Reference `Standard_Table_Label' on page 8 undefined on input line 374.
+LaTeX Warning: Reference `Standard_Table_Label' on page 8 undefined on input line 381.
 
 
-LaTeX Warning: Reference `Einfache_Table_Label' on page 8 undefined on input line 374.
+LaTeX Warning: Reference `Einfache_Table_Label' on page 8 undefined on input line 381.
 
 
-LaTeX Warning: Reference `LastPage' on page 8 undefined on input line 398.
+LaTeX Warning: Reference `LastPage' on page 8 undefined on input line 403.
 
 [8]
+Underfull \vbox (badness 1348) has occurred while \output is active []
 
-LaTeX Warning: Reference `LastPage' on page 9 undefined on input line 421.
+
+
+LaTeX Warning: Reference `LastPage' on page 9 undefined on input line 424.
 
 [9]
 
-LaTeX Warning: Reference `LastPage' on page 10 undefined on input line 441.
+LaTeX Warning: Reference `LastPage' on page 10 undefined on input line 448.
 
 [10]
 
-Package lastpage Warning: Rerun to get the references right on input line 480.
+Package lastpage Warning: Rerun to get the references right on input line 487.
 
 
 AED: lastpage setting LastPage
 
-LaTeX Warning: Reference `LastPage' on page 11 undefined on input line 480.
+LaTeX Warning: Reference `LastPage' on page 11 undefined on input line 487.
 
 [11] (documentation.aux)
 
@@ -569,15 +635,15 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 Here is how much of TeX's memory you used:
  5928 strings out of 478847
  82925 string characters out of 2848386
- 678081 words of memory out of 3000000
+ 677767 words of memory out of 3000000
  23716 multiletter control sequences out of 15000+600000
  466396 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  72i,12n,80p,698b,1207s stack positions out of 5000i,500n,10000p,200000b,80000s
-{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}<C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/eurosym/feymr10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx9.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr9.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmro8.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmro9.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb>
-Output written on documentation.pdf (11 pages, 387754 bytes).
+{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}<C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/eurosym/feymr10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx9.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi7.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr9.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmro8.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmro9.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb>
+Output written on documentation.pdf (11 pages, 405838 bytes).
 PDF statistics:
- 114 PDF objects out of 1000 (max. 8388607)
+ 129 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
