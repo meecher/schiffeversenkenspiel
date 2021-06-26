@@ -290,8 +290,10 @@ yGameSize, xGameSize, player, screen):
 
     while already_hit == True:
     #  Return random location on the matchfield which hasn't been hit yet
-        yPos = random.randint(0, xGameSize-1)
-        xPos = random.randint(0, yGameSize-1)
+        #yPos = random.randint(0, xGameSize-1)
+        #xPos = random.randint(0, yGameSize-1)
+        yPos = 0
+        xPos = 1
         # First ship doesn't need to check overlap -> directly placed
         current_ship = 0
         already_hit = False
@@ -311,11 +313,11 @@ yGameSize, xGameSize, player, screen):
                 # Checks if sorrounding fields are in the matchfield
                 if yPos + 1 >= yGameSize:
                     y_positive = False
-                elif yPos - 1 < 0:
+                if yPos - 1 < 0:
                     y_neg = False
-                elif xPos + 1 > xGameSize:
+                if xPos + 1 > xGameSize:
                     x_positive = False
-                elif xPos - 1 < 0:
+                if xPos - 1 < 0:
                     x_neg = False
                 
                 # Chooses next direction to shoot at; turns negative if it misses
@@ -339,7 +341,7 @@ yGameSize, xGameSize, player, screen):
 
             if matchfield_logic[yPos,xPos] == 3:
                 # Checks if field is already hit
-                    not_hit_two = True
+                    not_hit_two = True              #2 1 0 3 4
                     if direction == 'y_neg':
                         y_neg = False
                         yPos += 1
@@ -355,14 +357,7 @@ yGameSize, xGameSize, player, screen):
 
             elif matchfield_logic[yPos,xPos] == 2:
             # Checks if field was already hit
-                if direction == 'y_neg':
-                    yPos -= 1
-                if direction == 'y_positive':
-                    yPos += 1
-                if direction == 'x_neg':
-                    xPos -= 1
-                if direction == 'x_positive':
-                    xPos += 1
+                pass
 
             elif matchfield_logic[yPos,xPos] == 0:
             # Checks if field is empty
