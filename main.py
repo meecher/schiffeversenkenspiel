@@ -6,9 +6,9 @@ import curses
 import sys
 import playsound
 
-__author__ = "1359831, Ruschmaritsch, 1357985, Ullmann, 135x, Lotte"
+__author__ = "1359831, Ruschmaritsch, 1357985, Ullmann, 1306570, Anne Lotte Müller-Kühlkamp"
 __credits__ = "Sound files: https://freesound.org/people/tommccann/sounds/235968/ https://freesound.org/people/Sheyvan/sounds/519008/ https://freesound.org/people/Lambich/sounds/350604/"
-__email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, x@stud.fra-uas.de"
+__email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, anne.mueller-kuehlkamp@stud.fra-uas.de"
     
 
 def multiplayer(screen):
@@ -81,7 +81,7 @@ def singleplayer(screen):
     game_y_pos = 3
     game_x_pos = 2
     game_end = True
-    matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"p1",screen) 
+    matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"comp",screen) 
     matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"comp",screen) 
     matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1 = create_matchfield_hits(yGameSize,xGameSize, "p1", screen)
     matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(yGameSize,xGameSize, "comp", screen)
@@ -675,6 +675,8 @@ def set_ships(game_y_pos,game_x_pos, matchfield_visual, matchfield_temp, matchfi
     
     screen.keypad(1)
     curses.mousemask(-1)
+
+    screen.addstr(curses.LINES-1,0,"W,A,S,D und Pfeiltasten: Position aendern; Enter: bestaetigen; R: Schiff rotieren")
         
     for i in ship_list:
     # Places all necessary ships
@@ -918,12 +920,101 @@ def current_ships(game_y_pos, game_x_pos, xGameSize, yGameSize, ship_list_placed
     screen.addstr(game_y_pos+yGameSize+2,8,ships_enemy_str)
     screen.refresh()
      
+def get_user_coordinates(game_y_pos, game_x_pos, yGameSize, xGameSize, screen):
+    ''' Returns coordinates inputted by the user '''
+    curses.echo()
+    impossible_location_y = True
+    impossible_location_x = True
+    temp_chr = ''
+    input_char = False
+    input_int = False
+
+    while impossible_location_y == True:
+    # Runs until entered y location is possible
+        input_char = False
+        counter = 0
+        screen.addstr(game_y_pos + yGameSize + 5, 0, "y-Koordinate (Buchstabe) eingeben: ")
+        screen.refresh()
+        temp_chr = screen.getch()
+        time.sleep(0.2)
+        if temp_chr >= 97 and temp_chr <= 122:
+        # Handles lower case chars
+            temp_chr -= 32
+            input_char = True
+        elif temp_chr >= 65 and temp_chr <= 90:
+        # Checks if input is a char
+            input_char = True
+        else:
+            input_char = False
+        if input_char == True:
+            for i in range(26):
+            # Returns the relative number of the char
+                if temp_chr == 65+i:
+                # Checks if input equals a char
+                    y = counter
+                    break
+                else:
+                    counter += 1
+            if y > yGameSize - 1 or y < 0:
+            # Checks if input is possible on the matchfield
+                pass
+            else: 
+                impossible_location_y = False
+                time.sleep(0.5)
+        if impossible_location_y == True:
+            screen.addstr(game_y_pos + yGameSize + 5, 0, "                                        ")
+            screen.addstr(game_y_pos + yGameSize + 5, 0, "Ungültige Eingabe.")
+            screen.refresh()
+            time.sleep(0.5)
+
+    while impossible_location_x == True:
+    # Runs until entered x location is possible
+        input_int = False
+        screen.addstr(game_y_pos + yGameSize + 5, 0, "                                        ")
+        screen.addstr(game_y_pos + yGameSize + 5, 0, "x-Koordinate (Zahl) eingeben: ")
+        screen.refresh()
+        temp_chr = screen.getstr()
+        for i in range(len(temp_chr)):
+        # Checks if input is a number
+            if temp_chr[i] >= 48 and temp_chr[i] <= 57:
+                input_int = True
+            else:
+                input_int = False
+                break
+
+        if input_int == True:
+            x = int(temp_chr)
+            for i in range(1,21):
+            # Checks if x lies in max matchfield x coordinates (max gamesize = 20)
+                if x == i:
+                # Checks if input is a number
+                    break
+                else:
+                    pass
+            if x > xGameSize or x < 1:
+            # Checks if input is possible on the matchfield
+                pass
+            else: 
+                impossible_location_x = False
+        if impossible_location_x == True:
+            screen.addstr(game_y_pos + yGameSize + 5, 0, "                                        ")
+            screen.addstr(game_y_pos + yGameSize + 5, 0, "Ungültige Eingabe.")
+            screen.refresh()
+            time.sleep(0.5)
+
+    screen.addstr(game_y_pos + yGameSize + 5, 0, "                                        ")
+    curses.noecho()
+    x -= 1
+    return y, x
+
 def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_own_ships, ship_list_placed_own, matchfield_visual_2, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
     ''' Creates and sets all ships in order from biggest to smallest '''
     counter = 0
     curinput = ""
     screen.keypad(1)
     curses.mousemask(-1)
+
+    screen.addstr(curses.LINES-1,0,"W,A,S,D und Pfeiltasten: Position aendern; Enter: bestaetigen; E: wechsel zu Texteingabe")
 
     current_ships(game_y_pos,game_x_pos,xGameSize,yGameSize,ship_list_placed_own,ship_list_placed,screen)
     
@@ -954,6 +1045,10 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
         matchfield_temp[yPos, xPos] = 0
 
         curinput = userinput(screen)
+
+        if curinput == 'e':
+            yPos, xPos = get_user_coordinates(game_y_pos, game_x_pos, yGameSize, xGameSize, screen)
+            curinput = 'enter'
 
         if curinput == 'right':
         # Checks if userinput is right

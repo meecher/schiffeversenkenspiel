@@ -36,8 +36,8 @@
 
 \ifpdf
 \pdfinfo{
-   /Author (Prof. Dr. Christian Baun)
-   /Title  (Betriebssysteme und Rechnernetze -- Vorlage für die Abgabe von Werkstück A-- SS2021)
+     /Author (Marc Ullmann, David Ruschmaritsch, Anne Lotte Müller-Kühlkamp)
+   /Title  (Schifferversenken in Python --Werkstück A-- SS2021)
    /Subject (Betriebssysteme, Rechnernetze)
    /Keywords (Betriebssysteme, Rechnernetze, Werkstück A, SS2021)
 }
@@ -48,8 +48,8 @@
 \setlength{\itemsep}{0ex plus0.2ex}
 \sloppy                        % Auf jeden Fall die Seitenränder einhalten.
 
-\newcommand{\was}{Vorlage für die Abgabe von Werkstück A}
-\newcommand{\wer}{Prof.~Dr.~Christian Baun}
+\newcommand{\was}{Schiffeversenken in Python}
+\newcommand{\wer}{Marc Ullmann, David Ruschmaritsch, Anne Lotte Müller-Kühlkamp}
 \newcommand{\wann}{SS2021}
 
 \renewcommand{\headrulewidth}{0.4pt}
@@ -87,16 +87,16 @@
 %
 \mainmatter              % start of the contributions
 %
-\title{Vorlage für die Abgabe von Werkstück A im SS2021}
+\title{Schiffeversenken in Python - SS2021}
 %
-\author{Prof.~Dr.~Christian Baun}
+\author{Marc Ullmann, David Ruschmaritsch, Anne Lotte Müller-Kühlkamp}
 %
 \institute{
 Frankfurt University of Applied Sciences\\
-(1971-2014: Fachhochschule Frankfurt am Main)\\
+(1971-2021: Fachhochschule Frankfurt am Main)\\
 Nibelungenplatz 1\\
 60318 Frankfurt am Main\\
-\email{christianbaun@fb2.fra-uas.de}
+\email{marc.ullmann@stud.fra-uas.de, david.ruschmaritsch@stud.fra-uas.de, anne.mueller-kuehlkamp@stud.fra-uas.de}
 }
 
 \maketitle              % typeset the title of the contribution
@@ -105,25 +105,39 @@ Nibelungenplatz 1\\
 Hier kommt das Abstact hin. Das Abstract sollte in wenigen Sätzen (weniger als 10 Zeilen) den Inhalt des Dokuments beschreiben. Wikipedia schreibt: Ein Abstract ist eine prägnante Inhaltsangabe, ein Abriss ohne Interpretation und Wertung einer wissenschaftlichen Arbeit. Das Abstract soll so kurz wie möglich sein. Alle wesentlichen Sachverhalte sollen explizit enthalten sein. Das Abstract soll beim Leser Interesse für den Inhalt des Dokuments wecken.
 \end{abstract}
 
-Hier kommt die Einleitung (der Prolog bzw. das Vorwort) hin. Auch die Einleitung sollte kurz und prägnant sein. Der Leser soll auf den nun folgenden Text eingestimmt werden. Auch die Einleitung sollte natürlich interessant formuliert sein.
+Das Spiel Schiffeversenken, welches früher nur mit Stift und Papier gespielt wurde und sich seit dem in seiner Grundstruktur kaum verändert hat, bietet in der Implementierung die optimalen Grundlagen der objektorientierten Programmierung und
+grafischen Darstellung.
 
-\section{Allgemeines zu diesem Dokument}
+\section{Grundprinzip Schiffeversenken}
 
-Dieses Dokument ist eine Vorlage für die schriftliche Dokumentation von Werkstück A, die im Rahmen der Portfolioprüfung der  Vorlesung Betriebssysteme und Rechnernetze im SS2021 an der FRA-UAS erstellt werden muss. Es soll Einsteigern in \LaTeX~\cite{LaTeXWeb} auch ein paar Grundlagen näher bringen einige Hinweise zu Layout, Sprache und korrektem Arbeiten geben. Teilnehmer der Vorlesung können diese Vorlage verwenden, sie müssen es aber nicht zwingend. 
+Für die Implementierung des Spiels wird ein Spielfeld benötigt, welches mit Kommandozeilenargumenten anpassbar sein soll. Die Beschränkung von einer Mindestgröße von 10x10 Feldern und Maximalgröße von 20x20
+Feldern erwies sich als sinnvoll, da bei mehr als 20 Feldern die Standardgröße des Fensters von curses überschritten wird und somit das Programm abstürzt. 
+Bei weniger als 10 Feldern könnte es zu Platzproblemen der Schiffe mit dem zufälligen Platzier-Algorithmus geben und somit unerwünschte Ereignisse hervorrufen.
+Deshalb wird bei Eingabe von 2 Kommandozeilenargumenten die Begrenzung abgefragt, die bei Abweichung die Standardgröße von 10x10 wählt.
+Das Spielfeld wurde mit Hilfe von der Extension numpy entwickelt. Die Extension bietet eine einfache Erstellung mehrdimensionaler Arrays und liefert verschiedene Operationen diese zu konfigurieren.
+Ein zweidimensionales Array bietet die optimale Grundlage für das Spielfeld, da dies wie ein 2D-Koordinatensystem betrachtet werden kann.
+Doch ist es mit einem numpy Array nur möglich Zahlen zu verarbeiten. Dies hat zur Auswirkung, dass Felder die beispielsweise mit Schiffen belegt sind als \glqq 1\grqq{} definiert sind und Felder ohne Schiffe eine \glqq 0\grqq{}.
+Weitergehend bedeutet dies, dass die grafische Darstellung des numpy Arrays nicht sonderlich ansehnlich erscheint, da typischerweise Schiffe mit einem \glqq X\grqq{} oder anderen eindeutigeren Zeichen gekennzeichnet sind. 
+Infrage käme das numpy Chararray, welches Zeichen speichern kann. Jedoch wird bei der Darstellung des Arrays immer ein \glqq b\grqq{} für Byte hinzugefügt, da es Bytestrings sind, die in dem Array gespeichert werden.
+Deshalb ist das Chararray zur unmittelbaren, grafischen Darstellung ausgeschlossen.
 
-Das Dokument nutzt das in der Informatik häufig für wissenschaftliche Papiere verwendete Makropaket \texttt{llncs} (Lecture Notes in Computer Science)~\cite{SpringerWeb} für \LaTeX2e\ vom Springer-Verlag.
+\section{Wahl der visuellen Darstellung}
 
-Ein paar Worte zum Umfang: Für wissenschaftliche Publikationen hat sich ein Umfang von maximal 10 Seiten etabliert. Generell ist der Umfang einer Arbeit nie ein Kriterium für die Qualität.
+Zu Beginn kam es zur Wahl der Bibliothek für die visuelle Darstellung. Zuerst fiel die Wahl auf termbox~\cite{Termbox}. Da diese jedoch nicht mehr unterstützt und weiterentwickelt wird, fiel die Entscheidung zuerst auf cursebox~\cite{Cursebox}, für welche
+die einfachen Befehle und praktische Funktionen sprachen. Da auch diese nicht weiterhin unterstützt wird und wenig Dokumentation zu der Bibliothek vorliegt, wurde das Programm in curses~\cite{Curses} übersetzt.
 
-\section{Aufbau der Dokumentation}
+\section{Problem: Mausimplementation}
 
-Nach dem Abstact und der Einleitung beschreiben Sie das Problem. 
-Danach beginnt Ihre Eigenleistung und damit der Hauptteil Ihrer Arbeit. Beschreiben Sie mögliche Wege zur Lösung und entwickeln Sie Ihre Lösung. Dazu gehört auch die Argumentation warum Sie Ihre Lösung so und nicht anderes entwickelt haben. Als nächstes beschreiben Sie Ihre Implementierung. Gehen Sie auf die wichtigen Teile Ihrer Eigenleistung ein. Längere (mehr als 1 Seite) Quelltexte gehören in den Anhang. Danach bewerten Sie die Ergebnisse Ihrer Arbeit. Auch Misserfolge und deren Gründe sind Ergebnisse und diese sollten Sie beschreiben. 
-Abschließend folgen Zusammenfassung/Fazit/Ausblick und eventuell die Anhänge. 
+Grundsätzlich soll das Spiel mit der Tastatur spielbar sein, jedoch gab es in den Anforderungen auch die Wahl eine Maussteuerung einzubinden.
+Die benutzte Programmbibliothek \glqq curses\grqq{}, welche zur Darstellung zeichenorientierter Benutzerschnittstellen unabhängig vom darstellenden Textterminal ist,
+bietet hierzu die Funktion .getMouse() an. Diese Funktion liefert ein 5-stelliges Tupel. Darin enthalten sind unter Anderem die x- und y-Koordinaten der Maus,
+welche mit einem Tastenereignis (hier ein Mausklick) abzufragen sind. Nun gilt es die in dem curses-Terminal dargestellten Texte, welche als Knöpfe dienen sollen,
+per Mausklick zu aktivieren. Dazu müssen die Koordinaten der Maus mit denen der dargestellten Texte übereinstimmen. Dies erwies sich als umständlich und komplex für die
+weitere Implementierung des Spiels, da die dargestellten Strings keine Objekte sind und damit keine Funktionen zur Abfrage und dem damit verbundenen Vergleich der Mausposition hatten und man diese aufwendig herausfinden müsste.
 
-\section{Grundlagen in \LaTeX}
+\section{Benutzereingaben}
 
-Auf den folgenden Seiten werden einige wenige Grundlagen im Umgang vom \LaTeX\ vermittelt. Besonders empfehlenswerte Bücher sind die \LaTeX-Bücher von Helmut Kopka~\cite{LaTeXKopka1}\cite{LaTeXKopka2}\cite{LaTeXKopka3}, sowie Frank Mittelbach und Michel Goossens~\cite{LaTeXBegleiter}. Interessant sind auch die Bücher von Joachim Schlosser~\cite{LaTeXWissenschaftlich} und Roland Willms~\cite{LaTeXSchnelleinsteiger}.
+Für die Entgegennahme der Eingaben des Benutzers wurde die Funktion \glqq userinput()\grqq{} entwickelt. 
 
 \subsection{Kommentare im Quellcode}
 
@@ -420,9 +434,15 @@ Das Schlusswort enthält eine Zusammenfassung des Dokuments. Eine Art Fazit. Hie
 
 \begin{thebibliography}{5}
 
-\bibitem{SpringerWeb}
-Information for Authors of Springer Computer Science Proceedings. Springer. 2017\\
-\url{http://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines}
+\bibitem{Termbox}
+\glqq nsf\grqq{}, Termbox, Github. 2020\\
+\url{https://github.com/nsf/termbox}
+\bibitem{Cursebox}
+\glqq Tenchi2xh\grqq{}, Cursebox, Github. 2018\\
+\url{https://github.com/Tenchi2xh/cursebox}
+\bibitem{Curses}
+A.M. Kuchling, Eric S. Raymond, Cursebox, python.org. 2021\\
+\url{https://docs.python.org/3/howto/curses.html}
 \bibitem{Knuth1974}
 Knuth, Donald~E. \textsl{Computer Programming as an Art}. Communications of the ACM 17 (12). December 1974. S.667-673\\
 \url{http://fresh.homeunix.net/~luke/misc/knuth-turingaward.pdf}
