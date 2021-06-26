@@ -14,6 +14,7 @@ __email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, 
 def multiplayer(screen):
     ''' Creates two matchfields '''
     if len(sys.argv) == 3:
+    # Takes in system arguments for the game size; if it exceeds 20 it sets it to twenty (due to the window size)
         if int(sys.argv[1]) >= 10 and int(sys.argv[1]) <= 20:
             yGameSize = int(sys.argv[1])
         else: yGameSize = 10
@@ -38,7 +39,9 @@ def multiplayer(screen):
     xPos_p2 = 0
 
     while game_end:
+    # Repeats itself until one player has no ship left
         if len(ship_list_placed_p1) == 0:
+        # Checks if player 1 has no ships left and returns that player 2 won
             screen.clear()
             win_msg = "P2 Gewonnen"
             screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
@@ -47,6 +50,7 @@ def multiplayer(screen):
             time.sleep(10)
             break
         elif len(ship_list_placed_p2) == 0:
+        # Checks if player 2 has no ships left and returns that player 1 won
             screen.clear()
             win_msg = "P1 Gewonnen"
             screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
@@ -68,6 +72,7 @@ def singleplayer(screen):
     ''' Creates two matchfields '''
 
     if len(sys.argv) == 3:
+    # Takes in system arguments for the game size; if it exceeds 20 it sets it to twenty (due to the window size)
         if int(sys.argv[1]) >= 10 and int(sys.argv[1]) <= 20:
             yGameSize = int(sys.argv[1])
         else: yGameSize = 10
@@ -104,7 +109,9 @@ def singleplayer(screen):
     
 
     while game_end:
+    # Repeats itself until one player has no ship left
         if len(ship_list_placed_p1) == 0:
+        # Checks if player 1 has no ships left and returns that player 2 won
             screen.clear()
             win_msg = "Computer hat gewonnen"
             screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
@@ -113,6 +120,7 @@ def singleplayer(screen):
             time.sleep(10)
             break
         elif len(ship_list_placed_p2) == 0:
+        # Checks if player 2 has no ships left and returns that player 1 won
             screen.clear()
             win_msg = "P1 Gewonnen"
             screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
@@ -273,7 +281,7 @@ def userinput(screen):
 def random_shot(game_y_pos, game_x_pos, ship_hit, not_hit_two, y_neg, y_positive, x_neg, x_positive, already_hit, direction, hit, last_hit, yPos, xPos, 
 matchfield_visual_2, matchfield_logic_hits, matchfield_own_ships, ship_list_placed_own, matchfield_visual, matchfield_logic, matchfield_ship_pos, ship_list_placed, 
 yGameSize, xGameSize, player, screen):
-
+    ''' AI for shots by the computer '''
     current_ships(game_y_pos,game_x_pos,xGameSize,yGameSize,ship_list_placed_own,ship_list_placed,screen)
 
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_logic, player, "primary", screen)
@@ -281,6 +289,7 @@ yGameSize, xGameSize, player, screen):
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+25, matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
 
     while already_hit == True:
+    #  Return random location on the matchfield which hasn't been hit yet
         yPos = random.randint(0, xGameSize-1)
         xPos = random.randint(0, yGameSize-1)
         # First ship doesn't need to check overlap -> directly placed
@@ -292,9 +301,14 @@ yGameSize, xGameSize, player, screen):
             already_hit = True
 
     if already_hit == False:
+    # Shoots on a field if it hasn't been hit yet
         not_hit_two = True
         while not_hit_two == True:
+        # Checks if there was a hit in the last round
             if ship_hit == True:
+            # Shoots on sorrounding fields if there has been a hit; turns direction negative if shot missed
+
+                # Checks if sorrounding fields are in the matchfield
                 if yPos + 1 >= yGameSize:
                     y_positive = False
                 elif yPos - 1 < 0:
@@ -304,6 +318,7 @@ yGameSize, xGameSize, player, screen):
                 elif xPos - 1 < 0:
                     x_neg = False
                 
+                # Chooses next direction to shoot at; turns negative if it misses
                 if y_neg == True:
                     yPos -= 1
                     y_neg = True
@@ -339,6 +354,7 @@ yGameSize, xGameSize, player, screen):
                         xPos -= 1
 
             elif matchfield_logic[yPos,xPos] == 2:
+            # Checks if field was already hit
                 if direction == 'y_neg':
                     yPos -= 1
                 if direction == 'y_positive':
@@ -349,10 +365,12 @@ yGameSize, xGameSize, player, screen):
                     xPos += 1
 
             elif matchfield_logic[yPos,xPos] == 0:
+            # Checks if field is empty
                 not_hit_two = False
     
 
     if already_hit == False:
+    # Shoots at field if it wasn't already shot at
         current_ship = 0
     # Checks if current field was already hit
         if matchfield_ship_pos[yPos,xPos] == 1:
@@ -408,6 +426,7 @@ yGameSize, xGameSize, player, screen):
                     ship_hit = False
                     hit = False
                     if ship_hit == False:
+                    # Sets it to false so it returns a new random coordinate next round
                         already_hit = True
                     y_neg = True
                     x_neg = True
@@ -426,6 +445,7 @@ yGameSize, xGameSize, player, screen):
             matchfield_logic[yPos,xPos] = 3
 
             if ship_hit == True:
+            # If missed and the last round a ship was hit it resets coordinates to the last round
                 if direction == 'y_neg':
                     y_neg = False
                     yPos += 1
@@ -440,6 +460,7 @@ yGameSize, xGameSize, player, screen):
                     xPos -= 1
 
             if ship_hit == False:
+            # Returns new coordinates next round
                 already_hit = True
 
             screen.addstr(game_y_pos+yGameSize+1,0,"Kein Schiff bei dieser Position")
@@ -886,10 +907,12 @@ def set_ships(game_y_pos,game_x_pos, matchfield_visual, matchfield_temp, matchfi
     return matchfield_visual, matchfield_ship_pos, ship_list_placed
 
 def current_ships(game_y_pos, game_x_pos, xGameSize, yGameSize, ship_list_placed_own, ship_list_placed_enemy, screen):
+    ''' Displays ships of current and enemy player '''
     ships_own = [0,0,0,0]
     ships_enemy = [0,0,0,0]
 
     for i in ship_list_placed_own:
+    # Adds ships according to size
         if i.size == 5:
             ships_own[0] += 1
         elif i.size == 4:
@@ -900,6 +923,7 @@ def current_ships(game_y_pos, game_x_pos, xGameSize, yGameSize, ship_list_placed
             ships_own[3] += 1    
     
     for i in ship_list_placed_enemy:
+    # Adds ships according to size from the enemy
         if i.size == 5:
             ships_enemy[0] += 1
         elif i.size == 4:
@@ -1047,6 +1071,7 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
         curinput = userinput(screen)
 
         if curinput == 'e':
+        # Enables text input
             yPos, xPos = get_user_coordinates(game_y_pos, game_x_pos, yGameSize, xGameSize, screen)
             curinput = 'enter'
 
@@ -1149,7 +1174,6 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
                                     if (i.position_y+1 < yGameSize):
                                         matchfield_logic[i.position_y+1, i.position_x:i.position_x+i.size] = 3
                                 else:
-                                    # After the ship is destroyed, surrounding spaces cant be targeted anymore
                                     if (i.position_x-1 >= 0):
                                         matchfield_logic[i.position_y:i.position_y+i.size, i.position_x-1] = 3
                                     if (i.position_y+i.size+1 <= yGameSize):
