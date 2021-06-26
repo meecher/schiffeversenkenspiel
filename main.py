@@ -939,7 +939,7 @@ def current_ships(game_y_pos, game_x_pos, xGameSize, yGameSize, ship_list_placed
     screen.addstr(game_y_pos+yGameSize+2,8,ships_enemy_str)
     screen.refresh()
      
-def get_user_coordinates(game_y_pos, game_x_pos, yGameSize, xGameSize, screen):
+def get_user_coordinates(game_y_pos, game_x_pos, matchfield, yGameSize, xGameSize, screen):
     ''' Returns coordinates inputted by the user '''
     curses.echo()
     impossible_location_y = True
@@ -951,8 +951,9 @@ def get_user_coordinates(game_y_pos, game_x_pos, yGameSize, xGameSize, screen):
     while impossible_location_y == True:
     # Runs until entered y location is possible
         input_char = False
+        empty_x_field = True
         counter = 0
-        screen.addstr(game_y_pos + yGameSize + 5, 0, "y-Koordinate (Buchstabe) eingeben: ")
+        screen.addstr(game_y_pos + yGameSize + 3, 0, "y-Koordinate (Buchstabe) eingeben: ")
         screen.refresh()
         temp_chr = screen.getch()
         time.sleep(0.2)
@@ -974,23 +975,30 @@ def get_user_coordinates(game_y_pos, game_x_pos, yGameSize, xGameSize, screen):
                     break
                 else:
                     counter += 1
+            for i in range(yGameSize):
+            # Checks if there is an empty field to shot on in this row
+                if matchfield[y,i] == 0:
+                    empty_x_field = True
+                    break
+                else:
+                    empty_x_field = False
             if y > yGameSize - 1 or y < 0:
             # Checks if input is possible on the matchfield
                 pass
-            else: 
+            elif empty_x_field == True:
                 impossible_location_y = False
                 time.sleep(0.5)
         if impossible_location_y == True:
-            screen.addstr(game_y_pos + yGameSize + 5, 0, "                                        ")
-            screen.addstr(game_y_pos + yGameSize + 5, 0, "Ungültige Eingabe.")
+            screen.addstr(game_y_pos + yGameSize + 3, 0, "                                        ")
+            screen.addstr(game_y_pos + yGameSize + 3, 0, "Ungültige Eingabe.")
             screen.refresh()
             time.sleep(0.5)
 
     while impossible_location_x == True:
     # Runs until entered x location is possible
         input_int = False
-        screen.addstr(game_y_pos + yGameSize + 5, 0, "                                        ")
-        screen.addstr(game_y_pos + yGameSize + 5, 0, "x-Koordinate (Zahl) eingeben: ")
+        screen.addstr(game_y_pos + yGameSize + 3, 0, "                                        ")
+        screen.addstr(game_y_pos + yGameSize + 3, 0, "x-Koordinate (Zahl) eingeben: ")
         screen.refresh()
         temp_chr = screen.getstr()
         for i in range(len(temp_chr)):
@@ -1016,12 +1024,12 @@ def get_user_coordinates(game_y_pos, game_x_pos, yGameSize, xGameSize, screen):
             else: 
                 impossible_location_x = False
         if impossible_location_x == True:
-            screen.addstr(game_y_pos + yGameSize + 5, 0, "                                        ")
-            screen.addstr(game_y_pos + yGameSize + 5, 0, "Ungültige Eingabe.")
+            screen.addstr(game_y_pos + yGameSize + 3, 0, "                                        ")
+            screen.addstr(game_y_pos + yGameSize + 3, 0, "Ungültige Eingabe.")
             screen.refresh()
             time.sleep(0.5)
 
-    screen.addstr(game_y_pos + yGameSize + 5, 0, "                                        ")
+    screen.addstr(game_y_pos + yGameSize + 3, 0, "                                        ")
     curses.noecho()
     x -= 1
     return y, x
@@ -1070,7 +1078,7 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
 
         if curinput == 'e':
         # Enables text input
-            yPos, xPos = get_user_coordinates(game_y_pos, game_x_pos, yGameSize, xGameSize, screen)
+            yPos, xPos = get_user_coordinates(game_y_pos, game_x_pos, matchfield_logic, yGameSize, xGameSize, screen)
             curinput = 'enter'
 
         if curinput == 'right':
