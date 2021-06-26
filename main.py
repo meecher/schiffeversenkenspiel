@@ -290,10 +290,8 @@ yGameSize, xGameSize, player, screen):
 
     while already_hit == True:
     #  Return random location on the matchfield which hasn't been hit yet
-        #yPos = random.randint(0, xGameSize-1)
-        #xPos = random.randint(0, yGameSize-1)
-        yPos = 0
-        xPos = 1
+        yPos = random.randint(0, xGameSize-1)
+        xPos = random.randint(0, yGameSize-1)
         # First ship doesn't need to check overlap -> directly placed
         current_ship = 0
         already_hit = False
@@ -341,7 +339,7 @@ yGameSize, xGameSize, player, screen):
 
             if matchfield_logic[yPos,xPos] == 3:
                 # Checks if field is already hit
-                    not_hit_two = True              #2 1 0 3 4
+                    not_hit_two = True      
                     if direction == 'y_neg':
                         y_neg = False
                         yPos += 1
@@ -899,6 +897,7 @@ def set_ships(game_y_pos,game_x_pos, matchfield_visual, matchfield_temp, matchfi
                     break
 
             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_temp, player, "primary", screen)
+    update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos,matchfield_visual, matchfield_ship_pos, player, "primary", screen)
     continue_game(game_y_pos,game_x_pos,yGameSize,xGameSize,screen)
     return matchfield_visual, matchfield_ship_pos, ship_list_placed
 
@@ -931,7 +930,7 @@ def current_ships(game_y_pos, game_x_pos, xGameSize, yGameSize, ship_list_placed
     
     ships_own_str = ("Schlachtschiff " + str(ships_own[0]) + "x, Kreuzer " + str(ships_own[1]) + 
     "x, Zerstoerer " + str(ships_own[2]) + "x, U-Boote " + str(ships_own[3]) + "x")
-    ships_enemy_str = ("Schlaftschiff " + str(ships_enemy[0]) + "x, Kreuzer " + str(ships_enemy[1]) + 
+    ships_enemy_str = ("Schlachtschiff " + str(ships_enemy[0]) + "x, Kreuzer " + str(ships_enemy[1]) + 
     "x, Zerstoerer " + str(ships_enemy[2]) + "x, U-Boote " + str(ships_enemy[3]) + "x")
 
     screen.addstr(0,11,"                                                         ")
