@@ -1,0 +1,445 @@
+% This is LLNCS.DEM the demonstration file of
+% the LaTeX macro package from Springer-Verlag
+% for Lecture Notes in Computer Science,
+% version 2.3 for LaTeX2e
+%
+\nocite{*}
+\documentclass{llncs}
+%
+\usepackage{ngerman}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{makeidx}  % allows for indexgeneration
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{verbatim}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{amssymb}   % AMS-Sonderzeichen
+\usepackage{tabularx}  % Für tabularx und newcolumntype
+% \usepackage[paper=a4paper,left=30mm,right=30mm,top=30mm,bottom=30mm]{geometry}
+\usepackage{color}
+\usepackage{ragged2e}
+\usepackage{ifpdf}
+% \usepackage{titlesec}
+\usepackage{xcolor}    % Lieber xcolor als color. Dann klappt auch das listings gut mit den Farben
+\usepackage{listings}
+\usepackage{upquote}   % Verändert die Ausgabe der einfachen Anführungszeichen innerhalb von verbatim
+\usepackage{eurosym}   % Euro-Zeichen: \euro
+\usepackage{lastpage}  % \pageref{LastPage} um die Anzahl der Seiten zu erhalten
+% hiermit kann man auch umlaute copy-pasten
+\usepackage{lmodern}
+\selectlanguage{german}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%
+
+\ifpdf
+\pdfinfo{
+   /Author (Prof. Dr. Christian Baun)
+   /Title  (Betriebssysteme und Rechnernetze -- Vorlage für die Abgabe von Werkstück A-- SS2021)
+   /Subject (Betriebssysteme, Rechnernetze)
+   /Keywords (Betriebssysteme, Rechnernetze, Werkstück A, SS2021)
+}
+\fi
+
+\setlength{\parindent}{0pt}    % Erste Zeile eines Absatzes nicht einrücken
+\parskip2ex                    % Absatzabstand
+\setlength{\itemsep}{0ex plus0.2ex}
+\sloppy                        % Auf jeden Fall die Seitenränder einhalten.
+
+\newcommand{\was}{Vorlage für die Abgabe von Werkstück A}
+\newcommand{\wer}{Prof.~Dr.~Christian Baun}
+\newcommand{\wann}{SS2021}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\lhead[\wann]{\wer}
+\rhead[\wer]{\wann}
+\chead[]{}
+\lfoot[Seite \thepage\ von \pageref{LastPage}]{\was}
+\rfoot[\was]{Seite \thepage\ von \pageref{LastPage}}
+\cfoot[]{}
+\pagestyle{fancy}
+
+
+% Hurenkinder und Schusterjungen komplett verbieten.
+\clubpenalty = 10000 
+\widowpenalty = 10000 
+\displaywidowpenalty = 10000
+% Diese Begriffe bezeichnen den Makel beim Textsatz, wenn eine Seite mit der ersten Zeile eines Absatzes endet (so genannter Schusterjunge) oder eine neue Seite mit der letzten Zeile eines Absatzes beginnt (so genanntes Hurenkind).
+
+
+% Wir definieren ein paar Farben
+\definecolor{Brown}{cmyk}{0,0.81,1,0.60}
+\definecolor{OliveGreen}{cmyk}{0.64,0,0.95,0.40}
+\definecolor{CadetBlue}{cmyk}{0.62,0.57,0.23,0}
+\definecolor{lightlightgray}{gray}{0.9}
+\definecolor{FrankfurtBlue}{HTML}{3333b2}
+
+% Hier fängt das Dokument an!
+\begin{document}
+
+%
+% \frontmatter          % for the preliminaries
+%
+% \tableofcontents
+%
+\mainmatter              % start of the contributions
+%
+\title{Vorlage für die Abgabe von Werkstück A im SS2021}
+%
+\author{Prof.~Dr.~Christian Baun}
+%
+\institute{
+Frankfurt University of Applied Sciences\\
+(1971-2014: Fachhochschule Frankfurt am Main)\\
+Nibelungenplatz 1\\
+60318 Frankfurt am Main\\
+\email{christianbaun@fb2.fra-uas.de}
+}
+
+\maketitle              % typeset the title of the contribution
+
+\begin{abstract}
+Hier kommt das Abstact hin. Das Abstract sollte in wenigen Sätzen (weniger als 10 Zeilen) den Inhalt des Dokuments beschreiben. Wikipedia schreibt: Ein Abstract ist eine prägnante Inhaltsangabe, ein Abriss ohne Interpretation und Wertung einer wissenschaftlichen Arbeit. Das Abstract soll so kurz wie möglich sein. Alle wesentlichen Sachverhalte sollen explizit enthalten sein. Das Abstract soll beim Leser Interesse für den Inhalt des Dokuments wecken.
+\end{abstract}
+
+Hier kommt die Einleitung (der Prolog bzw. das Vorwort) hin. Auch die Einleitung sollte kurz und prägnant sein. Der Leser soll auf den nun folgenden Text eingestimmt werden. Auch die Einleitung sollte natürlich interessant formuliert sein.
+
+\section{Allgemeines zu diesem Dokument}
+
+Dieses Dokument ist eine Vorlage für die schriftliche Dokumentation von Werkstück A, die im Rahmen der Portfolioprüfung der  Vorlesung Betriebssysteme und Rechnernetze im SS2021 an der FRA-UAS erstellt werden muss. Es soll Einsteigern in \LaTeX~\cite{LaTeXWeb} auch ein paar Grundlagen näher bringen einige Hinweise zu Layout, Sprache und korrektem Arbeiten geben. Teilnehmer der Vorlesung können diese Vorlage verwenden, sie müssen es aber nicht zwingend. 
+
+Das Dokument nutzt das in der Informatik häufig für wissenschaftliche Papiere verwendete Makropaket \texttt{llncs} (Lecture Notes in Computer Science)~\cite{SpringerWeb} für \LaTeX2e\ vom Springer-Verlag.
+
+Ein paar Worte zum Umfang: Für wissenschaftliche Publikationen hat sich ein Umfang von maximal 10 Seiten etabliert. Generell ist der Umfang einer Arbeit nie ein Kriterium für die Qualität.
+
+\section{Aufbau der Dokumentation}
+
+Nach dem Abstact und der Einleitung beschreiben Sie das Problem. 
+Danach beginnt Ihre Eigenleistung und damit der Hauptteil Ihrer Arbeit. Beschreiben Sie mögliche Wege zur Lösung und entwickeln Sie Ihre Lösung. Dazu gehört auch die Argumentation warum Sie Ihre Lösung so und nicht anderes entwickelt haben. Als nächstes beschreiben Sie Ihre Implementierung. Gehen Sie auf die wichtigen Teile Ihrer Eigenleistung ein. Längere (mehr als 1 Seite) Quelltexte gehören in den Anhang. Danach bewerten Sie die Ergebnisse Ihrer Arbeit. Auch Misserfolge und deren Gründe sind Ergebnisse und diese sollten Sie beschreiben. 
+Abschließend folgen Zusammenfassung/Fazit/Ausblick und eventuell die Anhänge. 
+
+\section{Grundlagen in \LaTeX}
+
+Auf den folgenden Seiten werden einige wenige Grundlagen im Umgang vom \LaTeX\ vermittelt. Besonders empfehlenswerte Bücher sind die \LaTeX-Bücher von Helmut Kopka~\cite{LaTeXKopka1}\cite{LaTeXKopka2}\cite{LaTeXKopka3}, sowie Frank Mittelbach und Michel Goossens~\cite{LaTeXBegleiter}. Interessant sind auch die Bücher von Joachim Schlosser~\cite{LaTeXWissenschaftlich} und Roland Willms~\cite{LaTeXSchnelleinsteiger}.
+
+\subsection{Kommentare im Quellcode}
+
+Kommentare beginnen immer mit dem Prozentzeichen \verb!%!. Dieses bewirkt, dass \LaTeX\ alles ignoriert, was bis zum Zeilenende an Befehlen, Text oder Sonstigem steht. Achtung: Das Prozentzeichen gilt immer nur bis zum Zeilenende.
+
+\subsection{Schriftsätze und Texthervorhebungen}
+
+Es gibt verschiedene Schriftsätze: \textbf{Bold Face} (\verb!\textbf{...}!), \textrm{Roman} (\verb!\textrm{...}!), \textit{Italic} (\verb!\textit{...}!), \texttt{Typewriter} (\verb!\texttt{...}!), \textsf{Sans Serif} (\verb!\textsf{...}!), \textsl{Slanted} (\verb!\textsl{...}!) und \textsc{Small Caps} (\verb!\textsc{...}!). Damit sollte man aber sehr sparsam umgehen.
+
+Es sollten nur wirklich wichtige Punkte hervorgehoben werden. Hierfür bietet sich \verb!\emph{}! an. Mit diesem Befehl kann Text einfach \emph{hervorgehoben} werden.
+
+Text \underline{unterstreichen} ist auch möglich, aber nicht zu empfehlen. Das \underline{Unterstreichen} kommt noch aus der Zeit der Schreibmaschinen. Damals gab es keine andere Möglichkeit, Text \emph{hervorzuheben}. In hochwertigen Publikationen ist das heutzutage unüblich, weil es einfach nicht gut aussieht.
+
+\subsection{Unformatierter Text}
+Die Fähigkeit von \LaTeX, unformatierten Text mit fester Zeichenbreite darzustellen, ist 
+besonders bei der Einbindung von Quellcode hilfreich.
+
+Zum setzen von unformatiertem Text gibt es die Umgebung \texttt{verbatim}. Den Inhalt der Umgebung setzt \LaTeX\ in der Schrift \texttt{TypeWriter} (Schreibmaschinenschrift) und interpretiert ihn nicht. Er kann also auch Sonderzeichen von \LaTeX\ enthalten. Leerzeichen und Zeilenumbrüche werden einfach übernommen und gedruckt. Es können keine Befehle mehr ausgeführt werden bis zum \verb!\end{verbatim}!. Die Umgebungen \texttt{verbatim} sorgt zudem dafür, dass der unformatierte Text abgesetzt dargestellt ist. Die folgenden Zeilen sind ein Beispiel für 
+
+\begin{verbatim}
+Das ist ein Test mit der Umgebung verbatim.
+Hier kann man einfach Sonderzeichen eingeben.
+§ $ % & / | \ ~ * # - -- ---
+\end{verbatim}
+
+Es existiert eine Möglichkeit, maximal eine Zeile langen Text, unformatiert auszugeben. Dabei handelt es sich um den Befehl \verb!\verb<Zeichen>Text<Zeichen>!.
+
+Der betreffende Text ist dabei von einem (fast) beliebigen Zeichen umschlossen. Es kann sich zum Beispiel um ein \verb+!+, \verb!§!, \verb!|! oder \verb!+! handeln. Das Zeichen muss direkt nach dem \verb!\verb!-Befehl angegeben sein. Beim ersten Auftreten beginnt die \verb!verbatim!-Umgebung und beim nächsten Auftreten des Zeichens endet die Umgebung. Darum darf das Zeichen sich auch nicht innerhalb der Umgebung (des darzustellenden Textes) befinden.
+
+\subsection{Sonderzeichen und Fortsetzungspunkte}
+
+Ein paar Sonderzeichen: \textbackslash, \$, \&, \euro, \%, \#, \textunderscore, \textasciitilde, \textasciicircum, \textbar, \{, \}
+
+Weitere Sonderzeichen: \copyright, \textregistered, \texttrademark, \S, \P, \pounds, \dag, \ddag, \textbullet
+
+Fortsetzungspunkte macht das Kommando \verb!\dots!. Ergebnis: \dots
+
+\subsection{Trennstrich, Gedankenstrich, längerer Gedankenstrich}
+
+\LaTeX\ unterscheidet drei verschiedene Arten von Strichen in gedrucktem Text.
+
+Es gibt den \emph{Trennstrich}, der als Trennzeichen beim Trennen von Wörtern, oder als \emph{Bindestrich} in zusammengesetzten Begriffen benutzt wird. Diesen schreibt man wie einen ganz gewöhnlichen Strich (\verb!-!).
+
+Die zweite Variante ist der \emph{Gedankenstrich} --. Diesen verwendet man häufig bei Strecken- oder Zeitangaben. Die Realisierung geschieht mit zwei Strichen (\verb!--!). Vor und hinter diesem Gedankenstrich sollten sich Leerzeichen befinden.
+
+Im englischen Sprachraum existiert der \emph{längere
+Gedankenstrich} ---. Die Realisierung geschieht mit drei Strichen (\verb!---!). Er ist für gewöhnlich ohne Leerzeichen mit den vorhergehenden und folgenden Textstellen verbunden. Im deutschen Sprachraum ist dieses Stilmittel eher unüblich.
+
+\subsection{Quellcode}
+
+Zum Setzen von Quellcode empfiehlt sich die Umgebung \verb!lstlisting!. Zuvor definiert der Autor mit dem Kommando \verb!\lstset!, um was für einen Quellcode es sich handelt und wie dieser formatiert sein soll. Listing~\ref{QuellcodeBeispielNr1} enthält ein Shell-Skript ein Beispiel für einen Quellcode. Jeder Quellcode sollte eine Unterschrift (Beschreibung) haben. Damit die Syntaxhervorhebung korrekt funktioniert, muss der Autor mit dem Schlüsselwort \verb!language! die Programmiersprache angeben. 
+
+
+\lstset{
+language=Bash,
+captionpos=b, 
+caption=Das ist die Unterschrift des Quellcodes, 
+label=QuellcodeBeispielNr1,
+basicstyle=\ttfamily\footnotesize,      % Code font, Examples: \footnotesize, \ttfamily
+keywordstyle=\color{FrankfurtBlue},     % Keywords font ('*' = uppercase)
+commentstyle=\color{gray},              % Comments font
+numbers=left,                           % Line nums position
+numberstyle=\footnotesize,              % Line-numbers fonts
+stepnumber=1,                           % Step between two line-numbers
+numbersep=5pt,                          % How far are line-numbers from code
+backgroundcolor=\color{lightlightgray}, % Choose background color
+frame=none,                             % A frame around the code
+tabsize=2,                              % Default tab size
+captionpos=b,                           % Caption-position = bottom
+breaklines=true,                        % Automatic line breaking?
+breakatwhitespace=false,                % Automatic breaks only at whitespace?
+showspaces=false,                       % Dont make spaces visible
+showstringspaces=false                  %
+showtabs=false,                         % Dont make tabls visible
+columns=fixed,                          % Column format
+morekeywords={},                        % Specific keywords}
+literate=%
+{Ö}{{\"O}}1
+{Ä}{{\"A}}1
+{Ü}{{\"U}}1
+{ö}{{\"o}}1
+{ä}{{\"a}}1
+{ü}{{\"u}}1
+{ß}{{\ss}}1
+{~}{{\textasciitilde}}1
+}
+\begin{lstlisting}
+#!/bin/bash
+#
+# Skript: operanden2.bat
+#
+# Funktionsbibliothek einbinden
+. funktionen.bib
+
+echo "Bitte geben Sie den gewünschten Operator ein."
+echo "Mögliche Eingaben sind: + - * /"
+read OPERATOR
+echo "Bitte geben Sie den ersten Operanden ein:"
+read OPERAND1
+echo "Bitte geben Sie den zweiten Operanden ein:"
+read OPERAND2
+
+# Eingabe verarbeiten 
+case $OPERATOR in
+  +)  add $OPERAND1 $OPERAND2 ;;
+  -)  sub $OPERAND1 $OPERAND2 ;;
+  \*) mul $OPERAND1 $OPERAND2 ;;
+  /)  div $OPERAND1 $OPERAND2 ;;
+  *)  echo "Falsche Eingabe: $OPERATOR" >&2
+      exit 1
+      ;;
+esac
+
+# Ergebnis ausgeben
+echo "$OPERAND1 $OPERATOR $OPERAND2 = $ERGEBNIS"
+\end{lstlisting}
+
+\subsection{Auflistungen und Aufzählungen}
+
+\begin{itemize}
+\item Auflistungen sind häufig sehr hilfreich, um Text zu strukturieren. \item Mit Auflistungen kann man Text auch zusammenfassen.
+\item Auflistungen macht man mit der \texttt{itemize}-Umgebung.
+\begin{itemize}
+\item Verschachtelte Auflistungen sind auch kein Problem.
+\begin{itemize}
+\item Man kann bis zu vier Ebenen verschachteln.
+\begin{itemize}
+\item Mehr als zwei Ebenen sieht aber fast nie gut aus.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\begin{enumerate}
+\item Es gibt natürlich auch Aufzählungen in \LaTeX.
+\item Aufzählungen macht man mit der \texttt{enumerate}-Umgebung.
+\begin{enumerate}
+\item Diese kann man auch nach belieben verschachteln.
+\end{enumerate}
+\item Man kann natürlich auch\dots
+\begin{itemize}
+\item Auflistungen und
+\item Aufzählungen nach Belieben verschachteln.
+\end{itemize}
+\end{enumerate}
+
+\subsection{Farben in Texten}
+
+\textcolor{blue}{Farben} sollte man hier \textcolor{red}{nicht} oder nur im \textcolor{green}{geeigneten} (seltenen!) Fall einsetzen. Die Gründe sind:
+\begin{itemize}
+\item \textcolor{red}{Farbige} \textcolor{green}{Texte} \textcolor{blue}{erschweren} \textcolor{yellow}{das} \textcolor{magenta}{Lesen} \textcolor{cyan}{erheblich}.
+\item Ein Farbdrucker ist nicht überall vorausgesetzt vorhanden.
+\item Nicht alle Farbdrucker erzeugen das gleiche Ergebnis.
+\end{itemize}
+
+\subsection{Zitieren}
+
+Zitate können hilfreich sein. Wenn Sie wortwörtlich Texte übernehmen, machen Sie dies mit Einrückungen deutlich und geben Sie die Quelle an. Für Zitate gibt es u.a. die Umgebung \texttt{quotation}. Passend hierzu ein Zitat von Donald~E. Knuth, dem Entwickler von \TeX:
+
+\begin{quotation}
+Science is knowledge which we understand so well that we can teach it to a computer; and if we don't fully understand something, it is an art to deal with it.~\cite{Knuth1974}
+\end{quotation}
+
+
+In naturwissenschaftlichen Abschlussarbeiten sollte der Bedarf an solchen Zitaten aber eher gering sein, da in der Regel der Entwurf und die anschließende Implementierung einer Lösung der Kern der Arbeit ist. Auch wenn Sie Bilder oder Tabellen übernehmen, müssen Sie in der Bildunterschrift bzw. Tabellenüberschrift die Quelle angeben. Blöd ist, wenn man am Ende Quellenangaben vergessen hat. Darum empfiehlt es sich, dass Sie zur Sicherheit ihre eigene Arbeit mit Werkzeugen wie PlagScan\footnote{\url{http://www.plagscan.com}} untersuchen.
+
+
+
+
+\subsection{Fußnoten}
+
+Fußnoten können hilfreich sein, um Zusatzinformationen im Dokument unter zu bringen. Generell sollte man Fußnoten aber auch eher sparsam verwenden.
+
+In \LaTeX\ werden Fußnoten\footnote{Eine Fußnote} mit dem Befehl \verb!\footnote{Text der Fußnote}! erzeugt. Man braucht sich weder um die Nummerierung oder Positionierung der Fußnoten Gedanken zu machen.\footnote{Eine weitere Fußnote}
+
+\subsection{Bilder}
+
+Abbildungen fügen Sie, wenn möglich, als Vektorgrafiken ein. Besonders bei selbst erstellten Diagrammen ist das problemlos möglich. Im Gegensatz zu Rastergrafiken ist das skalieren von Vektorgrafiken ohne Qualitätsverlust stufenlos und verlustfrei möglich. Dateiformate für Vektorgrafiken sind u.a. \verb!eps!, \verb!ps!, \verb!pdf! und \verb!svg!. Dateiformate für Rastergrafiken sind u.a. \verb!bmp!, \verb!gif!, \verb!jpg! und \verb!png!.
+
+Jede Abbildung benötigt eine Bildunterschrift mit eindeutiger Nummer und muss im Text referenziert sein (siehe Abbildung~\ref{Pinguin_Bild_Label}. 
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=4cm]{Bilder/Pinguin}
+\caption{Bildunterschrift von Abbildung~\ref{Pinguin_Bild_Label}}
+\label{Pinguin_Bild_Label} % Ein eindeutiges Label.
+\end{center}
+\end{figure}
+
+Das Drehen von Bildern ist mit dem Parameter \texttt{angle=<Winkel>} einfach möglich. Abbildung~\ref{Pinguin_Bild_gedreht_Label} wurde um 270 Grad gedreht.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=4cm,angle=270]{Bilder/Pinguin}
+\caption{Bildunterschrift von Abbildung~\ref{Pinguin_Bild_gedreht_Label}}
+\label{Pinguin_Bild_gedreht_Label} % Ein eindeutiges Label.
+\end{center}
+\end{figure}
+
+Soll ein Bild genauso breit sein wie das Textfeld, geht dieses einfach mit \verb!width=\textwidth!.
+
+\subsection{Tabellen}
+
+\LaTeX\ bietet viele Umgebungen, um Tabellen zu erzeugen. Eine einfache Umgebung ist \texttt{tabular}. Springer empfiehlt, bei Tabellen die Tabellenüberschrift über die Tabelle zu schreiben und keine senkrechten Trennlinien zu verwenden. Eine weitere Empfehlung von Springer ist, nur zur Begrenzung der eigentlichen Tabelle, sowie des Tabellenkopfs, horizontale Trennlinien zu ziehen. Ein Beispiel für eine solche Tabelle ist Tabelle~\ref{Einfache_Table_Label}.
+
+Jede Tabelle benötigt eine Tabellenüberschrift mit eindeutiger Nummer und muss im Text referenziert sein.
+
+\begin{table}
+\centering
+\caption{Eine einfache Tabelle}\label{Einfache_Table_Label}
+\begin{tabular}{clcr}
+\hline\noalign{\smallskip}
+  \textbf{Zeile} & \textbf{Linksbündig} & \textbf{Zentriert} & \textbf{Rechtsbündig} \\
+\noalign{\smallskip}
+\hline
+\noalign{\smallskip}
+  1 & Zeile 1 & Zeile 1 & Zeile 1 \\
+  2 & Zeile 2 & Zeile 2 & Zeile 2 \\
+  3 & Zeile 3 & Zeile 3 & Zeile 3 \\
+\hline
+\end{tabular}
+\end{table}
+
+Klassischerweise sehen Tabellen eher aus, wie Tabelle~\ref{Standard_Table_Label}, mit senkrechten und horizontalen Trennlinien an allen Feldgrenzen. Das Ergebnis ist natürlich korrekt, sieht aber nicht so elegant aus, wie Tabelle~\ref{Einfache_Table_Label}.
+
+\begin{table}
+\centering
+\caption{Eine Tabelle im klassischen Layout}\label{Standard_Table_Label}
+\begin{tabular}{|c|l|c|r|}
+\hline
+  \textbf{Zeile} & \textbf{Linksbündig} & \textbf{Zentriert} & \textbf{Rechtsbündig} \\
+\hline
+  1 & Zeile 1 & Zeile 1 & Zeile 1 \\ \hline
+  2 & Zeile 2 & Zeile 2 & Zeile 2 \\ \hline
+  3 & Zeile 3 & Zeile 3 & Zeile 3 \\ \hline
+\end{tabular}
+\end{table}
+
+
+\subsection{Korrektes Arbeiten mit Zahlen und Währungen}
+
+Vermeiden Sie Bewertungen, die sie nicht belegen und in Zahlen festmachen können. Formulierungen wie \glqq einfach\grqq, \glqq schwierig\grqq, \glqq langsam\grqq, \glqq schnell\grqq, \glqq günstiger Preis\grqq\ oder \glqq hoher Datendurchsatz\grqq\ sind nicht eindeutig und haben in einer wissenschaftlichen Dokumentation nichts zu suchen. Fragen Sie sich selbst: Wie viel ist viel? Wie viel Geld ist günstig? Wie viele MB/s sind schnell? Solche Formulierungen sind immer vom Kontext abhängig und nicht eindeutig. Wenn Sie etwas bewerten, muss es auf Basis von Quellen oder eigenen Messergebnissen geschehen.
+
+In deutschsprachigen Dokumenten schreibt man Währungssymbole nach dem Betrag (Beispiel: 10~\euro) mit einem geschützten Leerzeichen zwischen Währungssymbol und Betrag. Ein solches Leerzeichen darf nicht umbrochen werden. In englischsprachigen Dokumenten werden Währungssymbole vor den Betrag gesetzt (Beispiel: \$10). Dabei ist kein Leerzeichen zwischen Währungssymbol und Betrag gesetzt.
+
+Das Dezimaltrennzeichen markiert die Grenze zwischen dem ganzzahligen Teil und dem gebrochenen Teil einer Zahl. In deutschsprachigen Dokumenten verwendet man ein Komma als Dezimaltrennzeichen (Dezimalkomma). In englischsprachigen Dokumenten verwendet man einen Punkt als Dezimaltrennzeichen (Dezimalpunkt).
+
+Bei großen Zahlen empfiehlt es sich zur besseren Lesbarkeit Tausendertrennzeichen zu verwenden. In deutschsprachigen Dokumenten verwendet man als Tausendertrennzeichen einen Punkt (Beispiel: 10.000~\euro) oder ein geschütztes Leerzeichen (Beispiel: 10~000~\euro). In englischsprachigen Dokumenten verwendet man als Tausendertrennzeichen ein Komma (Beispiel: \$10,000).
+
+\subsection{Qualität der Sprache}
+
+\textbf{Qualität kommt von Qual und nicht der Leser soll sich quälen, sondern der Autor!}
+
+Formulieren Sie sachlich und präzise. Ihr Text sollte frei von weitschweifigen, prosaischen und umständlichen Formulierungen sein.
+
+Vermeiden Sie zu lange Sätze, die über mehrere Zeilen gehen. Der Text soll flüssig lesbar sein.
+
+Formulieren Sie aktiv. Das erreichen Sie, indem Sie Wörter wie \glqq wird\grqq, \glqq wurde\grqq\ und \glqq werden\grqq\ vermeiden.
+
+Vermeiden Sie in einer deutschsprachigen Abschlussarbeit unnötige Anglizismen. Wörter wie Webseite, E-Mail, Server und Browser stehen im Duden und sind quasi eingedeutscht. Für zahlreiche andere Wörter in der Informatik existieren seit Jahrzehnten etablierte deutsche Begriffe. Es bietet sich an, diese auch zu verwenden.
+
+Schreiben in der dritten Person. Das heißt Sie vermeiden die Ich-Form (z.B. \glqq Ich/Wir habe(n) den Datendurchsatz mit xyz gemessen\dots\grqq) und das direkte Ansprechen des Lesers (z.B. \glqq in meiner/unserer Arbeit sehen Sie\dots\grqq). Wahren Sie Distanz zum Leser (z.B. \glqq Die Messung des Datendurchsatzes mit xyz ergab\dots\grqq).
+
+Verfallen Sie im Überschwang nicht in Werbesprache (\glqq BlaBla-Sprache\grqq), indem Sie bestimmte Produkte oder Unternehmen euphorisch anpreisen. Wenn Sie Abschnitte mit Werbetexten von amerikanischen Produktseiten übersetzen und einbauen, merkt der Leser das.
+
+Bei eigenen Werken wird man als Autor mit der Zeit betriebsblind und ließt über schlechte Formulierungen hinweg. Wenn Sie mit der Arbeit inhaltlich fertig sind, lesen Sie sich die Arbeit von Anfang bis Ende einmal selbst laut vor. Schlechte Formulierungen und Wortwiederholungen erkennen Sie so sofort.
+
+Vermeiden Sie den Deppenapostroph\footnote{\url{http://www.deppenapostroph.info}}.
+
+Beachten Sie die korrekte Verwendung des Bindestrichs. Merke: Wenn Sie ein englisches Wort mit einem deutschen Wort verbinden, brauchen Sie zwingend einen Bindestrich. Beispiele sind \glqq Cloud-Dienst\grqq, \glqq Grid-Ressource\grqq\ und \glqq Client-Server-Anwendung\grqq.
+
+\subsection{Layout}
+
+Unter jede Überschrift gehört ein Text. Es sollte zum Beispiel nicht direkt unter einer Kapitelüberschrift die Überschrift eines Abschnitts folgen.
+
+Absätze sollten nicht zu lang sein, aber nach Möglichkeit auch nicht nur aus einem einzelnen Satz bestehen.
+
+Achten Sie auf einen ausreichend großen Rand. Dieser erleichtert die Korrektur der Arbeit und wertet diese optisch auf. Es ist kein Ziel Ihrer Arbeit, möglichst viel Text auf eine Seite zu quetschen. \LaTeX\ und die \texttt{llncs}-Vorlage machen das automatisch.
+
+Verwenden Sie Blocksatz und keinen Flattersatz. \LaTeX\ und die \texttt{llncs}-Vorlage machen das automatisch.
+
+\subsection{Literaturangaben}
+
+Die Literaturangaben (und der Bezug auf diese!) sind von entscheidender Wichtigkeit, denn sie zeigen, dass der Autor belesen und in der Materie drin ist. Das beziehen auf anerkannte Quellen, ist ein Eckpfeiler wissenschaftlicher Arbeit. Bei großen Dokumenten empfiehlt sich der Einsatz von Bib\TeX. Dabei sind die Literaturquellen in einer \verb!.bib!-Datei zentral gesammelt, die einmal im Dokument importiert wird. Es erscheinen nur die Literaturquellen im fertigen Dokument, auf die referenziert wurde und das Layout der Quellen steuert Bib\TeX.
+
+Für kleinere Dokumente ist Bib\TeX\ häufig nicht notwendig. Hier genügt die Umgebung \texttt{thebibliography}. Jeder neue Eintrag beginnt mit dem Befehl \verb!\bibitem{Marke}!. Im Fließtext ist es möglich via \verb!\ref{Marke}! auf diese Marke zu verweisen. Ein Vorteil von \texttt{thebibliography} ist, dass die Anwendung sehr einfach ist. Der Nachteil ist, dass alle Änderungen manuell erfolgen.
+
+\section{Schlusswort}
+
+Das Schlusswort enthält eine Zusammenfassung des Dokuments. Eine Art Fazit. Hier sind die wichtigsten Erkenntnisse bzw. Ergebnisse noch einmal knapp und präzise in wenigen Sätzen zusammengefasst. Zahlreiche Autoren empfinden die Arbeit am Schlusswort und Abstract als lästige Arbeit. Dennoch sollte man sich als Autor hier besonders viel Mühe geben, denn zahlreiche Leser entscheiden nur anhand von Inhalt und Qualität dieser beiden Teile, ob sie das ganze Dokument lesen möchten bzw. in Zukunft darauf verweisen werden.
+
+
+% ---- Bibliography ----
+
+\begin{thebibliography}{5}
+
+\bibitem{SpringerWeb}
+Information for Authors of Springer Computer Science Proceedings. Springer. 2017\\
+\url{http://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines}
+\bibitem{Knuth1974}
+Knuth, Donald~E. \textsl{Computer Programming as an Art}. Communications of the ACM 17 (12). December 1974. S.667-673\\
+\url{http://fresh.homeunix.net/~luke/misc/knuth-turingaward.pdf}
+\bibitem{LaTeXWeb}
+\LaTeX\ -- A document preparation system.
+\url{http://www.latex-project.org}
+\bibitem{LaTeXKopka1}
+Kopka, Helmut. \textsl{\LaTeX, Band 1: Einführung}. Pearson. 2005
+\bibitem{LaTeXKopka2}
+Kopka, Helmut. \textsl{\LaTeX, Band 2: Ergänzungen}. Pearson. 2002
+\bibitem{LaTeXKopka3}
+Kopka, Helmut. \textsl{\LaTeX, Band 3: Erweiterungen}. Pearson. 2002
+\bibitem{LaTeXBegleiter}
+Mittelbach, Frank und Goossens, Michel. \textsl{Der LaTeX-Begleiter}. Pearson. 2005
+\bibitem{LaTeXWissenschaftlich}
+Schlosser, Joachim. \textsl{Wissenschaftliche Arbeiten schreiben mit LaTeX: Leitfaden für Einsteiger}. Mitp-Verlag. 2008
+\bibitem{LaTeXSchnelleinsteiger}
+Willms, Roland. \textsl{\LaTeX: Für Schnelleinsteiger}. Franzis. 2006
+\end{thebibliography}
+\end{document}
