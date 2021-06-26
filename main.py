@@ -1033,7 +1033,7 @@ def get_user_coordinates(game_y_pos, game_x_pos, yGameSize, xGameSize, screen):
     return y, x
 
 def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_own_ships, ship_list_placed_own, matchfield_visual_2, matchfield_visual, matchfield_temp, matchfield_logic, matchfield_ship_pos, ship_list_placed, yGameSize, xGameSize, player, screen):
-    ''' Creates and sets all ships in order from biggest to smallest '''
+    ''' Implements shoot functionality for the player '''
     counter = 0
     curinput = ""
     screen.keypad(1)
@@ -1090,7 +1090,6 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
 
         elif curinput == 'down':
         # Checks if userinput is down
-            # Checks if ship rotation is horizontal
             if yPos + 1 >= yGameSize:
             # Doesn't move ship if it exceeds the matchfield at the bottom
                 matchfield_temp[yPos, xPos] = 1
@@ -1369,7 +1368,7 @@ def c_main(screen):
 
 def main():
     ''' Starts the game '''
-    return curses.wrapper(c_main)    
+    return curses.wrapper(c_main)
 
 if __name__ == "__main__":
     main()

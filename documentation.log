@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.6) (preloaded format=pdflatex 2021.6.26)  26 JUN 2021 19:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.6) (preloaded format=pdflatex 2021.6.26)  26 JUN 2021 21:52
 entering extended mode
 **a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex
 (a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex
@@ -345,8 +345,10 @@ Package: fancyhdr 2021/01/28 v4.0.1 Extensive control of page headers and footer
 \f@nch@O@erf=\skip77
 \f@nch@O@olf=\skip78
 \f@nch@O@orf=\skip79
+) (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 81.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 115.
  (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
@@ -356,20 +358,20 @@ File: l3backend-pdftex.def 2021-05-07 L3 backend support: PDF output (pdfTeX)
 ) (documentation.aux)
 \openout1 = `documentation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
  (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count298
@@ -392,258 +394,66 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 \c@lstlisting=\count304
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 81.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 102.
+(lastpage)             ! on input line 115.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 136.
  (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 102.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 136.
  (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 102.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 136.
  (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 102.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 136.
  (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 102.
+(Font)              <10> on input line 136.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 102.
+(Font)              <7> on input line 136.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 102.
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 102.
+(Font)              <5> on input line 136.
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 136.
  (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/base\ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 102.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 136.
  (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 102.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 136.
  (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 102.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 136.
  (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
+) [1
 
-LaTeX Warning: Citation `Termbox' on page 1 undefined on input line 125.
 
-
-LaTeX Warning: Citation `Cursebox' on page 1 undefined on input line 125.
-
-
-LaTeX Warning: Citation `Curses' on page 1 undefined on input line 126.
-
-[1
-
-
-{C:/Users/marcu/AppData/Local/MiKTeX/pdftex/config/pdftex.map}]
-
-LaTeX Warning: Citation `Numpy' on page 2 undefined on input line 130.
-
-
-LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 147.
-
-[2]
-a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex:167: Missing $ inserted.
-<inserted text> 
-                $
-l.167 ... sich durch die Objektmethode \glqq ship_
-                                                  cords\grqq{},
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-LaTeX Warning: Command \grqq invalid in math mode on input line 167.
-
-
-LaTeX Warning: Command \textquotedblleft invalid in math mode on input line 167.
-
-
-LaTeX Warning: Command \" invalid in math mode on input line 168.
-
-
-LaTeX Warning: Command \ss invalid in math mode on input line 168.
-
-
-LaTeX Warning: Command \" invalid in math mode on input line 168.
-
-
-LaTeX Warning: Command \ss invalid in math mode on input line 169.
-
-
-LaTeX Warning: Command \" invalid in math mode on input line 169.
-
-a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex:170: Missing $ inserted.
-<inserted text> 
-                $
-l.170 
-      
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 166--170
-\T1/lmr/m/n/10 Alle Schiffe sind als Ob-jekte de-fi-niert. Ob-jekte bie-ten hier einen
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 166--170
-\T1/lmr/m/n/10 er-heb-li-chen Vor-teil durch de-ren At-tri-bute. In je-dem Schiff wer-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 166--170
-\T1/lmr/m/n/10 den die Gröÿe, Ro-ta-tion, Start-po-si-tion und Ko-or-di-na-ten ge-spei-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 166--170
-\T1/lmr/m/n/10 chert. Die Ko-or-di-na-ten be-rech-nen sich durch die Ob-jekt-me-thode
- []
-
-
-Overfull \hbox (627.01595pt too wide) in paragraph at lines 166--170
-\T1/lmr/m/n/10 ship$[]\OML/lmm/m/it/10 ords\OT1/lmr/m/n/10 []\OML/lmm/m/it/10 ; welchejenachAusrichtung\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 horizontal; vertikal\OT1/lmr/m/n/10 )\OML/lmm/m/it/10 eineSchleifebiszurGr\OT1/lmr/m/n/10 öÿ\OML/lmm/m/it/10 edesSchiffsdurchl\OT1/lmr/m/n/10 ä\OML/lmm/m/it/10 uftundvonderStartkoordinateausindiejeweiligeRichtunggeht:Au\OT1/lmr/m/n/10 ÿ\OML/lmm/m/it/10 erdembietenSchiffobjektedieM\OT1/lmr/m/n/10 ö\OML/lmm/m/it/10 glichkeiteineO$ 
- []
-
-
-LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 175.
-
-[3]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 191.
- (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
-File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-
-LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 203.
-
-[4]
-
-LaTeX Warning: Reference `QuellcodeBeispielNr1' on page 5 undefined on input line 208.
-
-(C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
-File: lstlang1.sty 2020/03/24 1.8d listings language file
-) (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
-File: lstlang1.sty 2020/03/24 1.8d listings language file
-)
-
-LaTeX Warning: Reference `LastPage' on page 5 undefined on input line 278.
-
-[5]
-
-LaTeX Warning: Citation `Knuth1974' on page 6 undefined on input line 318.
-
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 322.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 322.
-
-LaTeX Warning: Reference `LastPage' on page 6 undefined on input line 331.
-
-[6]
-
-LaTeX Warning: Reference `Pinguin_Bild_Label' on page 7 undefined on input line 337.
-
-
-a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex:341: LaTeX Error: File `Bilder/Pinguin' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.341 \includegraphics[width=4cm]{Bilder/Pinguin}
-                                                 
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: Reference `Pinguin_Bild_Label' on page 7 undefined on input line 342.
-
-
-LaTeX Warning: Reference `Pinguin_Bild_gedreht_Label' on page 7 undefined on input line 347.
-
-
-a:/Schiffeversenken_back/schiffeversenkenspiel/documentation.tex:351: LaTeX Error: File `Bilder/Pinguin' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.351 ...hics[width=4cm,angle=270]{Bilder/Pinguin}
-                                                  
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: Reference `Pinguin_Bild_gedreht_Label' on page 7 undefined on input line 352.
-
-
-LaTeX Warning: Reference `Einfache_Table_Label' on page 7 undefined on input line 361.
-
-
-LaTeX Warning: Reference `LastPage' on page 7 undefined on input line 362.
-
-[7]
-
-LaTeX Warning: Reference `Standard_Table_Label' on page 8 undefined on input line 381.
-
-
-LaTeX Warning: Reference `Einfache_Table_Label' on page 8 undefined on input line 381.
-
-
-LaTeX Warning: Reference `LastPage' on page 8 undefined on input line 403.
-
-[8]
-Underfull \vbox (badness 1348) has occurred while \output is active []
-
-
-
-LaTeX Warning: Reference `LastPage' on page 9 undefined on input line 424.
-
-[9]
-
-LaTeX Warning: Reference `LastPage' on page 10 undefined on input line 448.
-
-[10]
-
-Package lastpage Warning: Rerun to get the references right on input line 487.
-
-
+{C:/Users/marcu/AppData/Local/MiKTeX/pdftex/config/pdftex.map}] [2] [3]
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 228.
+ (C:\Users\marcu\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmtt.fd
+File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [4] [5] 
 AED: lastpage setting LastPage
-
-LaTeX Warning: Reference `LastPage' on page 11 undefined on input line 487.
-
-[11] (documentation.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[6] (documentation.aux) ) 
 Here is how much of TeX's memory you used:
- 5928 strings out of 478847
- 82925 string characters out of 2848386
- 677767 words of memory out of 3000000
- 23716 multiletter control sequences out of 15000+600000
- 466396 words of font info for 76 fonts, out of 8000000 for 9000
+ 5888 strings out of 478847
+ 81689 string characters out of 2848386
+ 659312 words of memory out of 3000000
+ 23706 multiletter control sequences out of 15000+600000
+ 450223 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,12n,80p,698b,1207s stack positions out of 5000i,500n,10000p,200000b,80000s
-{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}<C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/eurosym/feymr10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx9.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi7.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr9.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmro8.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmro9.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb>
-Output written on documentation.pdf (11 pages, 405838 bytes).
+ 72i,12n,80p,544b,1863s stack positions out of 5000i,500n,10000p,200000b,80000s
+{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}{C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}<C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx9.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbxi10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr9.pfb><C:/Users/marcu/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb>
+Output written on documentation.pdf (6 pages, 220559 bytes).
 PDF statistics:
- 129 PDF objects out of 1000 (max. 8388607)
+ 67 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
