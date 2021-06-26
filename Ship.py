@@ -9,6 +9,7 @@ class Ship:
 
     def ship_cords(self):
         for i in range(self.size):
+            #Adds coordinates of the ship to cords list
             if self.rotation == 'hori':
                 self.cords.append((self.position_y,self.position_x+i))
             else:

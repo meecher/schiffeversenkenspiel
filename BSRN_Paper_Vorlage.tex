@@ -121,6 +121,14 @@ Weitergehend bedeutet dies, dass die grafische Darstellung des numpy Arrays nich
 Infrage käme das numpy Chararray, welches Zeichen speichern kann. Jedoch wird bei der Darstellung des Arrays immer ein \glqq b\grqq{} für Byte hinzugefügt, da es Bytestrings sind, die in dem Array gespeichert werden.
 Deshalb ist das Chararray zur unmittelbaren, grafischen Darstellung ausgeschlossen.
 
+Für die Implementierung von Schiffen ist nun die Grundlage des Spielfelds gegeben. Ein Schiff als Objekt zu definieren ist eine eindeutige Wahl, da Koordinaten, Länge, Status und weiteres dort gespeichert werden können.
+Die Schiffanzahl ist von Grund auf festgelegt auf insgesamt 10 Schiffe (1x5 2x4 3x3 4x2)
+
+\section{Schiff}
+
+Alle Schiffe sind als Objekte definiert. Objekte bieten hier einen erheblichen Vorteil durch deren Attribute.
+In jedem Schiff wird die Größe, Rotation, Startposition und Koordinaten gespeichert
+
 \section{Wahl der visuellen Darstellung}
 
 Zu Beginn kam es zur Wahl der Bibliothek für die visuelle Darstellung. Zuerst fiel die Wahl auf termbox~\cite{Termbox}. Da diese jedoch nicht mehr unterstützt und weiterentwickelt wird, fiel die Entscheidung zuerst auf cursebox~\cite{Cursebox}, für welche
