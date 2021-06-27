@@ -5,9 +5,11 @@ import numpy as np
 import curses
 import sys
 import playsound
+import effect
 
 __author__ = "1359831, Ruschmaritsch, 1357985, Ullmann, 1306570, Anne Lotte Müller-Kühlkamp"
-__credits__ = "Sound files: https://freesound.org/people/tommccann/sounds/235968/ https://freesound.org/people/Sheyvan/sounds/519008/ https://freesound.org/people/Lambich/sounds/350604/"
+__credits__ = ("""Sound files: https://freesound.org/people/tommccann/sounds/235968/ https://freesound.org/people/Sheyvan/sounds/519008/ https://freesound.org/people/Lambich/sounds/350604/
+                Background art: https://image.stern.de/7829562/t/3w/v4/w1440/r1.7778/-/arleighburke.jpg converted with https://www.ascii-art-generator.org/de.html""")
 __email__ = "david.ruschmaritsch@stud.fra-uas.de, marc.ullmann@stud.fra-uas.de, anne.mueller-kuehlkamp@stud.fra-uas.de"
     
 
@@ -28,8 +30,9 @@ def multiplayer(screen):
     game_y_pos = 3
     game_x_pos = 2
     game_end = True
+    column = 0
     matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"p1",screen) 
-    matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"p2",screen) 
+    matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"comp",screen) 
     matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1 = create_matchfield_hits(yGameSize,xGameSize, "p1", screen)
     matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(yGameSize,xGameSize, "p2", screen)
     
@@ -43,8 +46,30 @@ def multiplayer(screen):
         if len(ship_list_placed_p1) == 0:
         # Checks if player 1 has no ships left and returns that player 2 won
             screen.clear()
-            win_msg = "P2 Gewonnen"
-            screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
+            win_msg = "***Computer hat gewonnen***"
+            while end == True:
+                column = 0
+                column_del = 0
+                del_counter = 0
+                while column <= curses.COLS:
+                    if len(win_msg) + column > curses.COLS:
+                        del_counter += 1
+                        win_msg = win_msg[0:-del_counter]
+                    screen.addstr(curses.LINES // 2, 0+column,win_msg, curses.A_REVERSE)
+                    del_string = " "
+                    if column >= 1:
+                        screen.addstr(curses.LINES // 2, 0+column_del,del_string)
+                        del_string += " "
+                        column_del += 1
+                    screen.refresh()
+                    time.sleep(0.1)
+                    column += 1
+                    if column % 15 == 0:
+                        curses.flash()
+                        screen.refresh()
+                        time.sleep(0.1)
+                        effect.start()
+                    end = False
             game_end = False
             screen.refresh()
             time.sleep(10)
@@ -52,12 +77,35 @@ def multiplayer(screen):
         elif len(ship_list_placed_p2) == 0:
         # Checks if player 2 has no ships left and returns that player 1 won
             screen.clear()
-            win_msg = "P1 Gewonnen"
-            screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
+            win_msg = "***Player 1 hat gewonnen***"
+            while end == True:
+                column = 0
+                column_del = 0
+                del_counter = 0
+                while column <= curses.COLS:
+                    if len(win_msg) + column > curses.COLS:
+                        del_counter += 1
+                        win_msg = win_msg[0:-del_counter]
+                    screen.addstr(curses.LINES // 2, 0+column,win_msg, curses.A_REVERSE)
+                    del_string = " "
+                    if column >= 1:
+                        screen.addstr(curses.LINES // 2, 0+column_del,del_string)
+                        del_string += " "
+                        column_del += 1
+                    screen.refresh()
+                    time.sleep(0.1)
+                    column += 1
+                    if column % 15 == 0:
+                        curses.flash()
+                        screen.refresh()
+                        time.sleep(0.1)
+                        effect.start()
+                    end = False
             game_end = False
             screen.refresh()
             time.sleep(10)
             break
+   
         yPos_p1, xPos_p1, matchfield_ships_p2, matchfield_logic_hits_p1, ship_list_placed_p2 = shoot(game_y_pos,game_x_pos, yPos_p1, xPos_p1, matchfield_logic_hits_p2,
         matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2, matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1, 
         matchfield_ships_p2, ship_list_placed_p2, yGameSize, xGameSize, "p1", screen)
@@ -86,6 +134,8 @@ def singleplayer(screen):
     game_y_pos = 3
     game_x_pos = 2
     game_end = True
+    counts = 0
+    column = 0
     matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"p1",screen) 
     matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"comp",screen) 
     matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1 = create_matchfield_hits(yGameSize,xGameSize, "p1", screen)
@@ -114,7 +164,29 @@ def singleplayer(screen):
         # Checks if player 1 has no ships left and returns that player 2 won
             screen.clear()
             win_msg = "Computer hat gewonnen"
-            screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
+            while end == True:
+                column = 0
+                column_del = 0
+                del_counter = 0
+                while column <= curses.COLS:
+                    if len(win_msg) + column > curses.COLS:
+                        del_counter += 1
+                        win_msg = win_msg[0:-del_counter]
+                    screen.addstr(curses.LINES // 2, 0+column,win_msg, curses.A_REVERSE)
+                    del_string = " "
+                    if column >= 1:
+                        screen.addstr(curses.LINES // 2, 0+column_del,del_string)
+                        del_string += " "
+                        column_del += 1
+                    screen.refresh()
+                    time.sleep(0.1)
+                    column += 1
+                    if column % 15 == 0:
+                        curses.flash()
+                        screen.refresh()
+                        time.sleep(0.1)
+                        effect.start()
+                    end = False
             game_end = False
             screen.refresh()
             time.sleep(10)
@@ -123,7 +195,29 @@ def singleplayer(screen):
         # Checks if player 2 has no ships left and returns that player 1 won
             screen.clear()
             win_msg = "P1 Gewonnen"
-            screen.addstr(curses.LINES // 2, curses.COLS // 2 - len(win_msg) // 2 - 10,win_msg, curses.A_REVERSE)
+            while end == True:
+                column = 0
+                column_del = 0
+                del_counter = 0
+                while column <= curses.COLS:
+                    if len(win_msg) + column > curses.COLS:
+                        del_counter += 1
+                        win_msg = win_msg[0:-del_counter]
+                    screen.addstr(curses.LINES // 2, 0+column,win_msg, curses.A_REVERSE)
+                    del_string = " "
+                    if column >= 1:
+                        screen.addstr(curses.LINES // 2, 0+column_del,del_string)
+                        del_string += " "
+                        column_del += 1
+                    screen.refresh()
+                    time.sleep(0.1)
+                    column += 1
+                    if column % 15 == 0:
+                        curses.flash()
+                        screen.refresh()
+                        time.sleep(0.1)
+                        effect.start()
+                    end = False
             game_end = False
             screen.refresh()
             time.sleep(10)
@@ -216,6 +310,8 @@ def update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_v
                 matchfield_visual[y,x] = "*" 
             elif matchfield_temp[y,x] == 3:
                 matchfield_visual[y,x] = "%"  
+            elif matchfield_temp[y,x] == 4:
+                matchfield_visual[y,x] = "X"  
             else:
                 if player == "comp":
                     if mode == "secondary":
@@ -1053,7 +1149,7 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+25,matchfield_visual_2, matchfield_own_ships, player, "secondary", screen)
     update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos+xGameSize+25,matchfield_visual_2, matchfield_logic_hits, player, "third", screen)
 
-    while curinput != ord('q'):
+    while curinput != 'q':
     # Position of ship
         yPos_cur = 0
         xPos_cur = 0
@@ -1061,7 +1157,9 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
         # Updates temporal matchfield with hits and misses
             for y in range(yGameSize):
             # Converts logic to temporal matchfield
-                if matchfield_logic[yPos_cur,xPos_cur] == 1:
+                if matchfield_temp[yPos_cur,xPos_cur] == 4:
+                    pass
+                elif matchfield_logic[yPos_cur,xPos_cur] == 1:
                     matchfield_temp[yPos_cur,xPos_cur] = 1
                 elif matchfield_logic[yPos_cur,xPos_cur] == 2:
                     matchfield_temp[yPos_cur,xPos_cur] = 2
@@ -1085,37 +1183,37 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
         # Checks if userinput is right
             if xPos + 1 >= xGameSize:
             # Doesn't move ship if it exceeds the matchfield to the right
-                matchfield_temp[yPos, xPos] = 1 
+                matchfield_temp[yPos, xPos] = 4 
             else:                
                 xPos += 1
-                matchfield_temp[yPos, xPos] = 1
+                matchfield_temp[yPos, xPos] = 4
 
         elif curinput == 'down':
         # Checks if userinput is down
             if yPos + 1 >= yGameSize:
             # Doesn't move ship if it exceeds the matchfield at the bottom
-                matchfield_temp[yPos, xPos] = 1
+                matchfield_temp[yPos, xPos] = 4
             else:
                 yPos += 1
-                matchfield_temp[yPos, xPos] = 1
+                matchfield_temp[yPos, xPos] = 4
     
         elif curinput == 'left':
         # Checks if userinput is left
             if xPos - 1 < 0:
                 # Doesn't move ship if it exceeds the matchfield to the left
-                matchfield_temp[yPos, xPos] = 1
+                matchfield_temp[yPos, xPos] = 4
             else:
                 xPos -= 1
-                matchfield_temp[yPos, xPos] = 1
+                matchfield_temp[yPos, xPos] = 4
 
         elif curinput == 'up':
         # Checks if userinput is up
             if yPos - 1 < 0:
                 # Doesn't move ship if it exceeds the matchfield at the top
-                matchfield_temp[yPos, xPos] = 1
+                matchfield_temp[yPos, xPos] = 4
             else:
                 yPos -= 1
-                matchfield_temp[yPos, xPos] = 1
+                matchfield_temp[yPos, xPos] = 4
 
         elif curinput == 'enter':
         # Checks if userinput is enter
@@ -1148,13 +1246,13 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
                     if xPos + 1 >= xGameSize:
                     # Changes field's position
                         if yPos + 1 >= yGameSize:
-                            matchfield_temp[yPos, xPos] = 1
+                            matchfield_temp[yPos, xPos] = 4
                         else:
                             yPos += 1
-                            matchfield_temp[yPos, xPos] = 1
+                            matchfield_temp[yPos, xPos] = 4
                     else:
                         xPos += 1
-                        matchfield_temp[yPos, xPos] = 1
+                        matchfield_temp[yPos, xPos] = 4
 
                     for i in ship_list_placed:
                     # Checks which ship gets hit
@@ -1210,13 +1308,13 @@ def shoot(game_y_pos,game_x_pos, yPos, xPos, matchfield_logic_hits, matchfield_o
                     if xPos + 1 >= xGameSize:
                     # Changes field's position
                         if yPos + 1 >= yGameSize:
-                            matchfield_temp[yPos, xPos] = 1
+                            matchfield_temp[yPos, xPos] = 4
                         else:
                             yPos += 1
-                            matchfield_temp[yPos, xPos] = 1
+                            matchfield_temp[yPos, xPos] = 4
                     else:
                         xPos += 1
-                        matchfield_temp[yPos, xPos] = 1
+                        matchfield_temp[yPos, xPos] = 4
 
                     break
             update_matchfield(yGameSize, xGameSize, game_y_pos, game_x_pos, matchfield_visual, matchfield_temp, player, "primary", screen)
@@ -1336,7 +1434,37 @@ def mouse_pos():
 def c_main(screen): 
     ''' Starts the game '''
     beginning = "Schiffeversenken"
-    start_message = ("Willkommen im Spiel Schiffeversenken! Klicken sie in der Mitte auf Schiffeversenken oder drücken sie <Enter>")
+    start_message = "Willkommen im Spiel Schiffeversenken! Klicken sie in der Mitte auf Schiffeversenken oder drücken sie <Enter>"
+    bgc= """
+          KXXXXXXXXXXXXXXXXXKKKKKK0000000000OO00000KKKKKKKKKKKKKK0000KKKKKK00000000000000000000000000000000000
+          KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK0000KKKKKKKKKKKKKKKKK000000000000000000000000000000000000000000000000
+          KKKKK00KKKKKKKKKKKKKKKKKKKKKKKKK00KKKK00000000K000000000000000000OOOOOOOOOOOOO000O000000000000000000
+          000000000000000000KKKKKKKKKKKKK000000000000000000000000OO0OOOOOOOOOOOOOOOOOOOOOO00000000000000000000
+          000000000000000000KKK000000000000000000000000OO00000OOOOOOOOOOOOOOOOOOOOOOOOOO0000000000000000000000
+          00000000000000000000000000000000000000000000OkkOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO00000000000000000000000
+          000000000000000000000000000000000000000O0OOOOkxxOOOOOOOOOOOOOOOOOOOOOOOOO0000000000000000OOOO00000OO
+          00000000000000OO0000000OOOOOOOO00000OOOO0Oxxxo;:okkkkO0000000OOOOOOOOOOOOOOO0000000OOOOOOOOOOOOOOOOO
+          00000OOOOOOOOOO0000OOOOOOOOOOOOOOOOOOOOOOOxxdl;;odxxkOO00OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+          000000000000000000000OOOOOOOOOOOOOOOOOOkkkkkkdc:ldxkkkkOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+          0000000000000000000OOOOOOOOOOOOOOOOOOOOkxxxdddc,:oodxxkOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+          000000000000000000000OOOOOOOOOOOOOOOOOOOOOOOOkoccdkOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+          00000000000000OOOOOOOOOO0000000OOOOOOOOOOOOOOxdc;coxOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+          0000000000000OOOOOOOOOOOOOOOOOOOOOOOOOOkOOOOkxkd:cloxxOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+          000000000000OOOOOOOOOOOOOOOOOOOOOOxlcc:lkxcccldolclc;;clxOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+          OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOkxxd:.'lkoc:cooc,....'';okOOOOOOOOOOOOOkOOOOOOOOOOOOOOOOOOOOOOOOOOO
+          OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOkkkOx;.'lxoloxkko,.,;,,'.;dkkOOOOOkOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+          OOOOOOOOOOOOOOOOOOOOOOOOOOOOkkOkddxko::cllccllllc'.:dc....;dkkxdxkkkkxxxxxxxxxkkxxkkkkkxxxxxxxxxxxxx
+          xxxxxxxxxddxxxddddddddddooollloooddoclxxxxdddl;,;,',;;'.''':ldl:clcc;;;,,,,,,coooooooooooooooooooooo
+          ddddxxxxddooddooooooddxdddoolllodxdookOOOOO00klclcccllclccoddollccc:,'....',;lolllllllllllllllllllll
+          KKK0KXXXXKK0KKK0OOkkkO00OOOOOOO000K000KK0OOKXXOxxkO0XNXKKKXXK0Okkkxdoc;,',:llllclllllllllllllllccccl
+          xkkxxkO0KK00000OOkkxdddoloxkO0KXXNNXKKKKOkkkkxookKNNNXXXX0kdlool:;,,;;,,,;lolccllllllllllllllcccllll
+          llloolloooooooooolooollllloooooddddoolllc::::;,,;ccllooolllc:::;,,,'....',:cccccccclllcclllllllllccc
+          ccllllllodoollooooooooooooddooooooooolllllcccccccccccccllllcccllcclccccccccllccllllllcccclllccllllll
+          ooooddoooolooooooooooooooooddooddddoolllcccccclllllllclllllllllllloolllclcccllllllllllllclllccclcccc
+          cccc:cccllloddddddddddoooooooooooooooooodolllcclllllllolooooooooddddoolooooddoooooooooooooolllllllll
+          :::;;:::::cllooooooddddoooooolloodddddddxdololllllllloooooooooooddooodddxddoooolllodkOOOkxxxxxxddllc
+          cccc::::;:clcclc:::cllllllllolllooodoooodxddxddddoooooooolccccccclooodxxxxddoolccclxOOkOkxkkO0000Oxd
+ """
     curses.mousemask(-1)
     curses.mouseinterval(0)
     curses.curs_set(0)
@@ -1345,10 +1473,14 @@ def c_main(screen):
 
     pressed = False
     x, y = 0, 0
-    screen.addstr(curses.LINES // 3,curses.COLS // 2 - len(start_message) //2,start_message)
-    screen.addstr(curses.LINES // 2,
-    curses.COLS // 2 - len(beginning) // 2,
-    beginning, curses.A_REVERSE)
+    #screen.addstr(curses.LINES // 3,curses.COLS // 2 - len(bg) //2,bg)
+    screen.addstr(0,5, bgc)
+    screen.addstr(curses.LINES // 3 -9,curses.COLS // 2 - len(start_message) //2,start_message)
+    screen.addstr(curses.LINES // 3 -8, 0 ,"                                                                                                                 ")
+    screen.addstr(curses.LINES // 2 -10 - 1, curses.COLS // 2 - len(beginning) // 2 - 3,"                      ")
+    screen.addstr(curses.LINES // 2 -10 + 1, curses.COLS // 2 - len(beginning) // 2 - 3,"                      ")
+    screen.addstr(curses.LINES // 2 - 10, curses.COLS // 2 - len(beginning) // 2 - 4 ,"                        ")
+    screen.addstr(curses.LINES // 2 - 10,curses.COLS // 2 - len(beginning) // 2, beginning, curses.A_REVERSE)
 
     while curinput != 'q': 
     # Waits for input
