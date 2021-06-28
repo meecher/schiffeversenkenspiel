@@ -139,9 +139,9 @@ Nibelungenplatz 1\\
 Dieses Dokument behandelt die Problemstellung der Programmierung von Schiffeversenken in Python. Dabei geht es auf den Prozess der Erarbeitung und Lösung der aufkommenden Probleme ein und gibt den Benutzer einige Informationen über den Ablauf des Programms und mögliche Anpassungen.
 \end{abstract}
 
-Das Spiel Schiffeversenken, welches früher nur mit Stift und Papier gespielt wurde und sich seit dem in seiner Grundstruktur kaum verändert hat,
-bietet in der Implementierung die optimalen Grundlagen der objektorientierten Programmierung und grafischen Darstellung. Doch trotz des simplen Konzepts,
-stellen sich einige Hindernisse in den Weg, die unterschiedlich komplex zu überwinden sind, jenachdem für welchen Weg man sich entscheidet.
+Das Spiel Schiffeversenken, welches früher nur mit Stift und Papier gespielt wurde und sich seit dem in seiner Grundstruktur kaum verändert hat, ist ein interessantes Problem
+um auf den Computer übersetzt zu werden. Doch trotz des simplen Konzepts, stellen sich einige Hindernisse in den Weg, die unterschiedlich komplex überwindbar sind. Vom Aufbau
+bis zum Ablauf und der visuellen Darstellung des Spiels, die durch auftretende Probleme geprägt sind, werden wir im Folgendem behandeln.
 
 \section{Grundprinzip Schiffeversenken}
 Zwei Spieler legen in einem Koordinatensystem Schiffe fest, die sie danach durch abwechselndes Raten der Koordinaten eliminieren sollen.
@@ -200,8 +200,8 @@ die platzierte Schiffe an. Die leeren Felder werden durch \glqq O\grqq{} (logisc
 \subsection{Spielfeld: Beschuss}
 
 Nach der Platzierung der Schiffe feuert man nun abwechselnd. Dafür sind nun durchgehend zwei Spielfelder (durch die beiden Chararrays) angezeigt. Das linke zeigt dabei das Spielfeld des Gegners an, auf welchem die aktuelle Position und
-schon beschossene Felder angezeigt sind. Dafür gelten die bereits Getroffenen als \glqq *\grqq{} (logisch=2), Wassertreffer als \glqq Prozentzeichen\grqq{} (logisch=3), das Aktuelle als \glqq X\grqq{} (logisch=1) und Leere als \glqq O\grqq{} (logisch=0)
-angezeigt. Das rechte Spieldfeld zeigt das eigene Spielfeld, mit allen Schiffpositionen und Schüssen des Gegners, an. An der oberen Seite wird der aktuelle Spieler und dessen verbleibenden Schiffe angezeigt, an
+schon beschossene Felder angezeigt sind. Dafür gelten die bereits Getroffenen als \glqq *\grqq{} (logisch=2), Wassertreffer als \glqq Prozentzeichen\grqq{} (logisch=3), das Aktuelle als \glqq X\grqq{} (logisch=1) und Leere als \glqq O\grqq{} (logisch=0). 
+Das rechte Spieldfeld zeigt das eigene Spielfeld, mit allen Schiffpositionen und Schüssen des Gegners, an. An der oberen Seite wird der aktuelle Spieler und dessen verbleibenden Schiffe angezeigt, an
 der unteren die des Gegners.
 
 \subsection{Sonstige visuelle Elemente}
@@ -213,7 +213,7 @@ Um die Bedienung zu erleichtern, zeigt es am unteren Ende die aktuell möglichen
 Diese Funktion ist für den großteil der visuellen Darstellung verantwortlich. Ihre Aufgabe ist es, den aktuellen Spieler anzuzeigen, die logischen in die visuellen Arrays zu übersetzen
 und einige visuelle Elemente hinzuzufügen. Der aktuelle Spieler wird der Funktion als Parameter übergeben und dann ausgegeben.
 
-Um ein Spielfeld zu übersetzen, übergibt das Programm der Funktion ein Charray (visuelles Spielfeld) und ein Null-Array (logisches Spielfeld) übergeben. Um zwei Spielfelder darzustellen,
+Um ein Spielfeld zu übersetzen, übergibt das Programm der Funktion ein Charray (visuelles Spielfeld) und ein Null-Array (logisches Spielfeld). Um zwei Spielfelder darzustellen,
 ruft das Programm die Funktion zwei mal auf. Dies stellt das Problem dar, dass die komplette Löschung des aktuellen Bildschirm nicht möglich ist, sondern aktuelle Elemente nur überschreibar sind.
 Das heißt alle Elemente die nicht genau übereinanderliegen, sind durch einen leeren String zu ersetzen. Da das Spielfeld des Gegners und des aktuellen Spielers
 immer an der gleichen Position liegen, überschreiben diese sich automatisch. Andere Elemente, wie die Anzahl der Schiffe und die Anzeige der Eingaben, sind in eigenen Funktionen definiert.
@@ -234,7 +234,7 @@ Deshalb funktioniert die Maus nur im Anfangsmenü.
 
 \section{Benutzereingaben}
 
-Für die Entgegennahme der Eingaben des Benutzers wurde die Funktion \glqq userinput()\grqq{} entwickelt, welche die gedrückte Taste (oder Maus) entgegen nimmt.
+Für die Entgegennahme der Eingaben des Benutzers exisitiert die Funktion \glqq userinput()\grqq{}, welche die gedrückte Taste (oder Maus) entgegen nimmt.
 Da alle Spielwichtigenfunktionen, also jene die immer wieder aufgerufen werden, sowohl WASD als auch die Pfeiltasten für die Steuerung entgegen nehmen, erleichtert diese
 Funktion die Entgegennahme dieser. Indem die jeweiligen Richtungen von WASD und den Pfeiltasten auf eine Eingabe gesetzt sind, muss man dies in anderen Teilen des Programms
 nur einmal abfragen. Somit spart es einiges an Tipparbeit. Kommt eine andere Eingabe, wie etwa für die Texteingaben der Koordinaten, nimmt die Funktion diese und gibt sie
@@ -292,23 +292,23 @@ und der anderen Schiffe Platz hat, fügt die Funktion die Felder zum logischen A
 Das Programm versucht dies solange, bis ein Counter erreicht ist, wonach sich die Rotation ändert.
 
 Dieser Implementierung liegt das Problem der Laufzeit zugrunde. Zuerst wählte diese Funktion beide Koordinaten und die Rotation jeden Versuch zufällig neu. Mit einer geringen Anzahl
-an Schiffen war dies auch möglich, jedoch lief es desto mehr Schiffe platziert waren, gegen Chance von eins zu mehreren Millionen. Durch die Wahl einer Zufallskoordiante, welche konstant bleibt,
+an Schiffen war dies auch möglich, jedoch lief es desto mehr Schiffe platziert waren, gegen Chance von eins zu mehreren Millionen einen Platz zu finden. Die Wahl von nur einer Zufallskoordiante, welche konstant bleibt,
 bis die komplette Reihe durchgelaufen ist, verhinderte dies. 
 
 \section{Felder beschießen}
 
 Nachdem der Spieler die Schiffe platziert hat, beginnt das eigentliche Spiel, nämlich der Beschuss des Gegners. Der Spieler kann mit WASD, Pfeiltasten oder durch Texteingabe (e) entscheiden,
-welches Feld beschossen werden soll. Dies bestätigt mit der Taste \glqq Enter\grqq{}. Mit dem Tastendruck überpüft die Funktions, ob dieses Feld bereits beschossen wurde.
+welches Feld beschossen werden soll. Dies bestätigt die Taste \glqq Enter\grqq{}. Mit dem Tastendruck überpüft die Funktion, ob dieses Feld bereits beschossen wurde.
 Dies gilt nicht für den ersten Schuss, da kein Feld bisher beschossen sein kann. Trifft der Schuss kein Schiff aber ein gültiges Feld, belegt die Funktion das Feld im logischen Array mit einer \glqq 3\grqq{}.
-Trifft der Schuss jedoch ein Schiff, identifiziert es die Koordinate des getroffenen Schiffs und löscht das getroffene Feld aus den Koordinaten des Schiffs gelöscht.
+Trifft der Schuss jedoch ein Schiff, identifiziert es die Koordinate des getroffenen Schiffs und löscht das getroffene Feld aus den Koordinaten des Schiffs.
 Sobald alle Felder des Schiffs getroffen sind, löscht es das Schiffobjekt aus der ship\_list\_placed Liste. Ist ein Schiff zersört belegt es die naheliegenden Felder mit leer,
 da sich dort keine Schiffe mehr befinden können.
 
 \subsection{Die künstliche Intelligenz für das Beschießen der Felder}
 
 Damit der Computer die Möglichkeit hat Felder zu beschießen, braucht er eine Funktion um Felder zufällig beschießen zu können. Wichtig dabei ist es, dass wenn ein Schiff getroffen wurde, der Computer solange umliegende Felder beschießt
-bis dieses Schiff zerstört ist. Der erste Schuss oder nachdem ein Schiff zerstört wurde, erfolgt mit zufälliger Position auf dem Spielfeld. Trifft dieser nicht, werden neue zufällige Koordinaten ausgewählt. Trifft der Schuss
-wird dies abgespeichert und nun die umliegenden Felder beschossen. Dafür wird überprüft ob diese außerhalb des Spielfelds liegen oder ob dieses Feld schon beschossen ist. Es schießt dabei solange in eine Richtung, bis
+bis dieses Schiff zerstört ist. Der erste Schuss oder nachdem ein Schiff zerstört wurde, erfolgt durch eine zufällige Position auf dem Spielfeld. Trifft dieser nicht, werden neue zufällige Koordinaten ausgewählt. Andernfalls
+wird dies abgespeichert und nun die umliegenden Felder beschossen. Dafür wird überprüft, ob diese außerhalb des Spielfelds liegen oder ob dieses Feld schon beschossen ist. Es schießt dabei solange in eine Richtung, bis
 ein leeres Feld getroffen wird, wonach sich die Richtung ändert. Ein Problem stellte sich, wenn der erste Schuss in der Mitte des Schiffes trifft und nun erst in eine Richtung und dann in die andere, über die schon beschossenen Felder,
 wieder gehen muss. Um dies zu lösen, unterscheidet man zwischen leeren und schon beschossenen Feldern. Schon beschossene Felder können nur von dem aktuell beschossenen Schiff sein, da zwischen jedem platzierten Schiff mindestens
 ein Leerfeld liegen muss. Sieht die Funktion also, dass ein Feld schon beschossen wurde überspringt es dieses solange, bis sie ein noch nicht getroffenes Feld gefunden hat. Die Funktion unterscheid zudem auch, ob erst ein Feld oder zwei hintereinader 
@@ -383,7 +383,7 @@ else:
 
 \section{Fazit}
 
-Die strukturelle Vorgehensweise, Problem nach Problem abzuarbeiten, war sehr hilfreich für die Erstellung des Programms. Von den Startbildschirm ausgehend, kamen die ersten Probleme,
+Die strukturelle Vorgehensweise, Problem nach Problem abzuarbeiten, war sehr hilfreich für die Erstellung des Programms. Vom Startbildschirm ausgehend, kamen die ersten Probleme,
 welche durch eine Aufteilung in kleinere Probleme nach und nach gelöst wurden. Die Platzierung der Schiffe stellte einige Probleme da, wie die Laufzeit, welche beachtet werden musste 
 und die generelle Logik dahinter. Die Reduzierung von komplett zufälligen Prozessen, zu kleineren Teilen und die Erhöhung von logischen Abläufen, wie das systematische Durchlaufen der Zeilen
 und den Nachfolgetreffern bei dem zufälligen Beschuss, half dieses Problem zu bewältigen. Es ergab sich, dass in komplexeren Prozessen Zufallsabläufe zu Zeitintensiv sind und durch
@@ -391,8 +391,8 @@ logische Abläufe ersetzt werden müssen. Zudem ergab sich die Problematik mit d
 ist dies ein Problem, welches weiter erforscht werden kann.
 
 Abschließend kann man sagen, dass das Projekt sehr spaßig aber auch gleichzeitig herausfordernd war. Besonders herausgestochen hat die Implementierung des Computers, da
-die Arbeit mit Zufallsfunktionen diverse Probleme hervorgerufen hat. Zudem war die Zurechtfindung mit der neuen Umgebung (Python, curses) zu Beginn schwierig, da es das Vorwissen
-hauptsächlich in Java gab und man zuvor einige Thematiken nicht behandelt hat, die hier jedoch gefragt waren.
+die Arbeit mit Zufallsfunktionen diverse Probleme hervorgerufen hat. Zudem war die Zurechtfindung mit der neuen Umgebung (Python, curses) zu Beginn schwierig, da nicht genügend
+Vorkenntnisse vorlagen. Das Hereinarbeiten in die neue Umgebung und das dadurch folgende Erreichen von gesetzten Zielen, erbrachte aber Spaß. 
 
 % ---- Bibliography ----
 \begin{thebibliography}{5}
