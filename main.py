@@ -1489,7 +1489,7 @@ def c_main(screen):
         if curinput == "mouse":
         # Checks if mouse is pressed
             x,y = mouse_pos()
-            if y == curses.LINES // 2 and x in range((curses.COLS // 2 - len(beginning) // 2 + 10)-10,(curses.COLS // 2 - len(beginning) // 2 + 10)+7): 
+            if y == curses.LINES // 2 - 10 and x in range((curses.COLS // 2 - len(beginning) // 2 + 10)-10,(curses.COLS // 2 - len(beginning) // 2 + 10)+7): 
             # Checks if desired coordinates are pressed for the main menu button
                 screen.erase()
                 screen.refresh()
