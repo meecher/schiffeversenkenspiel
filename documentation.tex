@@ -136,19 +136,21 @@ Nibelungenplatz 1\\
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
-Hier kommt das Abstract hin. Das Abstract sollte in wenigen Sätzen (weniger als 10 Zeilen) den Inhalt des Dokuments beschreiben. Wikipedia schreibt: Ein Abstract ist eine prägnante Inhaltsangabe, ein Abriss ohne Interpretation und Wertung einer wissenschaftlichen Arbeit. Das Abstract soll so kurz wie möglich sein. Alle wesentlichen Sachverhalte sollen explizit enthalten sein. Das Abstract soll beim Leser Interesse für den Inhalt des Dokuments wecken.
+Dieses Dokument behandelt die Problemstellung der Programmierung von Schiffeversenken in Python. Dabei geht es auf den Prozess der Erarbeitung und Lösung der aufkommenden Probleme ein und gibt den Benutzer einige Informationen über den Ablauf des Programms und mögliche Anpassungen.
 \end{abstract}
 
-Das Spiel Schiffeversenken, welches früher nur mit Stift und Papier gespielt wurde und sich seit dem in seiner Grundstruktur kaum verändert hat, bietet in der Implementierung die optimalen Grundlagen der objektorientierten Programmierung und
-grafischen Darstellung.
+Das Spiel Schiffeversenken, welches früher nur mit Stift und Papier gespielt wurde und sich seit dem in seiner Grundstruktur kaum verändert hat,
+bietet in der Implementierung die optimalen Grundlagen der objektorientierten Programmierung und grafischen Darstellung. Doch trotz des simplen Konzepts,
+stellen sich einige Hindernisse in den Weg, die unterschiedlich komplex zu überwinden sind, jenachdem für welchen Weg man sich entscheidet.
 
 \section{Grundprinzip Schiffeversenken}
-
+Zwei Spieler legen in einem Koordinatensystem Schiffe fest, die sie danach durch abwechselndes Raten der Koordinaten eliminieren sollen.
+Wenn alle Schiffe eines Spielers getroffen sind, so hat dieser verloren.
 Für die Implementierung des Spiels wird ein Spielfeld benötigt, welches mit Kommandozeilenargumenten anpassbar sein soll. Die Beschränkung von einer Mindestgröße von 10x10 Feldern und Maximalgröße von 20x20
 Feldern erwies sich als sinnvoll, da bei mehr als 20 Feldern die Größe des Standard-Fenster überschritten wird und somit das Programm abstürzt.
-Bei weniger als zehn Feldern könnte es zu Platzproblemen der Schiffe mit dem Platzier-Algorithmus geben und somit unerwünschte Ereignisse hervorrufen.
+Bei weniger als zehn Feldern könnte es zu Platzproblemen der Schiffe mit dem zufälligen Platzier-Algorithmus geben und somit unerwünschte Ereignisse hervorrufen.
 Deshalb wird bei Eingabe von zwei Kommandozeilenargumenten die Begrenzung abgefragt, die bei Abweichung die Standardgröße von 10x10 wählt.
-Für die Implementierung von Schiffen ist nun die Grundlage des Spielfelds gegeben. Ein Schiff ist als Objekt zu definieren.
+Für die Implementierung von Schiffen ist nun die Grundlage des Spielfelds gegeben.
 Die Schiffanzahl ist von Grund auf festgelegt auf insgesamt zehn Schiffe~\cite{Schiffeversenken}:
 \begin{itemize}
   \item 1x Schlachtschiff mit Größe 5
@@ -157,6 +159,8 @@ Die Schiffanzahl ist von Grund auf festgelegt auf insgesamt zehn Schiffe~\cite{S
   \item 4x U-Boote mit Größe 2
 \end{itemize}
 
+Nun sind die Methoden zu definieren, die das Spielen ermöglichen. 
+
 \section{Visuelle Darstellung}
 
 Zu Beginn kam es zur Wahl der Bibliothek für die visuelle Darstellung. Zuerst fiel diese auf termbox~\cite{Termbox}. Da diese jedoch nicht mehr unterstützt und weiterentwickelt wird, fiel die Entscheidung zuerst auf cursebox~\cite{Cursebox}, für welche
@@ -164,46 +168,59 @@ die einfachen Befehle und praktische Funktionen sprachen. Da auch diese nicht we
 
 \subsection{Spielfeld}
 
-Das Spielfeld wurde mit Hilfe von der Erweiterung numpy~\cite{Numpy} entwickelt. Die Erweiterung bietet eine einfache Erstellung mehrdimensionaler Arrays und liefert verschiedene Operationen um diese zu konfigurieren.
-Ein zweidimensionales Array bietet die optimale Grundlage für das Spielfeld, da dies wie ein 2D-Koordinatensystem betrachtet werden kann.
-Mit einem Null-Array (numpy.zeroes) ist es nur möglich Zahlen zu verarbeiten. Dies hat zur Auswirkung, dass Felder die beispielsweise mit Schiffen belegt sind, durch eine \glqq 1\grqq{} und Felder ohne Schiffe eine \glqq 0\grqq{} repräsentiert werden.
+Das Spielfeld ist mit Hilfe der Erweiterung numpy~\cite{Numpy} entwickelt. Die Erweiterung bietet eine einfache Erstellung mehrdimensionaler Arrays und liefert verschiedene Operationen um diese zu konfigurieren.
+Ein zweidimensionales Array bietet die optimale Grundlage für das Spielfeld, da dies wie ein 2D-Koordinatensystem zu betrachten ist.
+Mit einem Null-Array (numpy.zeroes) ist es nur möglich Zahlen zu verarbeiten. Dies hat zur Auswirkung, dass Felder die beispielsweise mit Schiffen belegt sind, nur durch eine \glqq 1\grqq{} und Felder ohne Schiffe durch eine \glqq 0\grqq{} darstellbar sind.
 Dadurch ist es einfacher Felder zu vergleichen, da diese nur mit Zahlen belegt sind und nicht weiter übersetzt werden müssen. Für die grafische Darstellung des Null-Arrays bedeutet dies jedoch, eine Einschränkung um die
 Objekte ansehnlich darzustellen. 
 Das Chararray, welches Zeichen speichern kann, bietet sich hier an. Jedoch wird bei der Darstellung des Arrays immer ein \glqq b\grqq{} für Byte hinzugefügt, da es Bytestrings sind, die in dem Array gespeichert werden. 
-Dies wurde umgangen indem der Datentyp des Arrays als Zeichenkette übersetzt und dann ausgegeben wird. Für die Darstellung eines Spielfeldes und nicht der Hinternanderreihung einzelner Objekte des Arrays, wird jede Reihe des 
-Arrays einzeln in einer eigenen Zeile ausgegeben.
+Dies umgeht das Programm, indem der Datentyp des Arrays als Zeichenkette übersetzt und dann ausgegeben wird. Für die Darstellung eines Spielfeldes und nicht der Hinternanderreihung einzelner Objekte des Arrays, gibt es jede Reihe des 
+Arrays einzeln, in einer eigenen Zeile, aus.
+
+\lstset{
+caption=Funktion erstellt zweidimensionale Arrays}
+\begin{lstlisting}
+def create_matchfield(ySize, xSize, game_y_pos, game_x_pos, player, screen):
+    ''' Creates matchfields '''
+    matchfield_visual = np.chararray((ySize, xSize))
+    matchfield_visual_2 = np.chararray((ySize, xSize))
+    matchfield_visual[:] = "O"
+    matchfield_temp = np.zeros((ySize, xSize))
+    matchfield_logic = np.zeros((ySize, xSize))
+    matchfield_ship_pos = np.zeros((ySize, xSize))
+\end{lstlisting}
 
 Um die Vorteile beider Arrays zu benutzen, müssen verschiedene Arrays erstellt werden. Insgesamt gibt es fünf Arrays: Zwei Charrays für die grafische Darstellung und drei Null-Arrays für die logische Verarbeitung.
 
 \subsection{Spielfeld: Schiffplatzierung}
 
-In diesem Fall wird nur das eine Charray benutzt, welches die ersten beiden logischen Arrays der Schiffplatzierung visuell übersetzt. Dafür wird ein \glqq *\grqq{} (logisch=2) für die aktuelle Position des Schiffs und ein \glqq X\grqq{} (logisch=1)
-für schon platzierte Schiffe benutzt. Die leeren Felder werden durch \glqq O\grqq{} (logisch=0) dargestellt.
+In diesem Fall benutzt das Programm nur das eine Charray, welches die ersten beiden logischen Arrays der Schiffplatzierung visuell übersetzt. Dafür gibt ein \glqq *\grqq{} (logisch=2) die aktuelle Position des Schiffs und ein \glqq X\grqq{} (logisch=1)
+die platzierte Schiffe an. Die leeren Felder werden durch \glqq O\grqq{} (logisch=0) dargestellt.
 
 \subsection{Spielfeld: Beschuss}
 
-Nach der Platzierung der Schiffe wird nun abwechselnt gefeuert. Dafür werden nun durchgehend zwei Spielfelder (durch die beiden Chararrays) angezeigt. Das linke zeigt dabei das Spielfeld des Gegners an, auf welchem die aktuelle Position und
-schon beschossene Felder angezeigt werden. Dafür werden die bereits Getroffenen als \glqq *\grqq{} (logisch=2), Wassertreffer als \glqq Prozentzeichen\grqq{} (logisch=3), das Aktuelle als \glqq X\grqq{} (logisch=1) und Leere als \glqq O\grqq{} (logisch=0)
+Nach der Platzierung der Schiffe feuert man nun abwechselnd. Dafür sind nun durchgehend zwei Spielfelder (durch die beiden Chararrays) angezeigt. Das linke zeigt dabei das Spielfeld des Gegners an, auf welchem die aktuelle Position und
+schon beschossene Felder angezeigt sind. Dafür gelten die bereits Getroffenen als \glqq *\grqq{} (logisch=2), Wassertreffer als \glqq Prozentzeichen\grqq{} (logisch=3), das Aktuelle als \glqq X\grqq{} (logisch=1) und Leere als \glqq O\grqq{} (logisch=0)
 angezeigt. Das rechte Spieldfeld zeigt das eigene Spielfeld, mit allen Schiffpositionen und Schüssen des Gegners, an. An der oberen Seite wird der aktuelle Spieler und dessen verbleibenden Schiffe angezeigt, an
-der unteren die des Gegners. 
+der unteren die des Gegners.
 
 \subsection{Sonstige visuelle Elemente}
 
-Um die Bedienung zu erleichtern, werden am unteren Ende die aktuell möglichen Eingaben angezeigt.
+Um die Bedienung zu erleichtern, zeigt es am unteren Ende die aktuell möglichen Eingaben an.
 
 \subsection{Die Funktion \emph{update\_matchfield()}}
 
 Diese Funktion ist für den großteil der visuellen Darstellung verantwortlich. Ihre Aufgabe ist es, den aktuellen Spieler anzuzeigen, die logischen in die visuellen Arrays zu übersetzen
 und einige visuelle Elemente hinzuzufügen. Der aktuelle Spieler wird der Funktion als Parameter übergeben und dann ausgegeben.
 
-Um ein Spielfeld zu übersetzen, wird der Funktion immer ein Charray (visuelles Spielfeld) und ein Null-Array (logisches Spielfeld) übergeben. Um zwei Spielfelder darzustellen,
-wird die Funktion zwei mal aufgerufen. Dies stellt ein vor das Problem, dass der aktuelle Bildschirm nicht komplett gelöscht werden kann, sondern aktuelle Elemente nur überschrieben
-werden können. Das heißt alle Elemente die nicht genau übereinanderliegen, müssen durch ein leeren String ersetzt werden. Da das Spielfeld des Gegners und des aktuellen Spielers
-immer an der gleichen Position liegen, überschreiben diese sich automatisch. Andere Elemente wie die Anzahl der Schiffe und die Anzeige der Eingaben werden in eigenen Funktionen aufgrufen.
+Um ein Spielfeld zu übersetzen, übergibt das Programm der Funktion ein Charray (visuelles Spielfeld) und ein Null-Array (logisches Spielfeld) übergeben. Um zwei Spielfelder darzustellen,
+ruft das Programm die Funktion zwei mal auf. Dies stellt das Problem dar, dass die komplette Löschung des aktuellen Bildschirm nicht möglich ist, sondern aktuelle Elemente nur überschreibar sind.
+Das heißt alle Elemente die nicht genau übereinanderliegen, sind durch einen leeren String zu ersetzen. Da das Spielfeld des Gegners und des aktuellen Spielers
+immer an der gleichen Position liegen, überschreiben diese sich automatisch. Andere Elemente, wie die Anzahl der Schiffe und die Anzeige der Eingaben, sind in eigenen Funktionen definiert.
 
 Mit zwei for-Schleifen wird das logische Spielfeld Schritt für Schritt in das Visuelle übersetzt. Zudem gibt es eine Änderung wenn man gegen den Computer spielt. Da das Feld von diesem,
 auch für den menschlichen Spieler sichtbar ist, werden seine Schiffspositionen verdeckt. Dies ermöglicht dem Spieler direkt zu sehen, worauf der Computer schießt. 
-An den Rändern der Spielfelder wird durch Sonderzeichen das Spielfeld abgegrenzt, wodurch der Überblick erleichtert wird. Zudem sind die Seiten für die Texteingabe durchgehend nummeriert.
+An den Rändern der Spielfelder grenzen Sonderzeichen das Spielfeld ab, wodurch der Überblick einfacher ist. Zudem sind die Seiten für die Texteingabe durchgehend nummeriert.
 
 \section{Mausimplementation}
 
@@ -218,8 +235,10 @@ Deshalb funktioniert die Maus nur im Anfangsmenü.
 \section{Benutzereingaben}
 
 Für die Entgegennahme der Eingaben des Benutzers wurde die Funktion \glqq userinput()\grqq{} entwickelt, welche die gedrückte Taste (oder Maus) entgegen nimmt.
-Die Eingabeerkennung wird mit der curses-Funktion \glqq get\_wch()\grqq{} erzeugt. Diese gibt Zeichen für die meisten Tasten zurück.
-Bei der Eingabe wird festgelegt, welche Tasten für welche Richtungen verantwortlich sind. Die obere Pfeiltaste und die Taste \glqq w\grqq{} ist so beispielsweise für die Richtung Norden.
+Da alle Spielwichtigenfunktionen, also jene die immer wieder aufgerufen werden, sowohl WASD als auch die Pfeiltasten für die Steuerung entgegen nehmen, erleichtert diese
+Funktion die Entgegennahme dieser. Indem die jeweiligen Richtungen von WASD und den Pfeiltasten auf eine Eingabe gesetzt sind, muss man dies in anderen Teilen des Programms
+nur einmal abfragen. Somit spart es einiges an Tipparbeit. Kommt eine andere Eingabe, wie etwa für die Texteingaben der Koordinaten, nimmt die Funktion diese und gibt sie
+roh wieder zurück.
 
 \lstset{
 caption=Funktion userinput() nimmt Eingaben des Benutzers an}
@@ -259,18 +278,121 @@ je nach Ausrichtung (horizontal, vertikal) eine Schleife bis zur Größe des Sch
 \section{Schiffplatzierung}
 
 Das erste logische Array speichert die temporären Daten, welche für die Berechnungen von der Spielfeldbegrenzung dienen. Das zweite speichert tempöräre Daten, wenn diese die Regeln nicht verletzen.
-Für die Platzierung der Schiffe wird nun in dem tempörären Array bestimmt, ob die Schiffsgröße die Spielfeldgröße überschreitet. Wenn schon Schiffe platziert wurden gleicht es zudem mit dem zweiten logischen
-Array die Position dieser ab und berechnet so die Möglichkeit der Platzierung. Bei der Platzierung werden die umliegenden Felder reserviert, da die Schiffe sich nicht direkt berühren dürfen. Das dritte logische 
+Für die Platzierung der Schiffe überprüft die Funktion in dem tempörären Array, ob die Schiffsgröße die Spielfeldgröße überschreitet. Sind platzierte Schiffe bereits vorhanden, gleicht es zudem mit dem zweiten logischen
+Array die Position dieser ab und berechnet so die Möglichkeit der Platzierung. Bei der Platzierung reserviert die Funktion die umliegenden Felder, da die Schiffe sich nicht direkt berühren dürfen. Das dritte logische 
 Array speichert hingegen nur die Schiffspositionen ab, um diese später zu übergeben.
 
-\section{Die Funktion \emph{shoot()}}
+\subsection{Die Funktion \emph{set\_ships\_comp()}}
 
-Nachdem der Spieler die Schiffe platziert hat. Beginnt das eigentliche Spiel, nämlich der Beschuss des Gegners. Der Spieler kann mit WASD, Pfeiltasten oder durch Eingabe \(e\) entscheiden,
-welches Feld beschossen werden soll. Dies wird mit der Taste \glqq enter\grqq{} bestätigt. Mit dem Tastendruck wird zuerst geprüft, ob dieses Feld bereits beschossen wurde.
-Dies gilt nicht für den ersten Schuss, da bisher kein Feld beschossen wurde. Trifft der Schuss kein Schiff aber ein gültiges Feld, so wird das Feld im logischen Array mit einer \glqq 3\grqq{} belegt.
-Trifft der Schuss jedoch ein Schiff, wird das getroffene Schiff mit Koordinatenabgleich identifiziert und das getroffene Feld aus den Koordinaten des Schiffs gelöscht.
-Sobald alle Felder des Schiffs getroffen wurden wird das Schiffobjekt aus der ship\_list\_placed Liste gelöscht. Bei zerstörten Schiffen werden die naheliegenden Felder reserviert,
+Um gegen den Computer spielen zu können, braucht es eine Funktion, die Schiffe mit einem zufälligen Algorithmus platziert. Zu Beginn fügt es alle Schiffe einer Liste hinzu.
+Diese Liste wird durchlaufen und dabei jedes Schiff zufällig platziert. Für jedes Schiff generiert es die Ausrichtung (horizontal, vertikal) zufällig und anschließend eine 
+zufällige x oder y Koordinate gewählt. Die jeweilige Zeile, beziehungsweise Spalte, prüft die Funktion auf genügend Platz für das jeweilige Schiff.
+Ist kein Platz vorhanden, erhöht sich die andere Koordinate. Prinzipiell sucht es so schrittweise Platz für das nächste Schiff. Sobald Das Schiff im Rahmen des Spielfelds
+und der anderen Schiffe Platz hat, fügt die Funktion die Felder zum logischen Array hinzu und reserviert umliegende Plätze, da Schiffe nicht nebeneinander platzierbar sein dürfen.
+Das Programm versucht dies solange, bis ein Counter erreicht ist, wonach sich die Rotation ändert.
+
+Dieser Implementierung liegt das Problem der Laufzeit zugrunde. Zuerst wählte diese Funktion beide Koordinaten und die Rotation jeden Versuch zufällig neu. Mit einer geringen Anzahl
+an Schiffen war dies auch möglich, jedoch lief es desto mehr Schiffe platziert waren, gegen Chance von eins zu mehreren Millionen. Durch die Wahl einer Zufallskoordiante, welche konstant bleibt,
+bis die komplette Reihe durchgelaufen ist, verhinderte dies. 
+
+\section{Felder beschießen}
+
+Nachdem der Spieler die Schiffe platziert hat, beginnt das eigentliche Spiel, nämlich der Beschuss des Gegners. Der Spieler kann mit WASD, Pfeiltasten oder durch Texteingabe (e) entscheiden,
+welches Feld beschossen werden soll. Dies bestätigt mit der Taste \glqq Enter\grqq{}. Mit dem Tastendruck überpüft die Funktions, ob dieses Feld bereits beschossen wurde.
+Dies gilt nicht für den ersten Schuss, da kein Feld bisher beschossen sein kann. Trifft der Schuss kein Schiff aber ein gültiges Feld, belegt die Funktion das Feld im logischen Array mit einer \glqq 3\grqq{}.
+Trifft der Schuss jedoch ein Schiff, identifiziert es die Koordinate des getroffenen Schiffs und löscht das getroffene Feld aus den Koordinaten des Schiffs gelöscht.
+Sobald alle Felder des Schiffs getroffen sind, löscht es das Schiffobjekt aus der ship\_list\_placed Liste. Ist ein Schiff zersört belegt es die naheliegenden Felder mit leer,
 da sich dort keine Schiffe mehr befinden können.
+
+\subsection{Die künstliche Intelligenz für das Beschießen der Felder}
+
+Damit der Computer die Möglichkeit hat Felder zu beschießen, braucht er eine Funktion um Felder zufällig beschießen zu können. Wichtig dabei ist es, dass wenn ein Schiff getroffen wurde, der Computer solange umliegende Felder beschießt
+bis dieses Schiff zerstört ist. Der erste Schuss oder nachdem ein Schiff zerstört wurde, erfolgt mit zufälliger Position auf dem Spielfeld. Trifft dieser nicht, werden neue zufällige Koordinaten ausgewählt. Trifft der Schuss
+wird dies abgespeichert und nun die umliegenden Felder beschossen. Dafür wird überprüft ob diese außerhalb des Spielfelds liegen oder ob dieses Feld schon beschossen ist. Es schießt dabei solange in eine Richtung, bis
+ein leeres Feld getroffen wird, wonach sich die Richtung ändert. Ein Problem stellte sich, wenn der erste Schuss in der Mitte des Schiffes trifft und nun erst in eine Richtung und dann in die andere, über die schon beschossenen Felder,
+wieder gehen muss. Um dies zu lösen, unterscheidet man zwischen leeren und schon beschossenen Feldern. Schon beschossene Felder können nur von dem aktuell beschossenen Schiff sein, da zwischen jedem platzierten Schiff mindestens
+ein Leerfeld liegen muss. Sieht die Funktion also, dass ein Feld schon beschossen wurde überspringt es dieses solange, bis sie ein noch nicht getroffenes Feld gefunden hat. Die Funktion unterscheid zudem auch, ob erst ein Feld oder zwei hintereinader 
+getroffen wurden. Wurden zwei hintereinader getroffen, behält die Funktion die aktuelle Richtung bei.
+
+\section{Benutzeranpassungen}
+
+Das Spiel kann durch veränderungen des Quellcodes aufgerufen werden. Folgend möglich Anpassungen:
+
+\begin{itemize}
+    \item Beim Aufruf des Programms kann mit zwei Kommandozeilenargumentenargumenten die Größe des Spielfelds angepasst werden. Die Zahlen sind dabei zwischen 10-20 wählbar. Um dies zu zu ändern kann jeweils für den Mehrspielermodus und den Einzelspielermodus die minimum und maximum Eingabe verändert werden (Zeile 3 für y-Größe und Zeile 6 für x-Größe). Auch die Standardgröße kann verändert werden (Zeile 10,11, bzw. 5,8)
+\end{itemize}
+\lstset{
+caption=Annahme der Kommandozeilenargumente}
+\begin{lstlisting}
+if len(sys.argv) == 3:
+# Takes in system arguments for the game size; if it exceeds 20 it sets it to twenty (due to the window size)
+    if int(sys.argv[1]) >= 10 and int(sys.argv[1]) <= 20:
+        yGameSize = int(sys.argv[1])
+    else: yGameSize = 10
+    if int(sys.argv[2]) >= 10 and int(sys.argv[1]) <= 20:
+        xGameSize = int(sys.argv[2])
+    else: xGameSize = 10
+else:
+    xGameSize = 10
+    yGameSize = 10
+\end{lstlisting}
+\begin{itemize}
+    \item Die visuelle Darstellung des Spiels kann in der Funktion \emph{update\_matchfield()} angepasst werden. Dafür das Symbol zwischen den Anführungszeichen ändern. 
+    \begin{itemize}
+        \item Zeile 5: Position der Schiffe des Computers
+        \item Zeile 7: Position des eigenes Schiffeversenken
+        \item Zeile 9: Treffer
+        \item Zeile 11: Fehlschuss
+        \item Zeile 13: Fadenkreuz
+        \item Zeile 17: Leeres Feld des Computers
+        \item Zeile 23: Leeres Feld
+    \end{itemize}
+\end{itemize}
+\lstset{
+caption=Anpassung der visuellen Darstellung}
+\begin{lstlisting}
+if matchfield_temp[y,x] == 1:
+# Places a x if temporal matchfield has a 1
+if player == "comp":
+    if mode == "secondary":
+        matchfield_visual[y,x] = "?"
+else:
+    matchfield_visual[y,x] = "X" 
+elif matchfield_temp[y,x] == 2:
+matchfield_visual[y,x] = "*" 
+elif matchfield_temp[y,x] == 3:
+matchfield_visual[y,x] = "%"  
+elif matchfield_temp[y,x] == 4:
+matchfield_visual[y,x] = "X"  
+else:
+if player == "comp":
+    if mode == "secondary":
+        matchfield_visual[y,x] = "?" 
+    if mode == "third":
+        pass
+elif mode == "third":
+    pass
+else:
+    matchfield_visual[y,x] = "O" 
+\end{lstlisting}
+\begin{itemize}
+    \item Die Eingabemöglichkeiten können in der Funktion \emph{userinput()} verändert werden. Dafür entweder die vorgebenen Tasten ersetzen oder mit einer \glqq or\grqq{}-Abfrage, der jeweiligen Richtung, hinzufügen
+    \item Die Anzahl der Schiffe und deren Größen können in der Funktion \emph{set\_ships\_comp()} (für den Computer) und \emph{set\_ships()} (für die Spieler) verändert werden. Dafür am Anfang der Funktionen Schiffe löschen, beziehungsweise hinzufügen. Diese müssen jeweils auch in der \glqq ship\_list\grqq{} hinzugefügt oder gelöscht werden. Um ein neues Schiff zu erstellen, muss eine neue Zeile eingefügt werden\: \glqq 'Schiffsname' = Ship.Ship('Größe des Schiffs')\grqq{}
+    \item Die Namen der Schiffe können in der Funktion \emph{current\_ships()} angepasst werden. Dafür die Schiffsnamen unten bei \glqq ships\_own\_string\grqq{} und \glqq ships\_enemy\_string\grqq{} ändern.
+\end{itemize}
+
+\section{Fazit}
+
+Die strukturelle Vorgehensweise, Problem nach Problem abzuarbeiten, war sehr hilfreich für die Erstellung des Programms. Von den Startbildschirm ausgehend, kamen die ersten Probleme,
+welche durch eine Aufteilung in kleinere Probleme nach und nach gelöst wurden. Die Platzierung der Schiffe stellte einige Probleme da, wie die Laufzeit, welche beachtet werden musste 
+und die generelle Logik dahinter. Die Reduzierung von komplett zufälligen Prozessen, zu kleineren Teilen und die Erhöhung von logischen Abläufen, wie das systematische Durchlaufen der Zeilen
+und den Nachfolgetreffern bei dem zufälligen Beschuss, half dieses Problem zu bewältigen. Es ergab sich, dass in komplexeren Prozessen Zufallsabläufe zu Zeitintensiv sind und durch
+logische Abläufe ersetzt werden müssen. Zudem ergab sich die Problematik mit der Maus, welche schwer in der Shell, über die eingesetzte Libary, einzubinden ist. In zukünftigen Projekten
+ist dies ein Problem, welches weiter erforscht werden kann.
+
+Abschließend kann man sagen, dass das Projekt sehr spaßig aber auch gleichzeitig herausfordernd war. Besonders herausgestochen hat die Implementierung des Computers, da
+die Arbeit mit Zufallsfunktionen diverse Probleme hervorgerufen hat. Zudem war die Zurechtfindung mit der neuen Umgebung (Python, curses) zu Beginn schwierig, da es das Vorwissen
+hauptsächlich in Java gab und man zuvor einige Thematiken nicht behandelt hat, die hier jedoch gefragt waren.
 
 % ---- Bibliography ----
 \begin{thebibliography}{5}
