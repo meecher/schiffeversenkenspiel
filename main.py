@@ -32,7 +32,7 @@ def multiplayer(screen):
     game_end = True
     column = 0
     matchfield_ships_p1, ship_list_placed_p1, matchfield_visual_2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"p1",screen) 
-    matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"comp",screen) 
+    matchfield_ships_p2, ship_list_placed_p2, matchfield_visual_2_p2 = create_matchfield(yGameSize,xGameSize,game_y_pos,game_x_pos,"p2",screen) 
     matchfield_visual_hits_p1, matchfield_temp_hits_p1, matchfield_logic_hits_p1 = create_matchfield_hits(yGameSize,xGameSize, "p1", screen)
     matchfield_visual_hits_p2, matchfield_temp_hits_p2, matchfield_logic_hits_p2 = create_matchfield_hits(yGameSize,xGameSize, "p2", screen)
     
