@@ -41,6 +41,8 @@ def multiplayer(screen):
     yPos_p2 = 0
     xPos_p2 = 0
 
+    end = True
+
     while game_end:
     # Repeats itself until one player has no ship left
         if len(ship_list_placed_p1) == 0:
@@ -145,6 +147,8 @@ def singleplayer(screen):
     xPos_p1 = 0
     yPos_p2 = 0
     xPos_p2 = 0
+
+    end = True
 
     already_hit = True
     direction = "" 
@@ -656,7 +660,6 @@ def set_ships_comp(game_y_pos,game_x_pos, matchfield_visual, matchfield_temp, ma
                     # Resets y if it reaches the gamesize increases y
                         xPos_rand += 1
                         yPos_rand = 0
-                #counter_pos = 0
                 if xPos_rand + size > xGameSize - 1:
                 # Doesn't move ship if it exceeds the matchfield
                     matchfield_temp[yPos, xPos:xPos+size] = 1 
@@ -683,7 +686,6 @@ def set_ships_comp(game_y_pos,game_x_pos, matchfield_visual, matchfield_temp, ma
                     # Resets y if it reaches the gamesize increases y
                         xPos_rand += 1
                         yPos_rand = 0
-                #counter_pos = 0
                 if yPos_rand + size >= yGameSize - 1:
                 # Doesn't move ship if it exceeds the matchfield
                     matchfield_temp[yPos:yPos+size, xPos] = 1
@@ -692,7 +694,7 @@ def set_ships_comp(game_y_pos,game_x_pos, matchfield_visual, matchfield_temp, ma
                     changed = True
             
             if changed == True:
-            # Cheks if coordinates have changed
+            # Checks if coordinates have changed
                 used = False
                 if not ship_list_placed:
                 # First ship doesn't need to check overlap -> directly placed
